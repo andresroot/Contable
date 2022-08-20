@@ -1,0 +1,440 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/servicio.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Editar Factura Gasto</h3>
+                </div>
+                        <form id="formulario" method="POST"
+                              action="/FacturagastoEditar">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Factura No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Proveedor</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroCodigo"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroNombre"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroDireccion"
+                                               class="form-control"
+                                               disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Pedido No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pedidofacturagasto"
+                                               id="Pedidofacturagasto"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha Vence</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               name="Vence"
+                                               id="Vence"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Forma Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="FormadepagoNombre"
+                                               id="FormadepagoNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Formadepago"
+                                               id="Formadepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuenta0"
+                                               name="Facturagastocuenta0"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastonombre0"
+                                               name="Facturagastonombre0"
+                                               class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ret. Ica. %</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionIca"
+                                               id="PorcentajeRetencionIca"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Medio Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="MediodepagoNombre"
+                                               id="MediodepagoNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Mediodepago"
+                                               id="Mediodepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Ret.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuentaretfte"
+                                               name="Facturagastocuentaretfte"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Facturagastonombreretfte"
+                                               id="Facturagastonombreretfte"
+                                               class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Porcentaje</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionFuente"
+                                               id="PorcentajeRetencionFuente"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Almacenista</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="AlmacenistaNombre"
+                                               id="AlmacenistaNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Almacenista"
+                                               id="Almacenista"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Iva.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuentaiva"
+                                               name="Facturagastocuentaiva"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Facturagastonombreiva"
+                                               id="Facturagastonombreiva"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">porcentaje Iva</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <select name="Facturagastoporcentajeiva"
+                                                id="Facturagastoporcentajeiva"
+                                                class=" mdb-select md-form-control"
+                                                editable="true">
+                                            <option value="0">0%</option>
+                                            <option value="5">5%</option>
+                                            <option value="19">19%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="CentroNombre"
+                                               id="CentroNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Centro"
+                                               id="Centro"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm" cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>No</th>
+                                        <th style="padding-left: 5px">Codigo</th>
+                                        <th style="padding-left: 5px">Descripcion</th>
+                                        <th style="padding-left: 5px">Unidad</th>
+                                        <th style="padding-left: 65px">Cantidad</th>
+                                        <th style="padding-left: 55px">Vr. Unitario</th>
+                                        <th style="padding-left: 120px">Total</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="hidden" id="Subtotal19"/>
+                            <input type="hidden" id="Subtotal5"/>
+                            <input type="hidden" id="Subtotal0"/>
+                            <input type="hidden" id="SubtotalDescuento19"/>
+                            <input type="hidden" id="SubtotalDescuento5"/>
+                            <input type="hidden" id="SubtotalDescuento0"/>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Subtotal</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Subtotal"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Total Iva</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalIva"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Ret. Fte.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               name="TotalRetencionFuente"
+                                               id="TotalRetencionFuente"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Ret. Ica</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionIca"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Total
+                                    Neto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Neto"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a href="/FacturagastoLista"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar</a>
+                                    <button type="button" id="guardar" onclick="guardardoc('Actualizar')"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   INICIA NUEVO TERCERO-->
+<input id="terceroNuevo"
+       type="hidden"/>
+<input id="FormadepagoNuevo"
+       type="hidden"/>
+<input id="MediodepagoNuevo"
+       type="hidden"/>
+<input id="AlmacenistaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="productoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/pedidofacturagasto.js"></script>
+
+        {{template "facturagastoscript" }}
+        {{template "autocompletaPlandecuentaempresa" }}
+        {{template "autocompletaFormadepago" }}
+        {{template "autocompletaMediodepago" }}
+        {{template "autocompletaAlmacenista" }}
+        {{template "autocompletaCentro" }}
+<script>
+    $(document).ready(function () {
+        // INICIA MASCARA
+        $("#PorcentajeRetencionFuente").mask('##.00', {reverse: true});
+
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#Fecha").val(m);
+        $("#Vence").val(m);
+
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Fecha', function (e) {
+            var code = e.keyCode || e.which;
+            if (e.which == 113) {
+                document.location.href = '/FacturagastoNuevo/'+ $("#Codigo").val();
+            }
+        });
+
+        // INICIA AUTOCOMPLETADO
+        autocompletaTercero('#terceroCodigo');
+        autocompletaPlandecuentaempresa("#Facturagastocuenta0", "#Facturagastonombre0");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaretfte", "#Facturagastonombreretfte");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaiva", "#Facturagastonombreiva");
+        autocompletaFormadepago('#FormadepagoNombre','#Formadepago');
+        autocompletaMediodepago('#MediodepagoNombre','#Mediodepago');
+        autocompletaAlmacenista('#AlmacenistaNombre','#Almacenista');
+        autocompletaCentro('#CentroNombre','#Centro');
+
+        // INICIA FOCUS
+        $('#Fecha').focus();
+
+        // INICIA SELECT
+        $('#Facturagastoporcentajeiva').materialSelect({});
+
+        // llenar valores
+        $("#Codigo").val('{{ .facturagasto.Codigo }}');
+        $("#Fecha").val('{{ .facturagasto.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .facturagasto.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .facturagasto.Tercero }}');
+        $("#terceroDv").val('{{ .facturagasto.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .facturagasto.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .facturagasto.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .facturagasto.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .facturagasto.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .facturagasto.Subtotal }}');
+        $('#SubtotalBase19').val('{{ .facturagasto.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .facturagasto.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .facturagasto.Subtotalbase0 }}');
+        $('#Descuento').val('{{ .facturagasto.Descuento}}');
+        $('#PorcentajeRetencionFuente').val('{{ .facturagasto.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .facturagasto.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .facturagasto.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .facturagasto.TotalRetencionIca }}');
+        $('#Neto').val('{{ .facturagasto.Neto }}');
+        $('#Formadepago').val('{{ .facturagasto.Formadepago}}');
+        $('#Mediodepago').val('{{ .facturagasto.Mediodepago}}');
+        $('#Almacenista').val('{{ .facturagasto.Almacenista}}');
+        $('#Pedidofacturagasto').val('{{ .facturagasto.Pedidofacturagasto}}');
+        $('#Centro').val('{{ .facturagasto.Centro}}');
+        $('#Facturagastocuenta0').val('{{ .facturagasto.Facturagastocuenta0}}');
+        $('#Facturagastonombre0').val('{{ .facturagasto.Facturagastonombre0}}');
+        $('#Facturagastocuentaretfte').val('{{ .facturagasto.Facturagastocuentaretfte}}');
+        $('#Facturagastonombreretfte').val('{{ .facturagasto.Facturagastonombreretfte}}');
+        $('#Facturagastocuentaiva').val('{{ .facturagasto.Facturagastocuentaiva}}');
+        $('#Facturagastonombreiva').val('{{ .facturagasto.Facturagastonombreiva}}');
+        $('#Facturagastoporcentajeiva').val('{{ .facturagasto.Facturagastoporcentajeiva}}');
+
+        $('#CentroNombre').val('{{ .facturagasto.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .facturagasto.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .facturagasto.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .facturagasto.AlmacenistaDetalle.Nombre}}');
+        cont = 1;
+
+        {{ range.detalle }}
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Codigoservicio }}');
+        $('#nombre' + cont).val('{{ .Nombreservicio }}');
+        $('#unidad' + cont).val('{{ .Unidadservicio }}');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        cont++;
+
+        {{ end }}
+        totales();
+    });
+</script>
+{{end}}

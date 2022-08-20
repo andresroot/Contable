@@ -1,0 +1,538 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="tpl">Editar Propiedad y Equipo</h3>
+            <form method="POST" id="miFormulario"
+                  action="/PropiedadActualizar/{{.emp.Codigo }}">
+                <br>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Codigo</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Codigo"
+                                   id="Codigo"
+                                   class="form-control" required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Nombre"
+                                   id="Nombre"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Cuenta</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuenta"
+                                   name="Cuenta"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuentanombre"
+                                   name="Cuentanombre"
+                                   class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Ubicacion</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Ubicacion"
+                                   id="Ubicacion"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Centro</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Centronombre"
+                                   id="Centronombre"
+                                   class="form-control" required/>
+                            <input type="hidden"
+                                   name="Centro"
+                                   id="Centro"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Fecha</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   placeholder="DD/mm/YYYY"
+                                   name="Fecha"
+                                   id="Fecha"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Inicia</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   placeholder="DD/mm/YYYY"
+                                   name="Inicia"
+                                   id="Inicia"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Valor</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Valor"
+                                   id="Valor"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">V. Residual</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Vresidual"
+                                   id="Vresidual"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Meses</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Vidautil"
+                                   id="Vidautil"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Total Mes</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   value="0"
+                                   name="Totalmes"
+                                   id="Totalmes"
+                                   class="form-control"
+                                   readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Acumulado</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   value="0"
+                                   name="Acumulado"
+                                   id="Acumulado"
+                                   class="form-control"
+                                   readonly/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Saldo</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   value="0"
+                                   name="Saldo"
+                                   id="Saldo"
+                                   class="form-control"
+                                   readonly/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Proveedor</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Tercero"
+                                   id="Tercero"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="terceroNombre"
+                                   id="terceroNombre"
+                                   class="form-control" readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Cuenta Gasto</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuentagasto"
+                                   name="Cuentagasto"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuentagastonombre"
+                                   name="Cuentagastonombre"
+                                   class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Contra</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuentacontra"
+                                   name="Cuentacontra"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Cuentacontranombre"
+                                   name="Cuentacontranombre"
+                                   class="form-control" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 ml-1">
+                    <label class="col-sm-1 col-form-label">Libros</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Libros"
+                                   name="Libros"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a onclick="window.history.go(-1); return false;"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right">Cancelar </a>
+                                <button type="submit" id="guardar"
+                                        class="btn btn-outline-success waves-effect btn-md float-right">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    <input id="TerceroNuevo"
+           type="hidden"/>
+    <input id="PlandecuentaempresaNuevo"
+           type="hidden"/>
+    <input id="CentroNuevo"
+           type="hidden"/>
+
+    {{template "autocompletaTercero" }}
+    {{ template "autocompletaPlandecuentaempresa" }}
+    {{template "autocompletaCentro" }}
+    <script>
+        function cerrar() {
+            window.parent.cerrarPanel("", false);
+        }
+
+    $(document).ready(function () {
+
+        // VALIDA FORMULARIO
+        $('#miFormulario').submit(function (event) {
+            event.preventDefault(); //this will prevent the default submit
+            if (validaDatos() == true) {
+                $(this).unbind('submit').submit(); // continue the submit unbind preventDefault
+            }
+        })
+// FIN VALIDA FORMULARIO
+
+        $('.mdb-select').materialSelect({});
+        $('#Nombre').focus();
+
+        // INICIA AUTOCOMPLETADO
+        autocompletaTercero('#Tercero');
+        autocompletaPlandecuentaempresa("#Cuenta", "#Cuentanombre");
+        autocompletaPlandecuentaempresa("#Cuentagasto", "#Cuentagastonombre");
+        autocompletaPlandecuentaempresa("#Cuentacontra", "#Cuentacontranombre");
+        autocompletaCentro('#Centronombre', '#Centro');
+
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#Fecha").val(m);
+        var m = moment().format("YYYY-MM-DD");
+        $("#Inicia").val(m);
+
+        // formatos de entrada
+        var cleave = new Cleave('#Vidautil', {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 0
+        });
+
+
+        var cleave = new Cleave('#Valor', {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 0
+        });
+
+        var cleave = new Cleave('#Vresidual', {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 0
+        });
+
+        var cleave = new Cleave('#Totalmes', {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 0
+        });
+        $(document.body).on('focusout', '#Valor', function (e) {
+            calcular();
+        });
+
+        $(document.body).on('focusout', '#Vresidual', function (e) {
+            calcular();
+        });
+
+        $(document.body).on('focusout', '#Vidautil', function (e) {
+            calcular();
+        });
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val("{{ .emp.Codigo}}");
+        $('#Nombre').val("{{ .emp.Nombre}}");
+        $('#Cuenta').val("{{ .emp.Cuenta}}");
+        $('#Ubicacion').val("{{ .emp.Ubicacion}}");
+        $("#Fecha").val('{{ .emp.Fecha.Format "2006-01-02"}}');
+        $("#Inicia").val('{{ .emp.Inicia.Format "2006-01-02"}}');
+        $('#Valor').val(formatomoneda("{{ .emp.Valor}}"));
+        $('#Vresidual').val(formatomoneda("{{ .emp.Vresidual}}"));
+        $('#Vidautil').val(formatomoneda("{{ .emp.Vidautil}}"));
+        $('#Totalmes').val(formatomoneda("{{ .emp.Totalmes}}"));
+        $('#Acumulado').val("{{ .emp.Acumulado}}");
+        $('#Saldo').val("{{ .emp.Saldo}}");
+        $('#Libros').val("{{ .emp.Libros}}");
+        $('#Cuentagasto').val("{{ .emp.Cuentagasto}}");
+        $('#Cuentacontra').val("{{ .emp.Cuentacontra}}");
+        $('#Centro').val("{{ .emp.Centro}}");
+        $('#Tercero').val("{{ .emp.Tercero}}");
+        $('#terceroNombre').val("{{ .emp.TerceroDetalle.Nombre}}");
+        $('#Cuentanombre').val("{{ .emp.CuentaDetalle.Nombre}}");
+        $('#Cuentagastonombre').val("{{ .emp.CuentagastoDetalle.Nombre}}");
+        $('#Centronombre').val("{{ .emp.CentroDetalle.Nombre}}");
+        $('#Cuentacontranombre').val("{{ .emp.CuentacontraDetalle.Nombre}}");
+
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Nombre', function (e) {
+            var code = e.keyCode || e.which;
+
+            if (e.which == 113) {
+                document.location.href = '/PropiedadNuevo/'+ $("#Codigo").val();
+            }
+        });
+        // TERMINA CREAR DUPLICADO CON F2
+    });
+
+    function formato(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+
+    function limpiarformato(cnumero) {
+        //alert(cnumero);
+        cnumero = cnumero.replace("$", "");
+        cnumero = cnumero.replace(/,/g, '');
+        return Number(cnumero)
+    }
+    function calcular()
+    {
+        valor = limpiarformato($("#Valor").val());
+        valorresidual = limpiarformato($("#Vresidual").val());
+        vidautil = limpiarformato($("#Vidautil").val());
+
+        if (valor >= 0 && valorresidual >= 0 && vidautil > 0) {
+            valormes = (valor - valorresidual) / vidautil;
+            $("#Totalmes").val(formato(valormes.toFixed(0)));
+        } else {
+            $("#Totalmes").val("0");
+            // alert("Completar Información");
+        }
+    }
+
+        function validaDatos() {
+            tercero_valido = true;
+            numero_valido = true;
+            textovalidar = "";
+            cabeceravalida = true;
+            fechavalida = true;
+            vencevalida = true;
+
+            // fecha valida
+            if (moment($('#Fecha').val()).isValid() == false) {
+                textovalidar += '\n Fecha No Valida';
+                cabeceravalida = false;
+                fechavalida = false;
+            }
+
+            if (moment($('#Inicia').val()).isValid() == false) {
+                textovalidar += '\n Fecha Inicia No Valida';
+                cabeceravalida = false;
+                vencevalida = false;
+            }
+
+            if (vencevalida == true && vencevalida == true) {
+                if (moment($('#Inicia').val()).isBefore(moment($('#Fecha').val()))) {
+                    textovalidar += '\n Fecha Inicia Debe ser igual o Mayor que Fecha';
+                    cabeceravalida = false;
+                }
+            }
+
+            if ($("#Codigo").val() == '') {
+                textovalidar += '\n Por Favor Digite Un Codigo';
+                cabeceravalida = false;
+            }
+
+            if ($("#Nombre").val() == '') {
+                textovalidar += '\n Por Favor Digite Un Nombre';
+                cabeceravalida = false;
+            }
+
+            if ($("#terceroCodigo").val() == '') {
+                textovalidar += '\n Por Favor Digite Un Tercero';
+                cabeceravalida = false;
+            }
+
+            if ($("#Cuenta").val() == '') {
+                textovalidar += '\n Por Favor Digite Una Cuenta';
+                cabeceravalida = false;
+            }
+
+            if ($("#Ubicacion").val() == '') {
+                textovalidar += '\n Por Favor Digite Un Lugar de Ubicacion';
+                cabeceravalida = false;
+            }
+
+            if ($("#Centro").val() == '') {
+                textovalidar += '\n Por Favor Digite Un Centro';
+                cabeceravalida = false;
+            }
+
+            if ($("#Valor").val() == '') {
+                textovalidar += '\n Por Favor Digite El Valor de Compra';
+                cabeceravalida = false;
+            }
+
+            if ($("#Vresidual").val() == '') {
+                textovalidar += '\n Por Favor Digite El Valor Residual';
+                cabeceravalida = false;
+            }
+
+            if ($("#Vidautil").val() == '') {
+                textovalidar += '\n Por Favor Digite la Vida Util';
+                cabeceravalida = false;
+            }
+
+            if ($("#Cuentagasto").val() == '') {
+                textovalidar += '\n Por Favor Digite Una Cuenta de Gasto';
+                cabeceravalida = false;
+            }
+
+            if ($("#Cuentacontra").val() == '') {
+                textovalidar += '\n Por Favor Digite Una Cuenta Amortizacion';
+                cabeceravalida = false;
+            }
+
+            // cabeceravalida=true;
+
+            if (cabeceravalida == false) {
+                alert(textovalidar);
+            }
+
+            if (cabeceravalida == true ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function formatomoneda(input_val) {
+
+            // don't validate empty input
+            if (input_val === "") {
+                return;
+            }
+
+            // original length
+            var original_len = input_val.length;
+            // check for decimalcon(
+            if (input_val.indexOf(".") >= 0) {
+                var decimal_pos = input_val.indexOf(".");
+
+                // split number by decimal point
+                var left_side = input_val.substring(0, decimal_pos);
+                var right_side = input_val.substring(decimal_pos);
+                // con(input_val);
+                // add commas to left side of number
+                left_side = formatNumber(left_side);
+
+                // validate right side
+                right_side = formatNumber(right_side);
+
+                // On blur make sure 2 numbers after decimal
+                //if (blur === "blur") {
+                //    right_side += "00";
+                //}
+                //con(input_val);
+
+                // Limit decimal to only 2 digits
+                right_side = right_side.substring(0, 2);
+
+                if (right_side.length==1)
+                    right_side=right_side+'0';
+
+                // join number by .
+                input_val =  left_side + "." + right_side;
+                //con(input_val);"$" +
+
+            } else {
+                // no decimal entered
+                // add commas to number
+                // remove all non-digits
+                input_val = formatNumber(input_val);
+                input_val =  input_val;
+
+                // final formatting"$" +
+                if (blur === "blur") {
+                    input_val += ".00";
+                }
+            }
+            return input_val;
+        }
+
+        // Funcion Numero
+        function formatNumber(n) {
+            // format number 1000000 to 1,234,567
+            return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+    </script>
+    {{ end }}

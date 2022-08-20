@@ -1,0 +1,144 @@
+{{define "autocompletaProducto" }}
+<script>
+    //--------------- autocompleta Producto
+    var numeroPanel = 1;
+    function autocompletaProducto(elementoNombre, elementoCodigo) {
+        // parametros
+        urlBuscarProducto="/ProductoBuscar/";
+        urlActualProducto="/ProductoActual";
+        urlNuevoProducto="ProductoNuevo";
+        labelCrearProducto=" Crear Producto :  ";
+        elementoNuevoProducto='#ProductoNuevo';
+        $(document.body).on('focusout', elementoNombre, function (e) {
+                Codigo = $(elementoCodigo).val();
+                Nombre=$(elementoNombre).val();
+                var datosEnviar = {
+                    "Codigo": Codigo,
+                    "Nombre": Nombre,
+                };
+                accion = urlActualProducto;
+                $.ajax({
+                    url: accion,
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(datosEnviar),
+                    error: function (response) {
+                        $(elementoNombre).val('');
+                    },
+                    success: function (response) {
+                        if (jQuery.isEmptyObject(response)) {
+                            $(elementoCodigo).val("");
+                            $(elementoNombre).val("");
+                        } else {
+                            $.each(response, function (i, item) {
+                                $(elementoNombre).val(item.Nombre);
+                                $(elementoCodigo).val(item.Codigo);
+                            });
+                        }
+                    }
+                });
+        });
+
+        $(elementoNombre).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: urlBuscarProducto+request.term.replace(/\./g,''),
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+
+                // if (ui.content.length === 0) {
+                $( elementoNuevoProducto).val($(elementoNombre).val());
+                ui.content.push({
+                    label: labelCrearProducto + $( elementoNuevoProducto).val(),
+                    button: true
+                });
+            },
+            select: function (event, ui) {
+                var label = ui.item.label;
+                var value = ui.item.value;
+                valor = $(elementoNombre).val();
+                valorBuscarProducto = labelCrearProducto + $( elementoNuevoProducto).val();
+
+                if (label == valorBuscarProducto) {
+                    valor = $( elementoNuevoProducto).val();
+                    $(elementoCodigo).val("");
+                    panelCrearProducto(urlNuevoProducto, 'True', valor, elementoNombre.replace('#', ''))
+
+                } else {
+                    $(elementoNombre).val(label);
+                    $(elementoCodigo).val(ui.item.id);
+                }
+            },
+        });
+    }
+
+    window.document.addEventListener('pasarParametros', handleEvent, false)
+    window.document.addEventListener('cerrarPanel', handleEventCerrar, false)
+
+    function handleEventCerrar(e) {
+            panelNuevo.close();
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function handleEvent(e) {
+        if (e.detail.valido == true) {
+
+            if (e.detail.elementoPanel == "Codigo") {
+                valor = e.detail.codigoElemento.replace(/\./g,'');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelCrearProducto(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panelph" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 500},
+            contentSize: {width: '1306px', height: '500px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px',
+                maxTop: '-20px',
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+
+</script>
+{{end}}

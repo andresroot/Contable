@@ -1,0 +1,712 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <form id="formulario" method="POST"
+                  action="/ConfiguracioninventarioInsertar">
+                <input type="hidden" id="panel" name="panel"
+                       value="{{ .panel}}">
+                <div class="card-body">
+                    <h3 class="tp">Inventario</h3>
+                    <br>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab"
+                               data-toggle="tab" href="#compra" role="tab"
+                               aria-controls="home"
+                               aria-selected="true">Compra</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="1"
+                               data-toggle="tab" href="#compraservicio" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Compra Servicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab"
+                               data-toggle="tab" href="#venta" role="tab"
+                               aria-controls="profile"
+                               aria-selected="false">Venta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="1"
+                               data-toggle="tab" href="#ventaservicio" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false"> Venta Servicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="2"
+                               data-toggle="tab" href="#soporte" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Soporte</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="3"
+                               data-toggle="tab" href="#soporteservicio" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Soporte Servicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="4"
+                               data-toggle="tab" href="#facturagasto" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Factura Gasto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="5"
+                               data-toggle="tab" href="#inventariogeneral" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">General</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        {{ template "configuracioninventariocompra" }}
+                        {{ template "configuracioninventariocompraservicio" }}
+                        {{ template "configuracioninventarioventa" }}
+                        {{ template "configuracioninventarioventaservicio" }}
+                        {{ template "configuracioninventariosoporte" }}
+                        {{ template "configuracioninventariosoporteservicio" }}
+                        {{ template "configuracioninventariofacturagasto" }}
+                        {{ template "configuracioninventariogeneral" }}
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<input id="CuentaNuevo"
+       type="hidden"/>
+<script>
+    function cerrarpanel() {
+       //alert("cerrarPanel");
+        var myCustomData = {
+            elementoPanel: "{{ .panel}}"
+        }
+        var event = new CustomEvent('myEvent', {detail: myCustomData})
+        window.parent.document.dispatchEvent(event)
+    }
+
+    $(document).ready(function () {
+        // INICIA COMPRA AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Compracuenta19", "#Compranombre19");
+        autocompletaPlandecuentaempresa("#Compracuenta5", "#Compranombre5");
+        autocompletaPlandecuentaempresa("#Compracuenta0", "#Compranombre0");
+        autocompletaPlandecuentaempresa("#Compraiva19", "#Compranombreiva19");
+        autocompletaPlandecuentaempresa("#Compraiva5", "#Compranombreiva5");
+        autocompletaPlandecuentaempresa("#Compracuentaretfte", "#Compranombreretfte");
+        autocompletaPlandecuentaempresa("#Compracuentaretica", "#Compranombreretica");
+        autocompletaPlandecuentaempresa("#Compracuentaretotra", "#Compranombreretotra");
+        autocompletaPlandecuentaempresa("#Compracuentadescuento", "#Compranombredescuento");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuenta19", "#Compradevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuenta5", "#Compradevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuenta0", "#Compradevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Compradevolucioniva19", "#Compradevolucionnombreiva19");
+        autocompletaPlandecuentaempresa("#Compradevolucioniva5", "#Compradevolucionnombreiva5");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuentaretfte", "#Compradevolucionnombreretfte");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuentaretica", "#Compradevolucionnombreretica");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuentaretotra", "#Compradevolucionnombreretotra");
+        autocompletaPlandecuentaempresa("#Compradevolucioncuentadescuento", "#Compradevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Compracuentaproveedor", "#Compranombreproveedor");
+        // TERMINA COMPRA AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Compracuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Compracuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Compracuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Compraiva19" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioniva19" ).addClass( "tituloAutocompleta" );
+        $("#Compraiva5" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioniva5" ).addClass( "tituloAutocompleta" );
+        $("#Compracuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Compracuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Compracuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Compracuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Compradevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Compracuentaproveedor" ).addClass( "tituloAutocompleta" );
+
+        // INICIA COMPRA SERVICIOS AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Cscuenta19", "#Csnombre19");
+        autocompletaPlandecuentaempresa("#Cscuenta5", "#Csnombre5");
+        autocompletaPlandecuentaempresa("#Cscuenta0", "#Csnombre0");
+        autocompletaPlandecuentaempresa("#Csiva19", "#Csnombreiva19");
+        autocompletaPlandecuentaempresa("#Csiva5", "#Csnombreiva5");
+        autocompletaPlandecuentaempresa("#Cscuentaretfte", "#Csnombreretfte");
+        autocompletaPlandecuentaempresa("#Cscuentaretica", "#Csnombreretica");
+        autocompletaPlandecuentaempresa("#Cscuentaretotra", "#Csnombreretotra");
+        autocompletaPlandecuentaempresa("#Cscuentadescuento", "#Csnombredescuento");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuenta19", "#Csdevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuenta5", "#Csdevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuenta0", "#Csdevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Csdevolucioniva19", "#Csdevolucionnombreiva19");
+        autocompletaPlandecuentaempresa("#Csdevolucioniva5", "#Csdevolucionnombreiva5");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuentaretfte", "#Csdevolucionnombreretfte");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuentaretica", "#Csdevolucionnombreretica");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuentaretotra", "#Csdevolucionnombreretotra");
+        autocompletaPlandecuentaempresa("#Csdevolucioncuentadescuento", "#Csdevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Cscuentaproveedor", "#Csnombreproveedor");
+        // TERMINA COMPRA AUTOCOMPLETA
+
+        // AGREGA CLASE COMPRA SERVICIOS
+        $("#Cscuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Cscuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Cscuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Csiva19" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioniva19" ).addClass( "tituloAutocompleta" );
+        $("#Csiva5" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioniva5" ).addClass( "tituloAutocompleta" );
+        $("#Cscuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Cscuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Cscuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Cscuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Csdevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Cscuentaproveedor" ).addClass( "tituloAutocompleta" );
+
+        // INICIA VENTA AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Ventacuenta19", "#Ventanombre19");
+        autocompletaPlandecuentaempresa("#Ventacuenta5", "#Ventanombre5");
+        autocompletaPlandecuentaempresa("#Ventacuenta0", "#Ventanombre0");
+        autocompletaPlandecuentaempresa("#Ventaiva19", "#Ventanombreiva19");
+        autocompletaPlandecuentaempresa("#Ventaiva5", "#Ventanombreiva5");
+        autocompletaPlandecuentaempresa("#Ventacuentaret2201", "#Ventanombreret2201");
+        autocompletaPlandecuentaempresa("#Ventacuentadescuento", "#Ventanombredescuento");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncuenta19", "#Ventadevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncuenta5", "#Ventadevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncuenta0", "#Ventadevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Ventadevolucioniva19", "#Ventadevolucionnombreiva19");
+        autocompletaPlandecuentaempresa("#Ventadevolucioniva5", "#Ventadevolucionnombreiva5");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncuentaret2201", "#Ventadevolucionnombreret2201");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncuentadescuento", "#Ventadevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Ventacuentacliente", "#Ventanombrecliente");
+        autocompletaPlandecuentaempresa("#Ventacontracuentaret2201", "#Ventacontranombreret2201");
+        autocompletaPlandecuentaempresa("#Ventadevolucioncontracuentaret2201", "#Ventadevolucioncontranombreret2201");
+        // TERMINA VENTA AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Ventacuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Ventacuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Ventacuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Ventaiva19" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioniva19" ).addClass( "tituloAutocompleta" );
+        $("#Ventaiva5" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioniva5" ).addClass( "tituloAutocompleta" );
+        $("#Ventacuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Ventacuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventacontracuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventadevolucioncontracuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventacuentacliente" ).addClass( "tituloAutocompleta" );
+
+        // INICIA VENTA SERVICIO AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Ventaserviciocuenta19", "#Ventaservicionombre19");
+        autocompletaPlandecuentaempresa("#Ventaserviciocuenta5", "#Ventaservicionombre5");
+        autocompletaPlandecuentaempresa("#Ventaserviciocuenta0", "#Ventaservicionombre0");
+        autocompletaPlandecuentaempresa("#Ventaservicioiva19", "#Ventaservicionombreiva19");
+        autocompletaPlandecuentaempresa("#Ventaservicioiva5", "#Ventaservicionombreiva5");
+        autocompletaPlandecuentaempresa("#Ventaserviciocuentaret2201", "#Ventaservicionombreret2201");
+        autocompletaPlandecuentaempresa("#Ventaserviciocuentadescuento", "#Ventaservicionombredescuento");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncuenta19", "#Ventaserviciodevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncuenta5", "#Ventaserviciodevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncuenta0", "#Ventaserviciodevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioniva19", "#Ventaserviciodevolucionnombreiva19");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioniva5", "#Ventaserviciodevolucionnombreiva5");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncuentaret2201", "#Ventaserviciodevolucionnombreret2201");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncuentadescuento", "#Ventaserviciodevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Ventaserviciocuentacliente", "#Ventaservicionombrecliente");
+        autocompletaPlandecuentaempresa("#Ventaserviciocontracuentaret2201", "#Ventaserviciocontranombreret2201");
+        autocompletaPlandecuentaempresa("#Ventaserviciodevolucioncontracuentaret2201", "#Ventaserviciodevolucioncontranombreret2201");
+        // TERMINA VENTA SERVICIO AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Ventaserviciocuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Ventaservicioiva19" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioniva19" ).addClass( "tituloAutocompleta" );
+        $("#Ventaservicioiva5" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioniva5" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocontracuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciodevolucioncontracuentaret2201" ).addClass( "tituloAutocompleta" );
+        $("#Ventaserviciocuentacliente" ).addClass( "tituloAutocompleta" );
+
+        // INICIA SOPORTE AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Soportecuenta19", "#Soportenombre19");
+        autocompletaPlandecuentaempresa("#Soportecuenta5", "#Soportenombre5");
+        autocompletaPlandecuentaempresa("#Soportecuenta0", "#Soportenombre0");
+        autocompletaPlandecuentaempresa("#Soportecuentaretfte", "#Soportenombreretfte");
+        autocompletaPlandecuentaempresa("#Soportecuentaretica", "#Soportenombreretica");
+        autocompletaPlandecuentaempresa("#Soportecuentaretotra", "#Soportenombreretotra");
+        autocompletaPlandecuentaempresa("#Soportecuentadescuento", "#Soportenombredescuento");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuenta19", "#Soportedevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuenta5", "#Soportedevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuenta0", "#Soportedevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuentaretfte", "#Soportedevolucionnombreretfte");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuentaretica", "#Soportedevolucionnombreretica");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuentaretotra", "#Soportedevolucionnombreretotra");
+        autocompletaPlandecuentaempresa("#Soportedevolucioncuentadescuento", "#Soportedevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Soportecuentaproveedor", "#Soportenombreproveedor");
+        // TERMINA SOPORTE AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Soportecuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuenta19" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuenta5" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuenta0" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuentaretfte" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Soportedevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Soportecuentaproveedor" ).addClass( "tituloAutocompleta" );
+
+        // INICIA SOPORTE SERVICIO AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Soporteserviciocuenta19", "#Soporteservicionombre19");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuenta5", "#Soporteservicionombre5");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuenta0", "#Soporteservicionombre0");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentaretfte", "#Soporteservicionombreretfte");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentaretica", "#Soporteservicionombreretica");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentaretotra", "#Soporteservicionombreretotra");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentadescuento", "#Soporteservicionombredescuento");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuenta19", "#Soporteserviciodevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuenta5", "#Soporteserviciodevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuenta0", "#Soporteserviciodevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuentaretfte", "#Soporteserviciodevolucionnombreretfte");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuentaretica", "#Soporteserviciodevolucionnombreretica");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuentaretotra", "#Soporteserviciodevolucionnombreretotra");
+        autocompletaPlandecuentaempresa("#Soporteserviciodevolucioncuentadescuento", "#Soporteserviciodevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentaproveedor", "#Soporteservicionombreproveedor");
+        // TERMINA SOPORTE SERVICIO AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Soporteserviciocuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciodevolucioncuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciocuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciodevolucioncuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciocuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciodevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Soporteserviciocuentaproveedor" ).addClass( "tituloAutocompleta" );
+
+        // INICIA FACTURA GASTO AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Facturagastocuenta19", "#Facturagastonombre19");
+        autocompletaPlandecuentaempresa("#Facturagastocuenta5", "#Facturagastonombre5");
+        autocompletaPlandecuentaempresa("#Facturagastocuenta0", "#Facturagastonombre0");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaretfte", "#Facturagastonombreretfte");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaretica", "#Facturagastonombreretica");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaretotra", "#Facturagastonombreretotra");
+        autocompletaPlandecuentaempresa("#Facturagastocuentadescuento", "#Facturagastonombredescuento");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuenta19", "#Facturagastodevolucionnombre19");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuenta5", "#Facturagastodevolucionnombre5");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuenta0", "#Facturagastodevolucionnombre0");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuentaretfte", "#Facturagastodevolucionnombreretfte");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuentaretica", "#Facturagastodevolucionnombreretica");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuentaretotra", "#Facturagastodevolucionnombreretotra");
+        autocompletaPlandecuentaempresa("#Facturagastodevolucioncuentadescuento", "#Facturagastodevolucionnombredescuento");
+        autocompletaPlandecuentaempresa("#Facturagastocuentaproveedor", "#Facturagastonombreproveedor");
+        // TERMINA SOPORTE SERVICIO AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Facturagastocuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastodevolucioncuentaretica" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastocuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastodevolucioncuentaretotra" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastocuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastodevolucioncuentadescuento" ).addClass( "tituloAutocompleta" );
+        $("#Facturagastocuentaproveedor" ).addClass( "tituloAutocompleta" );
+
+        // INICIA COSTO DE VENTA AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Cuentacosto", "#Cuentacostonombre");
+        autocompletaPlandecuentaempresa("#Cuentacostocontra", "#Cuentacostocontranombre");
+        // TERMINA COSTO DE VENTA AUTOCOMPLETA
+
+        // AGREGA CLASE
+        $("#Cuentacosto" ).addClass( "tituloAutocompleta" );
+        $("#Cuentacostocontra" ).addClass( "tituloAutocompleta" );
+       // $("#Decimales" ).addClass( "tituloAutocompleta" );
+
+        // INICIA COMPRA MASCARAS
+        $("#Soporteserviciocuenta19").mask('0000000000');
+
+
+        elemento = "#Soporteserviciocuentabase";
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralThousandsGroupStyle: 'thousand'
+        });
+
+        // COMPRAS
+        $("#Compracuenta19").mask('0000000000');
+
+        $("#Compracuentabase").mask('000,000,000', {reverse: true});
+
+        $("#Compracuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Compracuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Cuentacuenta19").focus();
+        // TERMINA COMPRA MASCARAS
+
+        // COMPRA SERVICIOS
+        $("#Cscuenta19").mask('0000000000');
+
+        $("#Cscuentabase").mask('000,000,000', {reverse: true});
+
+        $("#Cscuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Cscuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Cacuenta19").focus();
+        // TERMINA COMPRA SERVICIOS MASCARAS
+
+        // INICIA VENTA MASCARAS
+        $("#Ventacuenta19").mask('0000000000');
+        $("#Ventacuentaporcentajeret2201").mask('##.00', {reverse: true});
+        $("#Ventacuenta19").focus();
+        // TERMINA VENTA MASCARAS
+
+        // INICIA VENTA SERVICIOS MASCARAS
+        $("#Ventaserviciocuenta19").mask('0000000000');
+        $("#Ventaserviciocuentaporcentajeret2201").mask('##.00', {reverse: true});
+        $("#Ventaserviciocuenta19").focus();
+        // TERMINA VENTA SERVICIOS MASCARAS
+
+        // INICIA SOPORTE MASCARAS
+        $("#Soportecuentabase").mask('0,000,000,000', {reverse: true});
+        $("#Soportecuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Soportecuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Soportecuenta19").focus();
+        // TERMINA SOPORTE MASCARAS
+
+
+        // INICIA SOPORTE SERVICIOS MASCARAS
+        $("#Soporteserviciocuentabase").mask('0,000,000,000', {reverse: true});
+        $("#Soporteserviciocuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Soporteserviciocuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Soporteserviciocuenta19").focus();
+        // TERMINA SOPORTE SERVICIOS MASCARAS
+
+        // INICIA FACTURA GASTO MASCARAS
+        $("#Facturagastocuentabase").mask('0,000,000,000', {reverse: true});
+        $("#Facturagastocuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Facturagastocuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Soporteserviciocuenta19").focus();
+        // TERMINA FACTURA GASTO MASCARAS
+
+
+
+        $("#Cuentacosto").focus();
+
+
+        // INICIA COMPRA VALORES
+        $("#Compracuenta19").val("{{ .parametro.Compracuenta19}}");
+        $("#Compranombre19").val("{{ .parametro.Compranombre19}}");
+        $("#Compracuenta5").val("{{ .parametro.Compracuenta5}}");
+        $("#Compranombre5").val("{{ .parametro.Compranombre5}}");
+        $("#Compracuenta0").val("{{ .parametro.Compracuenta0}}");
+        $("#Compranombre0").val("{{ .parametro.Compranombre0}}");
+        $("#Compraiva19").val("{{ .parametro.Compraiva19}}");
+        $("#Compranombreiva19").val("{{ .parametro.Compranombreiva19}}");
+        $("#Compraiva5").val("{{ .parametro.Compraiva5}}");
+        $("#Compranombreiva5").val("{{ .parametro.Compranombreiva5}}");
+        $("#Compracuentaretfte").val("{{ .parametro.Compracuentaretfte}}");
+        $("#Compranombreretfte").val("{{ .parametro.Compranombreretfte}}");
+        $("#Compracuentaretica").val("{{ .parametro.Compracuentaretica}}");
+        $("#Compranombreretica").val("{{ .parametro.Compranombreretica}}");
+        $("#Compracuentaretotra").val("{{ .parametro.Compracuentaretotra}}");
+        $("#Compranombreretotra").val("{{ .parametro.Compranombreretotra}}");
+        $("#Compracuentadescuento").val("{{ .parametro.Compracuentadescuento}}");
+        $("#Compranombredescuento").val("{{ .parametro.Compranombredescuento}}");
+        $("#Compradevolucioncuenta19").val("{{ .parametro.Compradevolucioncuenta19}}");
+        $("#Compradevolucionnombre19").val("{{ .parametro.Compradevolucionnombre19}}");
+        $("#Compradevolucioncuenta5").val("{{ .parametro.Compradevolucioncuenta5}}");
+        $("#Compradevolucionnombre5").val("{{ .parametro.Compradevolucionnombre5}}");
+        $("#Compradevolucioncuenta0").val("{{ .parametro.Compradevolucioncuenta0}}");
+        $("#Compradevolucionnombre0").val("{{ .parametro.Compradevolucionnombre0}}");
+        $("#Compradevolucioniva19").val("{{ .parametro.Compradevolucioniva19}}");
+        $("#Compradevolucionnombreiva19").val("{{ .parametro.Compradevolucionnombreiva19}}");
+        $("#Compradevolucioniva5").val("{{ .parametro.Compradevolucioniva5}}");
+        $("#Compradevolucionnombreiva5").val("{{ .parametro.Compradevolucionnombreiva5}}");
+        $("#Compradevolucioncuentaretfte").val("{{ .parametro.Compradevolucioncuentaretfte}}");
+        $("#Compradevolucionnombreretfte").val("{{ .parametro.Compradevolucionnombreretfte}}");
+        $("#Compradevolucioncuentaretica").val("{{ .parametro.Compradevolucioncuentaretica}}");
+        $("#Compradevolucionnombreretica").val("{{ .parametro.Compradevolucionnombreretica}}");
+        $("#Compradevolucioncuentaretotra").val("{{ .parametro.Compradevolucioncuentaretotra}}");
+        $("#Compradevolucionnombreretotra").val("{{ .parametro.Compradevolucionnombreretotra}}");
+        $("#Compradevolucioncuentadescuento").val("{{ .parametro.Compradevolucioncuentadescuento}}");
+        $("#Compradevolucionnombredescuento").val("{{ .parametro.Compradevolucionnombredescuento}}");
+        $("#Compracuentaproveedor").val("{{ .parametro.Compracuentaproveedor}}");
+        $("#Compranombreproveedor").val("{{ .parametro.Compranombreproveedor}}");
+        $("#Compracuentabase").val("{{ .parametro.Compracuentabase}}");
+        $("#Compracuentaporcentajeretfte").val("{{ .parametro.Compracuentaporcentajeretfte}}");
+        $("#Compracuentaporcentajeretotra").val("{{ .parametro.Compracuentaporcentajeretotra}}");
+        // TERMINA COMPRAS VALORES
+
+        // INICIA COMPRA SERVICIOS VALORES
+        $("#Cscuenta19").val("{{ .parametro.Cscuenta19}}");
+        $("#Csnombre19").val("{{ .parametro.Csnombre19}}");
+        $("#Cscuenta5").val("{{ .parametro.Cscuenta5}}");
+        $("#Csnombre5").val("{{ .parametro.Csnombre5}}");
+        $("#Cscuenta0").val("{{ .parametro.Cscuenta0}}");
+        $("#Csnombre0").val("{{ .parametro.Csnombre0}}");
+        $("#Csiva19").val("{{ .parametro.Csiva19}}");
+        $("#Csnombreiva19").val("{{ .parametro.Csnombreiva19}}");
+        $("#Csiva5").val("{{ .parametro.Csiva5}}");
+        $("#Csnombreiva5").val("{{ .parametro.Csnombreiva5}}");
+        $("#Cscuentaretfte").val("{{ .parametro.Cscuentaretfte}}");
+        $("#Csnombreretfte").val("{{ .parametro.Csnombreretfte}}");
+        $("#Cscuentaretica").val("{{ .parametro.Cscuentaretica}}");
+        $("#Csnombreretica").val("{{ .parametro.Csnombreretica}}");
+        $("#Cscuentaretotra").val("{{ .parametro.Cscuentaretotra}}");
+        $("#Csnombreretotra").val("{{ .parametro.Csnombreretotra}}");
+        $("#Cscuentadescuento").val("{{ .parametro.Cscuentadescuento}}");
+        $("#Csnombredescuento").val("{{ .parametro.Csnombredescuento}}");
+        $("#Csdevolucioncuenta19").val("{{ .parametro.Csdevolucioncuenta19}}");
+        $("#Csdevolucionnombre19").val("{{ .parametro.Csdevolucionnombre19}}");
+        $("#Csdevolucioncuenta5").val("{{ .parametro.Csdevolucioncuenta5}}");
+        $("#Csdevolucionnombre5").val("{{ .parametro.Csdevolucionnombre5}}");
+        $("#Csdevolucioncuenta0").val("{{ .parametro.Csdevolucioncuenta0}}");
+        $("#Csdevolucionnombre0").val("{{ .parametro.Csdevolucionnombre0}}");
+        $("#Csdevolucioniva19").val("{{ .parametro.Csdevolucioniva19}}");
+        $("#Csdevolucionnombreiva19").val("{{ .parametro.Csdevolucionnombreiva19}}");
+        $("#Csdevolucioniva5").val("{{ .parametro.Csdevolucioniva5}}");
+        $("#Csdevolucionnombreiva5").val("{{ .parametro.Csdevolucionnombreiva5}}");
+        $("#Csdevolucioncuentaretfte").val("{{ .parametro.Csdevolucioncuentaretfte}}");
+        $("#Csdevolucionnombreretfte").val("{{ .parametro.Csdevolucionnombreretfte}}");
+        $("#Csdevolucioncuentaretica").val("{{ .parametro.Csdevolucioncuentaretica}}");
+        $("#Csdevolucionnombreretica").val("{{ .parametro.Csdevolucionnombreretica}}");
+        $("#Csdevolucioncuentaretotra").val("{{ .parametro.Csdevolucioncuentaretotra}}");
+        $("#Csdevolucionnombreretotra").val("{{ .parametro.Csdevolucionnombreretotra}}");
+        $("#Csdevolucioncuentadescuento").val("{{ .parametro.Csdevolucioncuentadescuento}}");
+        $("#Csdevolucionnombredescuento").val("{{ .parametro.Csdevolucionnombredescuento}}");
+        $("#Cscuentaproveedor").val("{{ .parametro.Cscuentaproveedor}}");
+        $("#Csnombreproveedor").val("{{ .parametro.Csnombreproveedor}}");
+        $("#Cscuentabase").val("{{ .parametro.Cscuentabase}}");
+        $("#Cscuentaporcentajeretfte").val("{{ .parametro.Cscuentaporcentajeretfte}}");
+        $("#Cscuentaporcentajeretotra").val("{{ .parametro.Cscuentaporcentajeretotra}}");
+        // TERMINA COMPRA SERVICIOS VALORES
+
+        // INICIA VENTA VALORES
+        $("#Ventacuenta19").val("{{ .parametro.Ventacuenta19}}");
+        $("#Ventanombre19").val("{{ .parametro.Ventanombre19}}");
+        $("#Ventacuenta5").val("{{ .parametro.Ventacuenta5}}");
+        $("#Ventanombre5").val("{{ .parametro.Ventanombre5}}");
+        $("#Ventacuenta0").val("{{ .parametro.Ventacuenta0}}");
+        $("#Ventanombre0").val("{{ .parametro.Ventanombre0}}");
+        $("#Ventaiva19").val("{{ .parametro.Ventaiva19}}");
+        $("#Ventanombreiva19").val("{{ .parametro.Ventanombreiva19}}");
+        $("#Ventaiva5").val("{{ .parametro.Ventaiva5}}");
+        $("#Ventanombreiva5").val("{{ .parametro.Ventanombreiva5}}");
+        $("#Ventacuentadescuento").val("{{ .parametro.Ventacuentadescuento}}");
+        $("#Ventanombredescuento").val("{{ .parametro.Ventanombredescuento}}");
+        $("#Ventadevolucioncuenta19").val("{{ .parametro.Ventadevolucioncuenta19}}");
+        $("#Ventadevolucionnombre19").val("{{ .parametro.Ventadevolucionnombre19}}");
+        $("#Ventadevolucioncuenta5").val("{{ .parametro.Ventadevolucioncuenta5}}");
+        $("#Ventadevolucionnombre5").val("{{ .parametro.Ventadevolucionnombre5}}");
+        $("#Ventadevolucioncuenta0").val("{{ .parametro.Ventadevolucioncuenta0}}");
+        $("#Ventadevolucionnombre0").val("{{ .parametro.Ventadevolucionnombre0}}");
+        $("#Ventadevolucioniva19").val("{{ .parametro.Ventadevolucioniva19}}");
+        $("#Ventadevolucionnombreiva19").val("{{ .parametro.Ventadevolucionnombreiva19}}");
+        $("#Ventadevolucioniva5").val("{{ .parametro.Ventadevolucioniva5}}");
+        $("#Ventadevolucionnombreiva5").val("{{ .parametro.Ventadevolucionnombreiva5}}");
+        $("#Ventadevolucioncuentaret2201").val("{{ .parametro.Ventadevolucioncuentaret2201}}");
+        $("#Ventadevolucionnombreret2201").val("{{ .parametro.Ventadevolucionnombreret2201}}");
+        $("#Ventadevolucioncuentadescuento").val("{{ .parametro.Ventadevolucioncuentadescuento}}");
+        $("#Ventadevolucionnombredescuento").val("{{ .parametro.Ventadevolucionnombredescuento}}");
+        $("#Ventacuentacliente").val("{{ .parametro.Ventacuentacliente}}");
+        $("#Ventanombrecliente").val("{{ .parametro.Ventanombrecliente}}");
+        $("#Ventacuentaret2201").val("{{ .parametro.Ventacuentaret2201}}");
+        $("#Ventanombreret2201").val("{{ .parametro.Ventanombreret2201}}");
+        $("#Ventacontracuentaret2201").val("{{ .parametro.Ventacontracuentaret2201}}");
+        $("#Ventacontranombreret2201").val("{{ .parametro.Ventacontranombreret2201}}");
+        $("#Ventadevolucioncontracuentaret2201").val("{{ .parametro.Ventadevolucioncontracuentaret2201}}");
+        $("#Ventadevolucioncontranombreret2201").val("{{ .parametro.Ventadevolucioncontranombreret2201}}");
+        $("#Ventacuentaporcentajeret2201").val("{{ .parametro.Ventacuentaporcentajeret2201}}");
+        $("#Ventatipoiva").val("{{ .parametro.Ventatipoiva}}");
+        // TERMINA VENTA VALORES
+
+        // INICIA VENTA SERVICIO VALORES
+        $("#Ventaserviciocuenta19").val("{{ .parametro.Ventaserviciocuenta19}}");
+        $("#Ventaservicionombre19").val("{{ .parametro.Ventaservicionombre19}}");
+        $("#Ventaserviciocuenta5").val("{{ .parametro.Ventaserviciocuenta5}}");
+        $("#Ventaservicionombre5").val("{{ .parametro.Ventaservicionombre5}}");
+        $("#Ventaserviciocuenta0").val("{{ .parametro.Ventaserviciocuenta0}}");
+        $("#Ventaservicionombre0").val("{{ .parametro.Ventaservicionombre0}}");
+        $("#Ventaservicioiva19").val("{{ .parametro.Ventaservicioiva19}}");
+        $("#Ventaservicionombreiva19").val("{{ .parametro.Ventaservicionombreiva19}}");
+        $("#Ventaservicioiva5").val("{{ .parametro.Ventaservicioiva5}}");
+        $("#Ventaservicionombreiva5").val("{{ .parametro.Ventaservicionombreiva5}}");
+        $("#Ventaserviciocuentadescuento").val("{{ .parametro.Ventaserviciocuentadescuento}}");
+        $("#Ventaservicionombredescuento").val("{{ .parametro.Ventaservicionombredescuento}}");
+        $("#Ventaserviciodevolucioncuenta19").val("{{ .parametro.Ventaserviciodevolucioncuenta19}}");
+        $("#Ventaserviciodevolucionnombre19").val("{{ .parametro.Ventaserviciodevolucionnombre19}}");
+        $("#Ventaserviciodevolucioncuenta5").val("{{ .parametro.Ventaserviciodevolucioncuenta5}}");
+        $("#Ventaserviciodevolucionnombre5").val("{{ .parametro.Ventaserviciodevolucionnombre5}}");
+        $("#Ventaserviciodevolucioncuenta0").val("{{ .parametro.Ventaserviciodevolucioncuenta0}}");
+        $("#Ventaserviciodevolucionnombre0").val("{{ .parametro.Ventaserviciodevolucionnombre0}}");
+        $("#Ventaserviciodevolucioniva19").val("{{ .parametro.Ventaserviciodevolucioniva19}}");
+        $("#Ventaserviciodevolucionnombreiva19").val("{{ .parametro.Ventaserviciodevolucionnombreiva19}}");
+        $("#Ventaserviciodevolucioniva5").val("{{ .parametro.Ventaserviciodevolucioniva5}}");
+        $("#Ventaserviciodevolucionnombreiva5").val("{{ .parametro.Ventaserviciodevolucionnombreiva5}}");
+        $("#Ventaserviciodevolucioncuentaret2201").val("{{ .parametro.Ventaserviciodevolucioncuentaret2201}}");
+        $("#Ventaserviciodevolucionnombreret2201").val("{{ .parametro.Ventaserviciodevolucionnombreret2201}}");
+        $("#Ventaserviciodevolucioncuentadescuento").val("{{ .parametro.Ventaserviciodevolucioncuentadescuento}}");
+        $("#Ventaserviciodevolucionnombredescuento").val("{{ .parametro.Ventaserviciodevolucionnombredescuento}}");
+        $("#Ventaserviciocuentacliente").val("{{ .parametro.Ventaserviciocuentacliente}}");
+        $("#Ventaservicionombrecliente").val("{{ .parametro.Ventaservicionombrecliente}}");
+        $("#Ventaserviciocuentaret2201").val("{{ .parametro.Ventaserviciocuentaret2201}}");
+        $("#Ventaservicionombreret2201").val("{{ .parametro.Ventaservicionombreret2201}}");
+        $("#Ventaserviciocontracuentaret2201").val("{{ .parametro.Ventaserviciocontracuentaret2201}}");
+        $("#Ventaserviciocontranombreret2201").val("{{ .parametro.Ventaserviciocontranombreret2201}}");
+        $("#Ventaserviciodevolucioncontracuentaret2201").val("{{ .parametro.Ventaserviciodevolucioncontracuentaret2201}}");
+        $("#Ventaserviciodevolucioncontranombreret2201").val("{{ .parametro.Ventaserviciodevolucioncontranombreret2201}}");
+        $("#Ventaserviciocuentaporcentajeret2201").val("{{ .parametro.Ventaserviciocuentaporcentajeret2201}}");
+        $("#Ventaserviciotipoiva").val("{{ .parametro.Ventaserviciotipoiva}}");
+        // TERMINA VENTA SERVICIO VALORES
+
+        // INICIA SOPORTE VALORES
+        $("#Soportecuenta19").val("{{ .parametro.Soportecuenta19}}");
+        $("#Soportenombre19").val("{{ .parametro.Soportenombre19}}");
+        $("#Soportecuenta5").val("{{ .parametro.Soportecuenta5}}");
+        $("#Soportenombre5").val("{{ .parametro.Soportenombre5}}");
+        $("#Soportecuenta0").val("{{ .parametro.Soportecuenta0}}");
+        $("#Soportenombre0").val("{{ .parametro.Soportenombre0}}");
+        $("#Soportecuentaretfte").val("{{ .parametro.Soportecuentaretfte}}");
+        $("#Soportenombreretfte").val("{{ .parametro.Soportenombreretfte}}");
+        $("#Soportecuentaretica").val("{{ .parametro.Soportecuentaretica}}");
+        $("#Soportenombreretica").val("{{ .parametro.Soportenombreretica}}");
+        $("#Soportecuentaretotra").val("{{ .parametro.Soportecuentaretotra}}");
+        $("#Soportenombreretotra").val("{{ .parametro.Soportenombreretotra}}");
+        $("#Soportecuentadescuento").val("{{ .parametro.Soportecuentadescuento}}");
+        $("#Soportenombredescuento").val("{{ .parametro.Soportenombredescuento}}");
+        $("#Soportecuentaproveedor").val("{{ .parametro.Soportecuentaproveedor}}");
+        $("#Soportenombreproveedor").val("{{ .parametro.Soportenombreproveedor}}");
+        $("#Soportecuentabase").val("{{ .parametro.Soportecuentabase}}");
+        $("#Soportecuentaporcentajeretfte").val("{{ .parametro.Soportecuentaporcentajeretfte}}");
+        $("#Soportecuentaporcentajeretotra").val("{{ .parametro.Soportecuentaporcentajeretotra}}");
+        $("#Soportedevolucioncuenta19").val("{{ .parametro.Soportedevolucioncuenta19}}");
+        $("#Soportedevolucionnombre19").val("{{ .parametro.Soportedevolucionnombre19}}");
+        $("#Soportedevolucioncuenta5").val("{{ .parametro.Soportedevolucioncuenta5}}");
+        $("#Soportedevolucionnombre5").val("{{ .parametro.Soportedevolucionnombre5}}");
+        $("#Soportedevolucioncuenta0").val("{{ .parametro.Soportedevolucioncuenta0}}");
+        $("#Soportedevolucionnombre0").val("{{ .parametro.Soportedevolucionnombre0}}");
+        $("#Soportedevolucioncuentaretfte").val("{{ .parametro.Soportedevolucioncuentaretfte}}");
+        $("#Soportedevolucionnombreretfte").val("{{ .parametro.Soportedevolucionnombreretfte}}");
+        $("#Soportedevolucioncuentaretica").val("{{ .parametro.Soportedevolucioncuentaretica}}");
+        $("#Soportedevolucionnombreretica").val("{{ .parametro.Soportedevolucionnombreretica}}");
+        $("#Soportedevolucioncuentaretotra").val("{{ .parametro.Soportedevolucioncuentaretotra}}");
+        $("#Soportedevolucionnombreretotra").val("{{ .parametro.Soportedevolucionnombreretotra}}");
+        $("#Soportedevolucioncuentadescuento").val("{{ .parametro.Soportedevolucioncuentadescuento}}");
+        $("#Soportedevolucionnombredescuento").val("{{ .parametro.Soportedevolucionnombredescuento}}");
+        $("#Soportecuentaproveedor").val("{{ .parametro.Soportecuentaproveedor}}");
+        $("#Soportenombreproveedor").val("{{ .parametro.Soportenombreproveedor}}");
+        $("#Soportecuentabase").val("{{ .parametro.Soportecuentabase}}");
+        $("#Soportecuentaporcentajeretfte").val("{{ .parametro.Soportecuentaporcentajeretfte}}");
+        $("#Soportecuentaporcentajeretotra").val("{{ .parametro.Soportecuentaporcentajeretotra}}");
+
+        // INICIA SOPORTE SERVICIO VALORES
+        $("#Soporteserviciocuenta19").val("{{ .parametro.Soporteserviciocuenta19}}");
+        $("#Soporteservicionombre19").val("{{ .parametro.Soporteservicionombre19}}");
+        $("#Soporteserviciocuenta5").val("{{ .parametro.Soporteserviciocuenta5}}");
+        $("#Soporteservicionombre5").val("{{ .parametro.Soporteservicionombre5}}");
+        $("#Soporteserviciocuenta0").val("{{ .parametro.Soporteserviciocuenta0}}");
+        $("#Soporteservicionombre0").val("{{ .parametro.Soporteservicionombre0}}");
+        $("#Soporteserviciocuentaretfte").val("{{ .parametro.Soporteserviciocuentaretfte}}");
+        $("#Soporteservicionombreretfte").val("{{ .parametro.Soporteservicionombreretfte}}");
+        $("#Soporteserviciocuentaretica").val("{{ .parametro.Soporteserviciocuentaretica}}");
+        $("#Soporteservicionombreretica").val("{{ .parametro.Soporteservicionombreretica}}");
+        $("#Soporteserviciocuentaretotra").val("{{ .parametro.Soporteserviciocuentaretotra}}");
+        $("#Soporteservicionombreretotra").val("{{ .parametro.Soporteservicionombreretotra}}");
+        $("#Soporteserviciocuentadescuento").val("{{ .parametro.Soporteserviciocuentadescuento}}");
+        $("#Soporteservicionombredescuento").val("{{ .parametro.Soporteservicionombredescuento}}");
+        $("#Soporteserviciodevolucioncuentaretfte").val("{{ .parametro.Soporteserviciodevolucioncuentaretfte}}");
+        $("#Soporteserviciodevolucionnombreretfte").val("{{ .parametro.Soporteserviciodevolucionnombreretfte}}");
+        $("#Soporteserviciodevolucioncuentaretica").val("{{ .parametro.Soporteserviciodevolucioncuentaretica}}");
+        $("#Soporteserviciodevolucionnombreretica").val("{{ .parametro.Soporteserviciodevolucionnombreretica}}");
+        $("#Soporteserviciodevolucioncuentaretotra").val("{{ .parametro.Soporteserviciodevolucioncuentaretotra}}");
+        $("#Soporteserviciodevolucionnombreretotra").val("{{ .parametro.Soporteserviciodevolucionnombreretotra}}");
+        $("#Soporteserviciodevolucioncuentadescuento").val("{{ .parametro.Soporteserviciodevolucioncuentadescuento}}");
+        $("#Soporteserviciodevolucionnombredescuento").val("{{ .parametro.Soporteserviciodevolucionnombredescuento}}");
+        $("#Soporteserviciocuentaproveedor").val("{{ .parametro.Soporteserviciocuentaproveedor}}");
+        $("#Soporteservicionombreproveedor").val("{{ .parametro.Soporteservicionombreproveedor}}");
+        $("#Soporteserviciocuentabase").val("{{ .parametro.Soporteserviciocuentabase}}");
+        $("#Soporteserviciocuentaporcentajeretfte").val("{{ .parametro.Soporteserviciocuentaporcentajeretfte}}");
+        $("#Soporteserviciocuentaporcentajeretotra").val("{{ .parametro.Soporteserviciocuentaporcentajeretotra}}");
+        // TERMINA SOPORTE SERVICIO VALORES
+
+        // INICIA FACTURA GASTO VALORES
+        $("#Facturagastocuenta19").val("{{ .parametro.Facturagastocuenta19}}");
+        $("#Facturagastonombre19").val("{{ .parametro.Facturagastonombre19}}");
+        $("#Facturagastocuenta5").val("{{ .parametro.Facturagastocuenta5}}");
+        $("#Facturagastonombre5").val("{{ .parametro.Facturagastonombre5}}");
+        $("#Facturagastocuenta0").val("{{ .parametro.Facturagastocuenta0}}");
+        $("#Facturagastonombre0").val("{{ .parametro.Facturagastonombre0}}");
+        $("#Facturagastocuentaretfte").val("{{ .parametro.Facturagastocuentaretfte}}");
+        $("#Facturagastonombreretfte").val("{{ .parametro.Facturagastonombreretfte}}");
+        $("#Facturagastocuentaretica").val("{{ .parametro.Facturagastocuentaretica}}");
+        $("#Facturagastonombreretica").val("{{ .parametro.Facturagastonombreretica}}");
+        $("#Facturagastocuentaretotra").val("{{ .parametro.Facturagastocuentaretotra}}");
+        $("#Facturagastonombreretotra").val("{{ .parametro.Facturagastonombreretotra}}");
+        $("#Facturagastocuentadescuento").val("{{ .parametro.Facturagastocuentadescuento}}");
+        $("#Facturagastonombredescuento").val("{{ .parametro.Facturagastonombredescuento}}");
+        $("#Facturagastodevolucioncuentaretfte").val("{{ .parametro.Facturagastodevolucioncuentaretfte}}");
+        $("#Facturagastodevolucionnombreretfte").val("{{ .parametro.Facturagastodevolucionnombreretfte}}");
+        $("#Facturagastodevolucioncuentaretica").val("{{ .parametro.Facturagastodevolucioncuentaretica}}");
+        $("#Facturagastodevolucionnombreretica").val("{{ .parametro.Facturagastodevolucionnombreretica}}");
+        $("#Facturagastodevolucioncuentaretotra").val("{{ .parametro.Facturagastodevolucioncuentaretotra}}");
+        $("#Facturagastodevolucionnombreretotra").val("{{ .parametro.Facturagastodevolucionnombreretotra}}");
+        $("#Facturagastodevolucioncuentadescuento").val("{{ .parametro.Facturagastodevolucioncuentadescuento}}");
+        $("#Facturagastodevolucionnombredescuento").val("{{ .parametro.Facturagastodevolucionnombredescuento}}");
+        $("#Facturagastocuentaproveedor").val("{{ .parametro.Facturagastocuentaproveedor}}");
+        $("#Facturagastonombreproveedor").val("{{ .parametro.Facturagastonombreproveedor}}");
+        $("#Facturagastocuentabase").val("{{ .parametro.Facturagastocuentabase}}");
+        $("#Facturagastocuentaporcentajeretfte").val("{{ .parametro.Facturagastocuentaporcentajeretfte}}");
+        $("#Facturagastocuentaporcentajeretotra").val("{{ .parametro.Facturagastocuentaporcentajeretotra}}");
+        // TERMINA FACTURA GASTO VALORES
+
+        // INICIA CUENTA COSTO DE VENTAS
+        $("#Cuentacosto").val("{{ .parametro.Cuentacosto}}");
+        $("#Cuentacostonombre").val("{{ .parametro.Cuentacostonombre}}");
+        $("#Cuentacostocontra").val("{{ .parametro.Cuentacostocontra}}");
+        $("#Cuentacostocontranombre").val("{{ .parametro.Cuentacostocontranombre}}");
+        $("#Decimales").val("{{ .parametro.Decimales}}");
+
+        //INICIA SELECT
+        $('#Ventatipoiva').materialSelect({});
+    //    $('#Decimales').materialSelect({});
+        $('#Ventaserviciotipoiva').materialSelect({});
+        //TERMINA SELECT
+    });
+</script>
+{{template "autocompletaPlandecuentaempresa" }}
+{{end}}

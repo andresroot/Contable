@@ -1,0 +1,713 @@
+{{define "nominaaportesscript" }}
+<script>
+    var numeroPanel = 1;
+
+
+    function ocultar(columna)
+    {
+        var i = 1;
+        //  var t = document.getElementById('flex1');
+
+        $("#tabla th").each(function() {
+
+            if(this.id==columna)
+            {
+                micolumna=i+""
+            }
+            i++;
+        });
+        $('#tabla td:nth-child('+micolumna+')').hide();
+        $('#tabla th:nth-child('+micolumna+')').hide();
+
+        $('#tabla td:nth-child(1)').hide();
+        $('#tabla th:nth-child(1)').hide();
+
+    }
+
+    function mostrar(columna)
+    {
+
+        var i = 0;
+        //  var t = document.getElementById('flex1');
+
+        $("#tabla th").each(function() {
+
+            if(this.id==columna)
+            {
+                i++;
+                micolumna=i+""
+            }
+            i++;
+        });
+
+        $('#tabla td:nth-child('+micolumna+')').show();
+        $('#tabla th:nth-child('+micolumna+')').show();
+        $('#tabla td:nth-child('+micolumna+')').addClass("cabezanueva");
+        $('#tabla th:nth-child('+micolumna+')').addClass("cabezanueva");
+    }
+
+
+    $(document.body).on('focusout', '#PorcentajeRetencionFuente', function (e) {
+        totales();
+    });
+
+    $(document.body).on('focusout', '#PorcentajeRetencionIca', function (e) {
+        totales();
+    });
+
+    // llena los datos del producto
+    function llenarFila(numeroFila) {
+        elemento = '#seleccion_producto' + numeroFila;
+        productoCodigo = $(elemento).val();
+        unidad = '#unidad' + cont;
+        impuesto = '#iva' + cont;
+        nombre = '#nombre' + cont;
+
+        var datosEnviar = {
+            "productoCodigo": productoCodigo
+        };
+        accion = "/ProductoActual/" + productoCodigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    $(unidad).html('');
+                    $(impuesto).html('');
+                    $(nombre).html('');
+
+                } else {
+                    $.each(response, function (i, item) {
+                        $(unidad).html(item.Unidad);
+                        $(impuesto).html(item.Iva);
+                        $(nombre).html(item.Nombre);
+                    });
+                }
+            }
+        });
+    }
+
+    // FUNCION TOTALES
+
+
+
+    var cont = 0
+    var id_fila_selected;
+
+    //Agregar Linea
+    function filas()
+    {
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        return cont-1;
+
+    }
+    ///
+    function asignar(elemento,colactual,colsuperior,borrar=false)
+    {
+       if (borrar==false)
+       {
+           $("#"+elemento+colactual).val($("#"+elemento+colsuperior).val());
+       }
+        else
+       {
+           $("#"+elemento+colactual).val("");
+       }
+
+    }
+    function insertar(id_fila) {
+        agregar();
+
+        filaActual=id_fila.replace("fila","");
+        NumeroActual=parseInt(filaActual);
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        for (var j = cont-1; j >=filaActual ; j--) {
+            cadenaActual=""+j;
+            lineaSuperior=j-1;
+            cadenaSuperior=lineaSuperior+"";
+
+           // $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+
+            asignar("codigo",cadenaActual,cadenaSuperior)
+            asignar("nombre",cadenaActual,cadenaSuperior)
+            asignar("centro",cadenaActual,cadenaSuperior)
+            asignar("sueldo",cadenaActual,cadenaSuperior)
+            asignar("salud",cadenaActual,cadenaSuperior)
+            asignar("pension",cadenaActual,cadenaSuperior)
+            asignar("riesgos",cadenaActual,cadenaSuperior)
+            asignar("icbf",cadenaActual,cadenaSuperior)
+            asignar("sena",cadenaActual,cadenaSuperior)
+            asignar("caja",cadenaActual,cadenaSuperior)
+            asignar("total",cadenaActual,cadenaSuperior)
+    }
+        cadenaActual=filaActual;
+
+            asignar("codigo",cadenaActual,cadenaSuperior,true)
+            asignar("nombre",cadenaActual,cadenaSuperior,true)
+            asignar("centro",cadenaActual,cadenaSuperior,true)
+            asignar("sueldo",cadenaActual,cadenaSuperior,true)
+            asignar("salud",cadenaActual,cadenaSuperior,true)
+            asignar("pension",cadenaActual,cadenaSuperior,true)
+            asignar("riesgos",cadenaActual,cadenaSuperior,true)
+            asignar("icbf",cadenaActual,cadenaSuperior,true)
+            asignar("sena",cadenaActual,cadenaSuperior,true)
+            asignar("caja",cadenaActual,cadenaSuperior,true)
+            asignar("total",cadenaActual,cadenaSuperior,true)
+
+
+        totales();
+        reordenar();
+    }
+
+    function eliminar(id_fila) {
+        //agregar();
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        if ((cont-1)>1)
+        {
+            filaActual=id_fila.replace("fila","");
+            NumeroActual=parseInt(filaActual);
+
+
+            lineaSuperior=0;
+
+            for (var j = filaActual; j <cont-1 ; j++) {
+                cadenaActual=""+j;
+
+                lineaSuperior=parseInt(j)+1;
+                cadenaSuperior=lineaSuperior+"";
+
+                asignar("codigo",cadenaActual,cadenaSuperior)
+                asignar("nombre",cadenaActual,cadenaSuperior)
+                asignar("centro",cadenaActual,cadenaSuperior)
+                asignar("sueldo",cadenaActual,cadenaSuperior)
+                asignar("salud",cadenaActual,cadenaSuperior)
+                asignar("pension",cadenaActual,cadenaSuperior)
+                asignar("riesgos",cadenaActual,cadenaSuperior)
+                asignar("icbf",cadenaActual,cadenaSuperior)
+                asignar("sena",cadenaActual,cadenaSuperior)
+                asignar("caja",cadenaActual,cadenaSuperior)
+                asignar("total",cadenaActual,cadenaSuperior)
+            }
+            var fila=cont-1;
+            $('#fila' +fila ).remove();
+
+        }
+
+        totales();
+    }
+
+
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+
+
+    function formatoGeneral(elemento,sisuma=false )
+    {
+        var cleave = new Cleave(elemento, {
+        numeral: true,
+        numeralDecimalMark: '.',
+        delimiter: ',',
+        numeralDecimalScale: 0
+         });
+
+        if (sisuma==true)
+
+        {
+
+            $(elemento).on('focusout', function (event) {
+                var patt1 = /[0-9]/g;
+                var filaActual = elemento.match(patt1);
+                totalfila(filaActual)
+            });
+
+
+        }
+    }
+    function formatoPorcentaje()
+    {
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 2
+        });
+
+    }
+
+
+function totalcolumna(columna)
+{
+    filatotal=1;
+    var totalcolumna=0;
+    $('#tabla tbody tr').each(function () {
+        mifila=filatotal+"";
+        valor=limpiarformato($('#'+columna + mifila).val());
+        totalcolumna+=valor;
+        filatotal++;
+    });
+    $('#' +columna).val(moneda(totalcolumna));
+
+}
+    function titulo(word) {
+        return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+    function totalcolumnavacia(columna)
+    {
+        filatotal=1;
+        var totalcolumna=0;
+        $('#tabla tbody tr').each(function () {
+            mifila=filatotal+"";
+            valor=limpiarformato($('#'+(columna) + mifila).val());
+            totalcolumna+=valor;
+            filatotal++;
+        });
+       // $('#' +columna).val(moneda(totalcolumna));
+return totalcolumna;
+    }
+function totales()
+{
+    totalcolumna("sueldo");
+    // suma columnas
+    $.each(listadevengado, function( key, value ) {
+        totalcolumna(value);
+    });
+
+    totalcolumna("total");
+
+    // suma filas
+
+    filatotal=1;
+    $('#tabla tbody tr').each(function () {
+        mifila=filatotal+"";
+       totalfilaSola(mifila);
+        filatotal++;
+    });
+
+}
+    function totalfilaSola(mifila){
+        devengado=0;
+        $.each(listadevengado, function( key, value ) {
+            // alert( key + ": " + value );
+            valor=limpiarformato($('#'+value + mifila).val());
+            devengado+=valor;
+
+        });
+        // neto
+        total=devengado;
+        $('#total' + mifila).val(moneda(total));
+      //  totales();
+    }
+
+    function totalfila(mifila){
+        devengado=0;
+        $.each(listadevengado, function( key, value ) {
+           // alert( key + ": " + value );
+            valor=limpiarformato($('#'+value + mifila).val());
+            devengado+=valor;
+
+        });
+
+           // neto
+        total=devengado;
+        $('#total' + mifila).val(moneda(total));
+        totales();
+    }
+
+    function borrarcolumna(columna){
+        var filatotal=1;
+        $('#tabla tbody tr').each(function () {
+            mifila=filatotal+"";
+            $('#'+ columna+mifila).val("0");
+            filatotal++;
+        });
+
+        $('#'+ columna).val("0");
+        totales();
+    }
+
+    function crearTotales(){
+       var  cont="ZZZ";
+
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td style=\"width: 20px\"></td>";
+        fila = fila + "<td style=\"width: 50px\"></td>";
+        fila = fila + "<td style=\"width: 120px\"></td>";
+        fila = fila + "<td style=\"width: 250px\"></td>";
+        fila = fila + "<div>TOTALES</div>";
+        fila = fila + "<td style=\"width: 50px\"></td>";
+
+        fila+=columnaDevengadoTotal("90","sueldo")
+
+        /// devengos
+        fila+=columnaDeduccionesTotal("90","salud")
+        fila+=columnaDeduccionesTotal("90","pension")
+        fila+=columnaDeduccionesTotal("90","riesgos")
+        fila+=columnaDeduccionesTotal("90","icbf")
+        fila+=columnaDeduccionesTotal("90","sena")
+        fila+=columnaDeduccionesTotal("90","caja")
+        fila+=columnaDeduccionesTotal("100","total")
+        fila = fila + "<td style=\"width: 20px\"></td>";
+
+        fila = fila + '</tr>';
+        $('#tabla tfoot').append(fila);
+    }
+    function agregar() {
+        // cont++;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        //cont=cont+1;
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td  style=\"width:20px\"  class=\"celdaAccion\"><a onclick=\"insertar('fila" + cont + "')\" ><i class=\"fas fa-plus-circle mt-0 color\" style=\"color:#21B799\"></i></a></td>";
+
+        fila = fila + "<td><div style=\"width: 50px\" class=\"celdaFilaComprobante\" id=\"Fila" + cont + '\">' + cont + '</div>';
+        fila = fila + "</td>";
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 120px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"codigo" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 250px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"nombre" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input style=\"width: 50px\"  type=\"text\" value=\"\" id=\"centro" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila+=columnaDevengado("90","sueldo"+ cont+"")
+        fila+=columnaDeducciones("90","salud"+ cont+"")
+        fila+=columnaDeducciones("90","pension"+ cont+"")
+        fila+=columnaDeducciones("90","riesgos"+ cont+"")
+        fila+=columnaDeducciones("90","icbf"+ cont+"")
+        fila+=columnaDeducciones("90","sena"+ cont+"")
+        fila+=columnaDeducciones("90","caja"+ cont+"")
+        fila+=columnaDeducciones("100","total"+ cont+"")
+        fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminar('fila" + cont + "')\" ><i class=\"fas fa-trash-alt mt-0\" style=\"color:#E74C3C\"></i></a></td>";
+
+        fila = fila + '</tr>';
+
+        $('#tabla tbody').append(fila);
+
+        formatoGeneral('#sueldo' + cont+"");
+        formatoGeneral('#salud' + cont+"",true);
+        formatoGeneral('#pension' + cont+"",true);
+        formatoGeneral('#riesgos' + cont+"",true);
+        formatoGeneral('#icbf' + cont+"",true);
+        formatoGeneral('#sena' + cont+"",true);
+        formatoGeneral('#caja' + cont+"",true);
+        formatoGeneral('#total' + cont);
+
+        autocompletaCentro("#centro" + cont, "#Centro");
+        autocompletaEmpleado('#codigo' + cont+"",'#nombre' + cont+"",'#sueldo' + cont+"",'#transporte' + cont+"");
+        $("#seleccion_centro" + cont).addClass("Micentro");
+
+    }
+    function guardardoc(accion) {
+         if(validaDatos()==false)
+         {
+             return;
+         }
+
+        // valores cabecera
+        Numero = $('#Numero').val();
+        Fecha1 = $('#FechaInicial').val();
+        Vence1 = $('#FechaFinal').val();
+        Riesgos=$('#riesgos').val();
+        Icbf=$('#icbf').val();
+        Sena=$('#sena').val();
+        Salud=$('#salud').val();
+        Pension=$('#pension').val();
+        Caja=$('#caja').val();
+        Total=$('#total').val();
+
+       Fechainicial = moment(Fecha1).format("YYYY-MM-DDTHH:mm:ssZ");
+       Fechafinal = moment(Vence1).format("YYYY-MM-DDTHH:mm:ssZ");
+
+        // DATOS ENVIAR
+        var datosEnviar = {
+            "Accion": accion,
+            "Detalle": [],
+            "Numero": Numero,
+            "Fechainicial": Fechainicial,
+            "Fechafinal": Fechafinal,
+            "Riesgos": Riesgos,
+            "Icbf": Icbf,
+            "Sena": Sena,
+            "Caja": Caja,
+            "Total": Total,
+            "Saludgasto": Salud,
+            "Pensiongasto": Pension,
+        };
+
+        var MovimientoValido = true;
+        // valida r movimiento
+        // ultimo = Items;
+        var cont = 1;
+        var filavalida = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+                codigo = $("#codigo" + cont).val();
+                centro= $("#centro" + cont).val();
+                sueldo = $("#sueldo" + cont).val();
+                salud = $("#salud" + cont).val();
+                pension = $("#pension" + cont).val();
+                riesgos = $("#riesgos" + cont).val();
+                icbf = $("#icbf" + cont).val();
+                sena = $("#sena" + cont).val();
+                caja = $("#caja" + cont).val();
+                total = $("#total" + cont).val();
+
+                // DATOS ENVIAR DETALLE
+                datosEnviar.Detalle.push({
+                    "Numero": Numero,
+                    "Fechainicial": Fechainicial,
+                    "Fechafinal": Fechafinal,
+                    "Codigo": codigo,
+                    "Centro": centro,
+                    "Sueldo": sueldo,
+                    "Saludgasto": salud,
+                    "Pensiongasto": pension,
+                    "Riesgos": riesgos,
+                    "Icbf": icbf,
+                    "Sena": sena,
+                    "Caja": caja,
+                    "Total": total,
+                });
+                filavalida++;
+           // }
+            cont++;
+        });
+
+        // JSON.stringify(datosEnviar)
+        console.log(JSON.stringify(datosEnviar));
+        var siEnvio = true;
+
+        if (siEnvio == true) {
+
+            // enviar
+            accion = "/NominaaportesAgregar";
+            $.ajax({
+                url: accion,
+                type: "POST",
+                async: false,
+                data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        alert("Documento Guardado Correctamente");
+                        document.location.href = '/NominaaportesLista';
+                    } else {
+                        alert("Ocurrio Un Error Al Guardar");
+                    }
+                },
+            });
+        }
+    }
+
+    // agregar  devengos
+
+    function columnaDevengado(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function columnaDevengadoTotal(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+
+    function columnaDeducciones(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function columnaDeduccionesTotal(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre +  '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+    // cierra panel
+    window.document.addEventListener('myEvent', handleEvent, false)
+    window.document.addEventListener('myEvent1', handleEvent1, false)
+    function handleEvent1(e) {
+
+        panelNuevo.close();
+
+    }
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+
+            if (e.detail.elementoPanel == "terceroCodigo") {
+                valor = e.detail.codigoElemento.replace('.', '');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    // niombre cuenta
+
+
+
+    function limpiarformato(cnumero) {
+        cnumero = cnumero.replace("$", "");
+        cnumero = cnumero.replace(/,/g, '');
+        return Number(cnumero)
+    }
+
+    // nombre centro
+    function validaDatos()
+    {
+        tercero_valido = true;
+        numero_valido = true;
+        ultimo = filas()+"";
+        // borra ultimo
+
+        textovalidar="";
+        cabeceravalida=true;
+        fechavalida=true;
+        vencevalida=true;
+
+        // fecha valida
+        if (moment($('#Fecha').val()).isValid()==false )
+        {
+            textovalidar+='\n Fecha Factura No Valida';
+            cabeceravalida=false;
+            fechavalida=false;
+        }
+
+        if ( moment($('#Vence').val()).isValid()==false)
+        {
+            textovalidar+='\n Fecha Vence No Valida';
+            cabeceravalida=false;
+            vencevalida=false;
+        }
+
+        if (vencevalida==true && vencevalida==true)
+        {
+            if(moment($('#Vence').val()).isBefore(moment($('#Fecha').val())))
+            {
+                textovalidar+='\n Fecha Vence Debe ser igual o Mayor que Fecha';
+                cabeceravalida=false;
+            }
+        }
+
+
+        if ($("#Numero").val() == '') {
+            textovalidar+='\n Por Favor Digite Un Numero';
+            cabeceravalida=false;
+        }
+
+        // cabeceravalida=true;
+
+        if ( cabeceravalida==false)
+        {
+            alert(textovalidar);
+        }
+
+        var cont = 1;
+        Mensaje = "";
+        MovimientoValido = true;
+
+        validaMovimiento="";
+
+
+        if(cabeceravalida==true && MovimientoValido == true)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+{{end}}

@@ -1,0 +1,166 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/inventario.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Editar Traslado</h3>
+                </div>
+                <br>
+                        <form id="formulario" method="POST"
+                              action="TrasladoActualizar/{{ .emp.Codigo }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Traslado No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Almacenista</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="AlmacenistaNombre"
+                                               id="AlmacenistaNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Almacenista"
+                                               id="Almacenista"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                           </div>
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm" cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>No</th>
+                                        <th style="padding-left: 12px">Producto</th>
+                                        <th style="padding-left: 10px">Descripcion</th>
+                                        <th style="padding-left: 10px">Unidad</th>
+                                        <th style="padding-left: 10px">Iva</th>
+                                        <th style="padding-left: 65px">Bodega</th>
+                                        <th style="padding-left: 65px">Entrada</th>
+                                        <th style="padding-left: 75px">Salida</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                               </table>
+                            </div>
+                            <input type="hidden" id="Subtotal19" />
+                            <input type="hidden" id="Subtotal5" />
+                            <input type="hidden" id="Subtotal0" />
+                            <input type="hidden" id="SubtotalDescuento19" />
+                            <input type="hidden" id="SubtotalDescuento5" />
+                            <input type="hidden" id="SubtotalDescuento0" />
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a href="/TrasladoLista"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="button" id="guardar"
+                                            onclick="guardardoc('Actualizar')"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="AlmacenistaNuevo"
+       type="hidden"/>
+<input id="BodegaNuevo"
+       type="hidden"/>
+<input id="ProductoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/compra.js"></script>
+
+        {{template "trasladoscript" }}
+        {{template "autocompletaAlmacenista" }}
+        {{template "autocompletaBodega" }}
+<script>
+    $(document).ready(function () {
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Fecha', function (e) {
+            var code = e.keyCode || e.which;
+            if (e.which == 113) {
+                document.location.href = '/TrasladoNuevo/'+ $("#Codigo").val();
+            }
+        });
+
+        // INICIA FOCUS
+        $('#Fecha').focus();
+
+        autocompletaAlmacenista('#AlmacenistaNombre', '#Almacenista');
+
+        // llenar valores
+        $("#Codigo").val('{{ .traslado.Codigo }}');
+        $("#Fecha").val('{{ .traslado.Fecha.Format "2006-01-02"}}');
+        $('#AlmacenistaNombre').val('{{ .traslado.AlmacenistaDetalle.Nombre}}');
+        $('#Almacenista').val('{{ .traslado.Almacenista}}');
+
+
+        // llenar detalle
+        cont1 = 1;
+
+        {{ range .detalle }}
+        agregar();
+        $('#seleccion_producto' + cont1).val('{{ .Producto }}');
+        $('#nombre' + cont1).html('{{ .ProductoNombre }}');
+        $('#unidad' + cont1).html('{{ .ProductoUnidad }}');
+        $('#iva' + cont1).html('{{ .ProductoIva }}');
+        $('#seleccion_bodega' + cont1).val('{{ .Bodega }}');
+        $('#seleccion_bodega_nombre' + cont1).val('{{ .BodegaNombre }}');
+        if (numerofinal('{{ .Entra }}'))
+        {     $('#entra' + cont1).val(formatomoneda('{{ .Entra }}'));
+        }
+
+        if (numerofinal('{{ .Sale }}'))
+        {     $('#sale' + cont1).val(formatomoneda('{{ .Sale }}'));
+        }
+
+       // $('#sale' + cont1).val(formatomoneda('{{ .Sale }}'));
+
+        cont1++;
+
+        {{ end }}
+        totales();
+    });
+
+</script>
+{{end}}

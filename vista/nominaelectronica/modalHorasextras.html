@@ -1,0 +1,347 @@
+{{define "modalHorasextras" }}
+        <!-- Modal: Contact form -->
+<div class="modal" id="modalHorasextras" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Horas Extras</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row m-3">
+                        <label class="col-sm-2 col-form-label">Tipo Hora</label>
+                        <div class="col-sm-5">
+                            <div class="md-form ">
+                                <select name="TipoHoraExtras"
+                                        id="TipoHoraExtras"
+                                        class="mdb-select md-form-control">
+                                    <option value="1">Hora Extra Diurna</option>
+                                    <option value="2">Hora Extra Nocturna
+                                    </option>
+                                    <option value="3">Hora Recargo Nocturno
+                                    </option>
+                                    <option value="4">Hora Extra Diurna
+                                        Dominical/Festivos
+                                    </option>
+                                    <option value="5">Hora Recargo Diurno
+                                        Dominical/Festivos
+                                    </option>
+                                    <option value="6">Hora Extra Nocturna
+                                        Dominical/Festivos
+                                    </option>
+                                    <option value="7">Hora Recargo Nocturno
+                                        Dominical/Festivos
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="FechaInicialHora"
+                               class="col-sm-2 col-form-label ml-5">Fecha
+                            Inicial</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="datetime-local"
+                                       placeholder="DD/mm/YYYY"
+                                       class="form-control"
+                                       name="FechaInicialHora"
+                                       id="FechaInicialHora">
+                            </div>
+                        </div>
+                        <label for="FechaFinalHora"
+                               class="col-sm-2 col-form-label ml-5">Fecha
+                            Final</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="datetime-local"
+                                       placeholder="DD/mm/YYYY"
+                                       class="form-control"
+                                       name="FechaFinalHora"
+                                       id="FechaFinalHora">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="NumeroHorasExtras"
+                               class="col-sm-2 col-form-label ml-5">Horas</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="text" class="form-control"
+                                       disabled="disabled"
+                                       id="NumeroHorasExtras">
+                            </div>
+                        </div>
+                        <label for="ValorHoraExtras"
+                               class="col-sm-2 col-form-label ml-5">Valor</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="text" class="form-control"
+                                       disabled="disabled" value=""
+                                       id="ValorHoraExtras">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="TotalHorasExtras"
+                               class="col-sm-2 col-form-label ml-5">Total
+                            Hora</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="text" class="form-control"
+                                       disabled="disabled"
+                                       id="TotalHorasExtras">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-4">
+                            <a onclick="agregarHorasExtras()"><i
+                                    class="fas fa-plus-circle mt-0 color"
+                                    style="color:#21B799"></i></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="divhoras">
+                <table id="tablahorasextras"
+                       class="table table-sm"
+                       cellspacing="0" width="90%">
+                    <thead class="">
+                    <tr id="">
+                        <th id="">No</th>
+                        <th id="">Tipo</th>
+                        <th id="">Cantidad</th>
+                        <th id="">Valor</th>
+                        <th id="">Total</th>
+                        <th id="Accion"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input style="width: 60px" class="celdaConcepto"
+                                   type="text" value="" id="TotalHorasTodas">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="AceptarHorasExtras" class="btn btn-outline-success
+                                             waves-effect btn-md float-right">
+                    Aceptar
+                </button>
+                <button type="button" class="btn btn-outline-dark waves-effect
+                                       btn-md float-right" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Modal: Contact form -->
+<script>
+
+// boton acpetar
+$("#AceptarHorasExtras").click(function () {
+    $('#horasextras' + $("#LineaActual").val()).val(($('#TotalHorasTodas').val()));
+    totales();
+    $('#modalHorasextras').modal('hide');
+});
+
+
+$("#InsertarHorasExtras").click(function () {
+    agregarHorasExtras();
+});
+
+//calcula dias
+$('#FechaInicialHora').on('focusout', function (event) {
+    // totalHorasExtras();
+
+});
+
+$('#FechaFinalHora').on('focusout', function (event) {
+    totalHorasExtras();
+});
+
+
+$("#TipoHoraExtras").change(function () {
+    // alert( "Handler for .change() called." );
+    totalHorasExtras();
+});
+
+function totalHorasExtras() {
+    textovalidar = "";
+    cabeceravalida = true;
+    fechavalida = true;
+    vencevalida = true;
+
+    if (moment($('#FechaInicialHora').val()).isValid() == false) {
+        textovalidar += '\n Fecha inicial No Valida';
+        cabeceravalida = false;
+        fechavalida = false;
+    }
+
+    if (moment($('#FechaFinalHora').val()).isValid() == false) {
+        textovalidar += '\n Fecha Final No Valida';
+        cabeceravalida = false;
+        vencevalida = false;
+    }
+
+    if (vencevalida == true && fechavalida == true) {
+        if (moment($('#FechaFinalHora').val()).isBefore(moment($('#FechaInicialHora').val()))) {
+            textovalidar += '\n Fecha Final Debe ser igual o Mayor que Fecha Inicial';
+            cabeceravalida = false;
+        }
+    }
+
+    if (cabeceravalida == false) {
+        alert(textovalidar);
+        return;
+    }
+
+
+    var fecha1 = moment($('#FechaInicialHora').val());
+    var fecha2 = moment($('#FechaFinalHora').val());
+    tiempo = fecha2.diff(fecha1, 'hours');
+    valor = $('#HoraExtraUnica').val();
+
+    switch ($('#TipoHoraExtras').val()) {
+        case '1':
+            valor = $('#HoraExtraUnica').val() * 0.25;
+            break;
+        case '2':
+            valor = $('#HoraExtraUnica').val() * 0.75;
+            break;
+        case '3':
+            valor = $('#HoraExtraUnica').val() * 0.35;
+            break;
+        case '4':
+            valor = $('#HoraExtraUnica').val() * 1;
+            break;
+        case '5':
+            valor = $('#HoraExtraUnica').val() * 0.75;
+            break;
+        case '6':
+            valor = $('#HoraExtraUnica').val() * 1.5;
+            break;
+        case '7':
+            valor = $('#HoraExtraUnica').val() * 1.1;
+            break;
+        default:
+            console.log('Lo lamentamos, por el momento no disponemos de ' + expr + '.');
+    }
+
+    $('#NumeroHorasExtras').val(tiempo);
+
+    $('#TotalHorasExtras').val(moneda(tiempo * valor));
+
+    $('#ValorHoraExtras').val(moneda(Number(valor)));
+}
+
+function listarHorasExtras() {
+}
+
+function agregarHorasExtras() {
+    var cuentaagregar = 1;
+    $('#tablahorasextras tbody tr').each(function () {
+        cuentaagregar++;
+    });
+
+    tipo = $('#TipoHoraExtras').val();
+    cantidad = $('#NumeroHorasExtras').val();
+    valor = $('#ValorHoraExtras').val();
+    total = $('#TotalHorasExtras').val();
+    texto = $("#TipoHoraExtras option:selected").text();
+
+    //cuentaagregar=cuentaagregar+1;
+    var fila = '<tr  id = \"HEfila' + cuentaagregar + '\">';
+
+    fila = fila + "<td><div style=\"width: 30px\" class=\"celdaFilaComprobante\" id=\"Fila" + cuentaagregar + '\">' + cuentaagregar + '</div>';
+    fila = fila + "</td>";
+
+    // tipo
+    fila = fila + "<td>";
+    fila = fila + "<input  type=\"hidden\" value=\"" + tipo + "\" id=\"HTipo" + cuentaagregar + '"\  \>';
+    fila = fila + "<input  style=\"width:220px\" class=\"celdaConcepto\" type=\"text\" value=\"" + texto + "\" id=\"HTextoTipo" + cuentaagregar + '"\  \>';
+
+    fila = fila + '</td>';
+    // cantidad
+    fila = fila + "<td>";
+    fila = fila + "<input  style=\"width: 60px\" class=\"celdaConcepto\" type=\"text\" value=\"" + cantidad + "\" id=\"HCantidad" + cuentaagregar + '"\  \>';
+    fila = fila + '</td>';
+
+    // valor
+    fila = fila + "<td>";
+    fila = fila + "<input  style=\"width: 60px\" class=\"celdaConcepto\" type=\"text\" value=\"" + valor + " \" id=\"HValor" + cuentaagregar + '"\  \>';
+    fila = fila + '</td>';
+
+    //total
+    fila = fila + "<td>";
+    fila = fila + "<input  style=\"width: 80px\" class=\"celdaConcepto\" type=\"text\" value=\"" + total + "\" id=\"HTotal" + cuentaagregar + '"\  \>';
+    fila = fila + '</td>';
+
+    fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminarHorasExtras('HEfila" + cuentaagregar + "')\" ><i class=\"fas fa-trash-alt mt-0\" style=\"color:#E74C3C\"></i></a></td>";
+
+    fila = fila + '</tr>';
+    $('#tablahorasextras tbody').append(fila);
+    TotalHorasExtras();
+}
+
+function eliminarHorasExtras(id_fila) {
+    //agregar();
+    var cont = 1;
+    $('#tablahorasextras tbody tr').each(function () {
+        cont++;
+    });
+
+    if ((cont - 1) >= 1) {
+        filaActual = id_fila.replace("HEfila", "");
+        NumeroActual = parseInt(filaActual);
+        lineaSuperior = 0;
+
+        for (var j = filaActual; j < cont - 1; j++) {
+            cadenaActual = "" + j;
+
+            lineaSuperior = parseInt(j) + 1;
+            cadenaSuperior = lineaSuperior + "";
+
+            asignar("HTipo", cadenaActual, cadenaSuperior)
+            asignar("HTextoTipo", cadenaActual, cadenaSuperior)
+            asignar("Hcantidad", cadenaActual, cadenaSuperior)
+            asignar("Hvalor", cadenaActual, cadenaSuperior)
+            asignar("Htotal", cadenaActual, cadenaSuperior)
+        }
+
+        var fila = cont - 1;
+        $('#HEfila' + fila).remove();
+    }
+    TotalHorasExtras();
+    // totales();
+}
+
+function TotalHorasExtras() {
+    var cont = 1;
+    total = 0
+    $('#tablahorasextras tbody tr').each(function () {
+        total += limpiarformato($('#HTotal' + cont).val());
+        cont++;
+    });
+    $('#TotalHorasTodas').val(moneda(total));
+}
+
+</script>
+{{end}}

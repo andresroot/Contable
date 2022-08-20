@@ -1,0 +1,177 @@
+{{define "autocompletaTercero" }}
+<script>
+    //--------------- autocompleta tercero
+    var numeroPanel = 1;
+
+    function autocompletaTercero(obj) {
+        $(document.body).on('focusout', obj, function (e) {
+           // alert("Focus out");
+            if ($(obj).val() == '') {
+            } else {
+                terceroCodigo = $(obj).val().replace(/\./g,'');
+                var datosEnviar = {
+                    "terceroCodigo": terceroCodigo
+                };
+                accion = "/TerceroActual/"+terceroCodigo;
+                $.ajax({
+                    url: accion,
+                    type: "GET",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    error: function (response) {
+                        alert('No Existe Tercero');
+                        $(obj).val('');
+                         $("#guardar").prop("disabled", true);
+
+                    },
+                    success: function (response) {
+                        if (jQuery.isEmptyObject(response)) {
+                           // alert('No Existe Tercero');
+                        } else {
+                            // revisa si existe nomina
+                                Existenomina=false;
+                                if ($(obj).val().length > 0) {
+                                    console.log("Handler for .keyup() called." + $(obj).val());
+                                    valor = $(obj).val().replace(/\./g, '');
+                                    $.ajax({
+                                        url: "/ResidenteExiste/" + valor,
+                                        type: "GET",
+                                        dataType: "json",
+                                        async: false,
+                                        success: function (respuesta) {
+                                            if (respuesta.result == true) {
+                                                console.log(respuesta.result);
+                                                $("#textoaviso").html("El codigo Ya Existe");
+                                                $("#aviso").show();
+                                                $("#guardar").prop("disabled", true);
+                                            } else {
+                                                console.log(respuesta.result);
+                                                $("#aviso").hide();
+                                                $("#guardar").prop("disabled", false);
+                                            }
+                                        },
+                                    });
+                                }
+                            $.each(response, function (i, item) {
+                                // if (item.Tipo=="1")
+                                // {
+                                //     alert("Unicamente Persona Natural");
+                                // }
+                                // else
+                                // {
+                                $("#Juridica").val(item.Juridica);
+                                    $("#PrimerNombre").val(item.PrimerNombre);
+                                    $("#SegundoNombre").val(item.SegundoNombre);
+                                    $("#PrimerApellido").val(item.PrimerApellido);
+                                    $("#SegundoApellido").val(item.SegundoApellido);
+                                    $("#Direccion").val(item.Direccion);
+                                    $("#Telefono1").val(item.Telefono1);
+                                    $("#Telefono2").val(item.Telefono1);
+                                    $("#Email1").val(item.Email1);
+                                    $("#Email2").val(item.Email1);
+                                    $("#Ciudad").val(item.Ciudad);
+                                    $("#Contacto").val(item.Contacto);
+                                //}
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        $(obj).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/TerceroBuscar/"+request.term.replace(/\./g,''),
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+
+                // if (ui.content.length === 0) {
+                $('#TerceroNuevo').val($(obj).val());
+
+                ui.content.push({
+                    label: " Crear Tercero :  " + $('#TerceroNuevo').val(),
+                    button: true
+                });
+            },
+            select: function (event, ui) {
+                var label = ui.item.label;
+                var value = ui.item.value;
+                valor = $(obj).val();
+                valorBuscar = " Crear Tercero :  " + $('#TerceroNuevo').val();
+
+                if (label == valorBuscar) {
+                    valor = $('#TerceroNuevo').val();
+                    panelListaresidente('TerceroNuevo', 'True', valor, obj.replace('#', ''))
+
+                } else {
+                    elemento = obj;
+                }
+            },
+            open: function (event, ui) {
+            }
+        });
+    }
+
+    window.document.addEventListener('myEvent', handleEvent, false)
+
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            if (e.detail.elementoPanel == "Codigo") {
+                valor = e.detail.codigoElemento.replace(/\./g,'');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelListaresidente(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panelph" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 500},
+            contentSize: {width: '1306px', height: '500px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px',
+                maxTop: '-20px',
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    //---autocomppleta tercero
+</script>
+{{end}}

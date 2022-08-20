@@ -1,0 +1,198 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<div class="container-fluid">
+    <section>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row mb-3 mt-0 Pl-3">
+                         <h3 class="tp">Comprobante de Costo</h3>
+                        <div class="col-sm-4"></div>
+                        <div id="areaBuscar">
+                        </div>
+                        <label class="col-sm-1 col-form-label labelBusqueda">Buscar</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Buscar"
+                                       id="Buscar"
+                                       class="form-control miBusqueda"
+                                       required/>
+                            </div>
+                        </div>
+                        <button id="Actualizar"
+                                class="btn btn-outline-success waves-effect
+                                btn-md float-right mdbs">GENERAR
+                        </button>
+                    </div>
+                    <br>
+                            <div class="form-group row mb-0 pl-3">
+                                <label class="col-sm-1 col-form-label">Mes</label>
+                                <div class="col-sm-2">
+                                    <select name="Mes"
+                                            id="Mes"
+                                            class=" mdb-select md-form-control"
+                                            searchable="Buscar...">
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <select name="Centro"
+                                                id="Centro"
+                                                class=" mdb-select md-form-control"
+                                                searchable="Buscar...">
+                                            {{ range .centro }}
+                                            <option value="{{ .Codigo }}">{{ .Nombre }}
+                                            </option>
+                                            {{ end }}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="dt-all-checkbox"
+                                   class="table table-sm"
+                                   cellspacing="0" width="100%">
+                                <thead style="color: white; background-color: #21B799">
+                                <tr>
+                                    <th></th>
+                                    <th>Tipo</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<input id="miperiodo" value="{{ .miperiodo }}"
+       type="hidden"/>
+<script>
+    numeroPanel = 1;
+    $(document).ready(function () {
+        // INICIA FECHA
+
+
+
+        $( "#Actualizar").click(function() {
+            //alert( "actualizar" );
+            Mes=$("#Mes").val();
+            Centro=$("#Centro").val();
+
+            var accion="";
+
+
+            accion='KardexCostoDatos/'+Mes+"/"+Centro;
+
+            $.ajax({
+                url: accion,
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                   // BindDataTable(response);
+                    console.log(JSON.stringify(response));
+                    alert("Comprobante Generado");
+                    datos(response);
+                }
+            })
+        });
+
+            $('.mdb-select').materialSelect({});
+    });
+    function datos(datosAjax)
+    {
+      Producto=$("#Producto").val();
+      FechaInicial=$("#FechaInicial").val();
+      FechaFinal=$("#FechaFinal").val();
+      Bodega=$("#Bodega").val();
+
+
+        $('#dt-all-checkbox').dataTable().fnDestroy();
+        var datatable = $('#dt-all-checkbox').dataTable({
+            "dom": 'lrtip',
+            "scrollY": "340px",
+            "scrollCollapse": true,
+            "scrollXInner": true,
+            "paging": false,
+            "aaData": datosAjax,
+            columns:
+                [{"data": "Filas"},
+                    {"data": "Tipo" },
+
+                    {
+                        "data": "Total",
+                        render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"
+                    }
+                ],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            "ordering": false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+        });
+
+        oTable = $('#dt-all-checkbox').DataTable();
+        $('#Buscar').keyup(function () {
+            oTable.search($(this).val()).draw();
+        })
+       $('#dt-all-checkbox').DataTable();
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+    }
+
+</script>
+
+{{end}}

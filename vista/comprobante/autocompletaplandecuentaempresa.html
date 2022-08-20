@@ -1,0 +1,187 @@
+{{define "autocompletaPlandecuentaempresa" }}
+<script>
+  //--------------- autocompleta cuenta
+  var numeroPanel = 1;
+
+  function autocompletaPlandecuentaempresa(obj, elementoNombre) {
+      $(document.body).on('keyup', obj, function (e) {
+          e.preventDefault();
+          // tecla f4
+          if ( e.which == 115 ) {
+           //   alert( " f4 ");
+              panelListaNiif('PlandecuentaniifListaBuscar',true,obj);
+              //e.preventDefault();
+          }
+
+      });
+    $(document.body).on('focusout', obj, function (e) {
+
+      if ($(obj).val().length != 8) {
+        $(obj).val('');
+      }
+
+      if ($(obj).val() == '') {
+      } else {
+
+        $(obj).val($(obj).val().replace('.', ''));
+
+        cuentaCodigo = $(obj).val().replace('.', '');
+
+        accion = "/PlandecuentaempresaActual/"+cuentaCodigo;
+        $.ajax({
+          url: accion,
+          type: "GET",
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          error: function (response) {
+            alert('No Existe Cuenta 01');
+            $(obj).val('');
+          },
+          success: function (response) {
+            if (jQuery.isEmptyObject(response)) {
+              alert("no existe Cuenta 02");
+              $(obj).val('');
+            } else {
+              $.each(response, function (i, item) {
+                $(elementoNombre).val(item.Nombre);
+                // alert(item.Nombre)
+              });
+            }
+          }
+        });
+      }
+    });
+
+    $(obj).autocomplete({
+      source: function (request, response) {
+        $.ajax({
+          url: "/PlandecuentaempresaBuscarAuxiliar/"+request.term,
+          type: 'GET',
+          dataType: "json",
+          success: function (data) {
+            response(data);
+          }
+        });
+      },
+      messages: {
+        noResults: '',
+        results: function () {
+        }
+      },
+
+      maxShowItems: 5,
+      response: function (event, ui) {
+        if (ui.content.length === 0) {
+          //if ($(obj).val().length == 8) {
+            $('#CuentaNuevo').val($(obj).val());
+            ui.content.push({
+              label: " Crear Cuenta :  " + $('#CuentaNuevo').val(),
+              button: true
+            });
+          }
+       // } else {
+        //}
+      },
+      select: function (event, ui) {
+        var label = ui.item.label;
+        var value = ui.item.value;
+        valor = $(obj).val();
+
+        valorBuscar = " Crear Cuenta :  " + $('#CuentaNuevo').val();
+
+        if (label == valorBuscar) {
+
+          if ($('#CuentaNuevo').val().length == 8) {
+
+              valor = $('#CuentaNuevo').val();
+              panelListaCuenta('PlandecuentaempresaNuevo', 'True', valor,
+                  obj.replace('#', ''))
+            // $(obj).val('');
+          } else {
+
+              valor = $('#CuentaNuevo').val();
+              panelLista('PlandecuentaniifLista', 'True', valor,
+                  obj.replace('#', ''))
+
+            // valor = $('#CuentaNuevo').val();
+            // panelLista('CuentaNuevo', 'True', valor,
+            //         obj.replace('#', ''))
+
+          }
+
+        } else {
+          elemento = obj;
+          $(elementoNombre).html(ui.item.Nombre);
+
+        }
+
+      },
+      open: function (event, ui) {
+        // var d = $('.ui-autocomplete').append("<a href='/AdvancedSearch/[" + search_term + "]'>Crear Producto [" + search_term + "]</a>")
+      }
+    });
+
+  }
+
+  window.document.addEventListener('myEvent', handleEvent, false)
+  window.document.addEventListener('cerrarPanel', CerrarEvent, false)
+
+  function CerrarEvent(e) {
+
+          panelNuevo.close();
+
+
+      console.log(e.detail) // outputs: {foo: 'bar'}
+  }
+
+
+  function handleEvent(e) {
+
+    if (e.detail.valido == true) {
+      //alert(e.detail.codigoElemento);
+
+      valor = e.detail.codigoElemento.replace('.', '');
+
+      $('#' + e.detail.elementoPanel).val(valor);
+      $('#' + e.detail.elementoPanel).focus();
+      panelNuevo.close();
+    } else {
+      panelNuevo.close();
+    }
+
+    console.log(e.detail) // outputs: {foo: 'bar'}
+  }
+
+  function panelListaCuenta(modulo, panel, parametro, elemento) {
+    numeroPanel = numeroPanel + 1;
+    cadenaPanel = "panelcta" + numeroPanel;
+    url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+    url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+    panelNuevo = jsPanel.create({
+      theme: {
+        bgContent: '#fff',
+        colorHeader: 'black',
+        border: '1px #A8A8A8 solid'
+      },
+      headerControls: {
+        maximize: 'remove',
+        size: 'xs'
+      },
+      id: cadenaPanel,
+      size: {width: 800, height: 500},
+      contentSize: {width: '1306px', height: '500px'}, // must be object
+      content: url,
+      position: {
+        top: '350px',
+        left: '600px',
+        maxTop: '-20px',
+      },
+      headerTitle: 'Sadconf Cloud 1.0'
+    });
+  }
+
+  //---autocomppleta tercero
+
+</script>
+{{end}}

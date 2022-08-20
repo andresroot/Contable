@@ -1,0 +1,99 @@
+{{define "modalPrima" }}
+        <!-- Modal: Contact form -->
+<div class="modal fade" id="modalPrima" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Prima de Servicios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+
+          <div class="form-group row m-5">
+            <label for="DiasPrima" class="col-sm-5 col-form-label ml-5">Dias</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" disabled="disabled"  id="DiasPrima">
+            </div>
+          </div>
+
+          <div class="form-group row m-5">
+            <label for="PorcentajeCesantias" class="col-sm-5 col-form-label ml-5">Porcentaje</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" value=""  id="PorcentajeCesantias">
+            </div>
+          </div>
+
+
+          <div class="form-group row m-5">
+            <label for="ValorCesantias" class="col-sm-5 col-form-label ml-5">Valor</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  disabled="disabled" value="20000" id="ValorCesantias">
+            </div>
+          </div>
+
+          <div class="form-group row m-5">
+            <label for="TotalCesantias" class="col-sm-5 col-form-label ml-5">Total</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" disabled="disabled" id="TotalCesantias">
+            </div>
+          </div>
+
+
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="AceptarCesantias" class="btn btn-outline-success
+                                             waves-effect btn-md float-right">Aceptar</button>
+        <button type="button" class="btn btn-outline-dark waves-effect
+                                       btn-md float-right" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- Modal: Contact form -->
+<script>
+
+// boton acpetar vacaciones comunes
+$( "#AceptarCesantias" ).click(function() {
+  $('#cesantia'+$("#LineaActual").val()).val(($('#TotalCesantias').val()));
+  $('#modalCesantias').modal('hide');
+
+});
+
+//calcula dias
+$('#PorcentajeCesantias').on('focusout', function (event) {
+  totalCesantias();
+});
+
+function totalCesantias()
+{
+  dias= $('#DiasCesantias').val();
+  valor=$('#ValorCesantias').val();
+  porcentaje=$('#PorcentajeCesantias').val();
+  alert(limpiarformato(dias));
+  alert((valor));
+
+
+  total=(limpiarformato(dias)*limpiarformato(valor))/360;
+  interes=((total*dias*(limpiarformato(porcentaje)/100))/360);
+
+  $('#TotalCesantias').val(moneda((total)));
+
+  $('#TotalCesantiasInteres').val(moneda((interes)));
+
+
+
+
+}
+
+
+</script>
+        <!-- Modal: Contact form -->
+
+        {{end}}

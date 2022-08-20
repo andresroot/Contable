@@ -1,0 +1,198 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Borrar Cuenta de Cobro</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                        <form id="formulario" method="POST"
+                              action="/CuentadecobroEliminar/{{ .panel }}/{{ .cuentadecobro.Numero }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Numero</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                                <input type="text"
+                                               name="Numero"
+                                               id="Numero"
+                                               class="form-control" readonly=/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha
+                                </label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" readonly=/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nit. No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Tercero"
+                                               id="Tercero"
+                                               class="form-control" readonly=/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Nombre"
+                                               id="Nombre"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-4">
+                                    <div class="md-form mt-0">
+                                        <input type="Text"
+                                               name="Direccion"
+                                               id="Direccion"
+                                               class="form-control" readonly=/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr style="color: white;background-color: #21B799">
+                                        <th style="color: white;background-color: #21B799"></th>
+                                        <th ></th>
+                                        <th >No</th>
+                                        <th style="padding-left: 11px">Cuenta</th>
+                                        <th style="padding-left: 11px">Descripcion</th>
+                                        <th style="padding-left: 100px">Anterior</th>
+                                        <th style="padding-left: 105px">Actual</th>
+                                        <th style="padding-left: 120px">Total</th>
+                                        <th ></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td><input style="width:50px"type="text"
+                                                   id="Items"
+                                                   class="inputItem"/></td>
+                                        <td></td>
+                                        <td ><p class="mt-0 text-right pt-2">Totales</p></td>
+                                        <td><input style="width: 150px" type="text"
+                                                   class="inputNumero" id="Totalanterior" disabled/></td>
+                                        <td><input style="width: 150px" type="text"
+                                                   class="inputNumero" id="Totalactual" disabled/></td>
+                                        <td><input style="width: 150px" type="text"
+                                                   id="Total"
+                                                   class="inputNumero" disabled/></td>
+                                        <td></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="window.history.go(-1); return false;"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="submit"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--    INICIA NUEVO TERCERO-->
+
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="Panel" value="{{ $.panel }}"
+       type="hidden"/>
+<script src="{{ .hosting }}static/js/cuentadecobro.js"></script>
+<!--    TERMINA NUEVO TERCERO-->
+
+<!--    TERMINA NUEVO TERCERO-->
+
+{{template "cuentadecobroscript" }}
+{{template "autocompletaPlandecuentaempresa" }}
+{{template "autocompletaTercero" }}
+
+
+<script>
+    $(document).ready(function () {
+        $('#Centro').materialSelect({});
+
+        // llenar valores
+
+        $("#Numero").val('{{ .cuentadecobro.Numero }}');
+        $("#Fecha").val('{{ .cuentadecobro.Fecha.Format "2006-01-02"}}');
+        $("#Centro").val('{{ .cuentadecobro.Centro}}');
+        $("#Tercero").val('{{ .cuentadecobro.Residente}}');
+        $("#Nombre").val('{{ .tercero.Nombre}}');
+        $("#Direccion").val('{{ .tercero.Direccion}}');
+        $("#PhCodigo").val('{{ .tercero.Nit}}');
+        $('#Fecha').focus();
+
+        // llenar detalle
+        cont = 1;
+        {{range.detalle }}
+        agregar();
+        $('#seleccion_cuenta' + cont).val('{{ .Cuenta }}');
+        $('#seleccion_cuenta' + cont).attr('disabled', 'disabled');
+        $('#detalle' + cont).val('{{ .Cuentanombre }}');
+        $('#detalle' + cont).attr('disabled', 'disabled');
+        $('#anterior' + cont).val(formatomoneda('{{ .Anterior }}'));
+        $('#anterior' + cont).attr('disabled', 'disabled');
+        $('#actual' + cont).val(formatomoneda('{{ .Actual }}'));
+        $('#actual' + cont).attr('disabled', 'disabled');
+        $('#total' + cont).val(formatomoneda('{{ .Total }}'));
+        $('#total' + cont).attr('disabled', 'disabled');
+        cont++;
+        {{end}}
+
+        totales();
+    });
+
+</script>
+{{end}}
+
+

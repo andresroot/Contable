@@ -1,0 +1,345 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3 class="tp">Nueva Resolucion Soporte</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="aviso"
+                             class="alert text-center alert-success alert-dismissible"
+                             role="alert" style="width: 302px; height: 40px; padding-top: 7px">
+                            <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p id="textoaviso">Cargando...</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/ResolucionsoporteInsertar">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Codigo</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Codigo"
+                                       id="Codigo"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Resolucion</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Numero"
+                                       id="Numero"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Pre-Fijo</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Prefijo"
+                                       id="Prefijo"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Documento</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Tipo"
+                                        id="Tipo"
+                                        class="mdb-select md-form"
+                                        editable="true">
+                                    <option value="Electronica">
+                                        Electronica
+                                    </option>
+                                    <option value="Contingencia">
+                                        Contingencia
+                                    </option>
+                                    <option value="Pos">Pos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Fecha Inicial</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Date"
+                                       name="FechaInicial"
+                                       id="FechaInicial"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Fecha Final</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Date"
+                                       name="FechaFinal"
+                                       id="FechaFinal"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Numero
+                            inicial</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="NumeroInicial"
+                                       id="NumeroInicial"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Numero Final</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="NumeroFinal"
+                                       id="NumeroFinal"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Numero Actua</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="NumeroActual"
+                                       id="NumeroActual"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Telefono</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="Telefono"
+                                       id="Telefono"
+                                       class="form-control" required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Informe</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Informe"
+                                        id="Informe"
+                                        class="mdb-select md-form"
+                                        editable="true">
+                                    <option value="Computador1">
+                                        Computador1
+                                    </option>
+                                    <option value="Computador2">
+                                        Computador2
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ambiente</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Ambiente"
+                                        id="Ambiente"
+                                        class="mdb-select md-form"
+                                        editable="true">
+                                    <option value="1">
+                                        Produccion
+                                    </option>
+                                    <option value="2">
+                                        Pruebas
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Local</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Local"
+                                       id="Local"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Direccion
+                        </label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="Direccion"
+                                       id="Direccion"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ciudad</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Ciudad"
+                                        id="Ciudad"
+                                        class=" mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad }}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Clave Tecnica</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Clavetecnica"
+                                       id="Clavetecnica"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ide Software
+                        </label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="Idesoftware"
+                                       id="Idesoftware"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Test Id</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Testid"
+                                       id="Testid"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Pin</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="Text"
+                                       name="Pin"
+                                       id="Pin"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a onclick="window.history.go(-1); return false;"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                            <button type="submit" id="guardar"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+        </div>
+        </div>
+<script>
+    $(document).ready(function () {
+        // INICIA CONFIGURA MASCARA PARA NUMERO
+        $("#Codigo").mask('00');
+        $("#Telefono").mask('(000) 000-0000');
+        $("#NumeroInicial").mask('000,000,000', {reverse: true});
+        $("#NumeroFinal").mask('000,000,000', {reverse: true});
+        $("#NumeroActual").mask('000,000,000', {reverse: true});
+
+        // INICIA FOCUS
+        $("#Codigo").focus();
+
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicial").val(m);
+        $("#FechaFinal").val(m);
+        $('#Ciudad').val("50001")
+
+        // INICIA CODIGO YA EXISTE
+        $("#aviso").hide();
+        $("#guardar").prop("disabled", false);
+        $("#guardar").prop("disabled", true);
+        $("#Codigo").focusout(function () {
+            if ($("#Codigo").val().length > 0) {
+                console.log("Handler for .keyup() called." + $("#Codigo").val());
+                $.ajax({
+                    url: "/ResolucionsoporteExiste/" + $("#Codigo").val(),
+                    type: "GET",
+                    dataType: "json",
+                    async: false,
+                    success: function (respuesta) {
+                        if (respuesta.result == true) {
+                            console.log(respuesta.result);
+                            $("#Codigo").val("");
+                            $("#textoaviso").html("El Codigo Ya Existe");
+                            $("#aviso").show();
+                            $("#guardar").prop("disabled", true);
+                        } else {
+                            console.log(respuesta.result);
+                            $("#aviso").hide();
+                            $("#guardar").prop("disabled", false);
+                        }
+                    },
+                });
+            }
+        });
+
+        // INICIA INFORMACION SELECT
+        $('.mdb-select').materialSelect({});
+
+        // TRAER COPIA DE EDITAR
+        if("False"== "{{ .codigo}}")
+        {
+        }else{
+            //INICIA DATOS INICIALES
+            $('#Numero').val("{{ .emp.Numero }}");
+            $('#Prefijo').val("{{ .emp.Prefijo }}");
+            $('#NumeroInicial').val("{{ .emp.NumeroInicial }}");
+            $('#NumeroFinal').val("{{ .emp.NumeroFinal }}");
+            $('#NumeroActual').val("{{ .emp.NumeroActual }}");
+            $('#Telefono').val("{{ .emp.Telefono }}");
+            $('#Informe').val("{{ .emp.Informe }}");
+            $('#Tipo').val("{{ .emp.Tipo }}");
+            $('#Local').val("{{ .emp.Local }}");
+            $('#Direccion').val("{{ .emp.Direccion }}");
+            $('#Ciudad').val("{{ .emp.Ciudad }}")
+            $('#Clavetecnica').val("{{ .emp.Clavetecnica }}")
+            $('#Idesoftware').val("{{ .emp.Idesoftware }}")
+            $('#Testid').val("{{ .emp.Testid }}")
+            $('#Pin').val("{{ .emp.Pin }}")
+        }
+        // TERMINA TRAER COPIA EDITAR
+    });
+</script>
+{{ end }}

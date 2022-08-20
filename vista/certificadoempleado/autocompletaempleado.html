@@ -1,0 +1,156 @@
+{{define "autocompletaEmpleado" }}
+<script>
+  //--------------- autocompleta tercero
+  var numeroPanel = 1;
+
+  function autocompletaEmpleado(obj,  elementoNombre,elementoSueldo, elementoTransporte) {
+    $(document.body).on('focusout', obj, function (e) {
+      // alert("Focus out");
+      if ($(obj).val() == '') {
+      } else {
+        terceroCodigo = $(obj).val().replace(/\./g,'');
+        accion = "/EmpleadoActual/"+terceroCodigo;
+        $.ajax({
+          url: accion,
+          type: "GET",
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          error: function (response) {
+           // alert('No Existe Tercero');
+          //  $(obj).val('');
+          },
+          success: function (response) {
+            if (jQuery.isEmptyObject(response)) {
+             //   alert('No Existe Empleado');
+             //   $(obj).val('');
+            } else {
+              $.each(response, function (i, item) {
+                $(elementoNombre).val(item.Nombre);
+                $(elementoSueldo).val(moneda(Number(item.Sueldo),0));
+
+
+                if($(elementoTransporte).val()=="" ||$(elementoTransporte).val()=="0")
+                 {
+                     $(elementoTransporte).val(moneda(Number(item.Transporte),0));
+                 }
+              //  $(elementoSueldo).val(item.Sueldo);
+
+              });
+            }
+          }
+        });
+      }
+    });
+
+    $(obj).autocomplete({
+      source: function (request, response) {
+        $.ajax({
+          url: "/EmpleadoBuscar/"+request.term.replace(/\./g,''),
+          type: 'GET',
+          dataType: "json",
+          success: function (data) {
+            response(data);
+          }
+        });
+      },
+      messages: {
+        noResults: '',
+        results: function () {
+        }
+      },
+      maxShowItems: 5,
+      response: function (event, ui) {
+
+        // if (ui.content.length === 0) {
+        $('#EmpleadoNuevo').val($(obj).val());
+        ui.content.push({
+          label: " Crear Empleado :  " + $('#EmpleadoNuevo').val(),
+          button: true
+        });
+        ///  } else {
+
+        ///    }
+      },
+      select: function (event, ui) {
+        var label = ui.item.label;
+        var value = ui.item.value;
+        valor = $(obj).val();
+        // alert(label);
+        //alert( $('#TerceroNuevo').val());
+        valorBuscar = " Crear Empleado :  " + $('#EmpleadoNuevo').val();
+
+        if (label == valorBuscar) {
+          valor = $('#EmpleadoNuevo').val();
+          panelListaEmpleado('EmpleadoNuevo', 'True', valor, obj.replace('#', ''))
+
+        } else {
+          elemento = obj;
+
+          $(elementoNombre).val(ui.item.Nombre);
+
+        }
+        //store in session
+      },
+      open: function (event, ui) {
+        // var d = $('.ui-autocomplete').append("<a href='/AdvancedSearch/[" + search_term + "]'>Crear Producto [" + search_term + "]</a>")
+      }
+    });
+  }
+
+  window.document.addEventListener('myEvent', handleEvent, false)
+
+  function handleEvent(e) {
+
+    if (e.detail.valido == true) {
+    //  alert(e.detail.codigoElemento);
+
+      if (e.detail.elementoPanel == "Codigo") {
+        valor = e.detail.codigoElemento.replace(/\./g,'');
+      } else {
+        valor = e.detail.codigoElemento;
+      }
+
+      $('#' + e.detail.elementoPanel).val(valor);
+      $('#' + e.detail.elementoPanel).focus();
+      panelNuevo.close();
+    } else {
+      panelNuevo.close();
+    }
+
+    console.log(e.detail) // outputs: {foo: 'bar'}
+  }
+
+  function panelListaEmpleado(modulo, panel, parametro, elemento) {
+    numeroPanel = numeroPanel + 1;
+    cadenaPanel = "panelph" + numeroPanel;
+    url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+    url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+    panelNuevo = jsPanel.create({
+      theme: {
+        bgContent: '#fff',
+        colorHeader: 'black',
+        border: '1px #A8A8A8 solid'
+      },
+      headerControls: {
+        maximize: 'remove',
+        size: 'xs'
+      },
+      id: cadenaPanel,
+      size: {width: 800, height: 500},
+      contentSize: {width: '1306px', height: '500px'}, // must be object
+      content: url,
+      position: {
+        top: '350px',
+        left: '600px',
+        maxTop: '-20px',
+      },
+      headerTitle: 'Sadconf Cloud 1.0'
+    });
+  }
+
+
+  //---autocomppleta tercero
+
+</script>
+{{end}}

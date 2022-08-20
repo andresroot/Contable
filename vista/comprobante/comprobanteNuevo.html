@@ -1,0 +1,380 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/comprobante.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Nuevo Comprobante</h3>
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <div id="aviso"
+                             class="alert text-center alert-success alert-dismissible"
+                             role="alert" style="width: 302px; height: 40px; padding-top: 7px">
+                            <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p id="textoaviso">Cargando...</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                        <form id="formulario" method="POST"
+                              action="/ComprobanteAgregar">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Comprobante</label>
+                                <div class="col-sm-5">
+                                    <div class="md-form mt-0">
+                                        <select name="Documento"
+                                                id="Documento"
+                                                class=" mdb-select md-form-control"
+                                                searchable="Buscar...">
+                                            {{ range .documento }}
+                                            <option value="{{ .Codigo }}">{{ .Codigo }} - {{ .Nombre }}
+                                            </option>
+                                            {{ end }}
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Cuenta</label>
+                                <div class="col-sm-5 pt-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuenta"
+                                               id="Cuenta"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Numero</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Numero"
+                                               id="Numero"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <label class="col-sm-1 col-form-label">Tercero</label>
+                                <div class="col-sm-5">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Tercero"
+                                               id="Tercero"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-5">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Centro"
+                                               id="Centro"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <div class="form-group row mb-0">-->
+<!--                                <label class="col-sm-2 col-form-label">Fecha-->
+<!--                                    Consignacion</label>-->
+<!--                                <div class="col-sm-2">-->
+<!--                                    <div class="md-form mt-0">-->
+<!--                                        <input type="Date"-->
+<!--                                               name="Fechaconsignacion"-->
+<!--                                               id="Fechaconsignacion"-->
+<!--                                               class="form-control"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th ></th>
+                                        <th >No</th>
+                                        <th >Cuenta</th>
+                                        <th >Tercero</th>
+                                        <th >Centro</th>
+                                        <th >Concepto</th>
+                                        <th >Dcoumento</th>
+                                        <th style="text-align: right; padding-right: 25px">Debito</th>
+                                        <th style="text-align: right; padding-right: 25px">Credito</th>
+                                        <th ></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr >
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr >
+                                        <td></td>
+                                        <td></td>
+                                        <td><input style="width:50px"type="text"
+                                                   id="Items"
+                                                   class="inputItem"/></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="mt-5">Totales</td>
+                                        <td><input style="min-width: 140px" type="text"
+                                                   class="inputNumero" id="TotalDebito"  /></td>
+                                        <td><input style="min-width: 140px" type="text"
+                                                   id="TotalCredito"
+                                                   class="inputNumero"/></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><input style="min-width: 140px;color:#E74C3C"
+                                                   type="text" class="inputNumero"
+                                                   id="DiferenciaDebito" /></td>
+                                        <td>
+                                            <input style="min-width: 140px;color: #E74C3C" type="text"
+                                                   id="DiferenciaCredito"
+                                                   class="inputNumero"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                                 <div class="form-group row mb-0">
+                                 <div class="col-sm-12">
+                                    <a href="/ComprobanteLista"
+                                       class="btn btn-outline-dark waves-effect
+                                        btn-md float-right mdbi">Cancelar </a>
+                                    <button type="button" id="botonguardar"
+                                            onclick="guardar('Nuevo')"
+                                            class="btn btn-outline-success
+                                            waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+        </div>
+<!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+        <input id="miperiodo" value="{{ .miperiodo }}"
+               type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<script src="{{ .hosting }}static/js/comprobante.js"></script>
+<!--    TERMINA NUEVO TERCERO-->
+
+<!--   INICIA TEMPLATE-->
+{{template "comprobantescript" }}
+{{template "autocompletaPlandecuentaempresa" }}
+{{template "autocompletaTercero" }}
+{{template "autocompletaCentro" }}
+
+<script>
+    $(document).ready(function () {
+        // INICIA CREAR LINEA
+        agregar();
+
+        // INICIA MASCARA
+        $("#Subtotal").mask('000.000.000.000.000.00', {reverse: true});
+        $("#DiferenciaDebito").hide();
+        $("#DiferenciaCredito").hide();
+
+        // INICIA FECHA
+        var m = moment().set('year', $('#miperiodo').val()).format("YYYY-MM-DD");
+
+
+
+
+        $("#Fecha").val(m);
+        $("#Fechaconsignacion").val(m);
+
+        // INICIA CODIGO  YA EXISTE
+        $("#Documento").focus();
+        $("#aviso").hide();
+        $("#botonguardar").prop("disabled", false);
+        $("#botonguardar").prop("disabled", true);
+        $("#Numero").focusout(function () {
+            numero = $("#Numero").val().replace(" ", "_").toUpperCase();
+            $("#Numero").val(numero);
+            validoInicial=true;
+            if($("#Documento").val() =="0")
+            {
+                if(numero=="0")
+                {
+                }
+                else
+                {
+                    validoInicial=false;
+                    $("#textoaviso").html("Numero No Valido");
+                    $("#aviso").show();
+                    $("#Numero").val("");
+                    return
+                }
+            }
+            if ($("#Numero").val().length > 0) {
+                console.log("Handler for .keyup() called." + $("#Numero").val());
+                $.ajax({
+                    url: "/ComprobanteExiste/" + $("#Documento").val() + "/" + $("#Numero").val(),
+                    type: "GET",
+                    dataType: "json",
+                    async: false,
+                    success: function (respuesta) {
+                        if (respuesta.result == true) {
+                            console.log(respuesta.result);
+                            $("#Numero").val("");
+                            $("#textoaviso").html("El Numero Ya Existe");
+                            $("#aviso").show();
+                            $("#botonguardar").prop("disabled", true);
+                        } else {
+                            console.log(respuesta.result);
+                            $("#aviso").hide();
+                            $("#botonguardar").prop("disabled", false);
+                        }
+                    },
+                });
+            }
+        });
+        // TERMINA CODIGO YA EXISTE
+
+        // INICIA FOCUS
+        $('#Numero').focus();
+
+        // INICIA SELECT
+        $('#Documento').materialSelect({});
+        $('#Documento').val("1");
+
+        // TRAE DATOS DE DOCUMENTO COPIADO
+        if("False"== "{{ .documentoparametro}}")
+        {
+        }else{
+
+
+            //INICIA DATOS INICIALES
+            $("#Documento").val('{{ .comprobante.Documento }}');
+            $("#Fecha").val('{{ .comprobante.Fecha.Format "2006-01-02"}}');
+            $("#Fechaconsignacion").val('{{ .comprobante.Fechaconsignacion.Format "2006-01-02"}}');
+            $('#Numero').focus();
+
+            // llenar detalle
+            cont = 1;
+            {{range.detalle }}
+            agregar();
+            $('#seleccion_cuenta' + cont).val('{{ .Cuenta }}');
+            $('#seleccion_tercero' + cont).val('{{ .Tercero }}');
+            $('#seleccion_centro' + cont).val('{{ .Centro }}');
+            $('#concepto' + cont).val('{{ .Concepto }}');
+            $('#factura' + cont).val('{{ .Factura }}');
+            $('#Debito' + cont).val(formatomoneda('{{ .Debito }}'));
+            $('#Credito' + cont).val(formatomoneda('{{ .Credito }}'));
+            nombreCuenta('{{ .Cuenta }}', "#Cuenta");
+            nombreTercero('{{ .Tercero }}', "#Tercero");
+            nombreCentro('{{ .Centro }}', "#Centro");
+            cont++;
+            {{end}}
+            totales();
+        }
+    });
+
+    function panelListaNiif(modulo, panel,obj) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        mivalor="";
+        if  ($(obj).val()==""){
+
+            mivalor="False";
+        } else
+        {
+            mivalor=$(obj).val();
+
+        }
+        if (panel == false) {
+            url = '/' + modulo + '';
+        } else {
+            url = '/' + modulo + '/' + cadenaPanel+"/"+mivalor+"/"+obj.replace('#', '');
+        }
+       // alert(url);
+        url = "<iframe src=\'" + url +
+            "\' width=\'100%\' height=\'100%\' style=\'padding: 0px; border:0px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            // iconfont: [ 'custom-minimize', 'custom-normalize',  'custom-close'],
+            theme: {
+                bgContent: 'white',
+                colorHeader: '#4A2758',
+                border: '1px silver solid'
+            },
+
+            headerControls: {
+                // maximize: 'remove',
+                size: 'xs'
+            },
+            boxShadow: 0,
+            id: cadenaPanel,
+            size: {width: 800, height: 500},
+            // JPANEL MEDIDAS
+            contentSize: {width: '1300px', height: '500px'},
+            content: url,
+            contentOverflow: 'hidden',
+            position: {
+                top: '350px',
+                left: '600px',
+                maxTop: '-20px',
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+        jsPanel.zi = false;
+        jsPanel.ziBase = 2000 + (100 * numeroPanel);
+    }
+</script>
+{{end}}

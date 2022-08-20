@@ -1,0 +1,220 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tabla.css"/>
+<div class="container-fluid">
+    <section>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <br>
+                    <div class="form-group row mb-4 mt-0 ml-0">
+                        <h3 class="" style="color: white; background-color: #21B799;
+                     width: 350px; text-align: center; height:40px">
+                            Plan de Cuentas Niif</h3>
+                        <div class="col-sm-4"></div>
+                        <div id="areaBuscar">
+                        </div>
+                        <label class="col-sm-1 col-form-label">Buscar</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Buscar"
+                                       id="Buscar"
+                                       class="form-control"
+                                       required/>
+                            </div>
+                        </div>
+                        <button id="BotonSeleccion"
+                                class="btn btn-outline-success waves-effect btn-md float-right "
+                                style="height:40px; text-align: center; width:105px; margin-top: 0px; padding: 10px; margin-left: 20px; font-size: 10px; font-family: Arial ">
+                            ACEPTAR
+                        </button>
+                    </div>
+                    <table id="dt-all-checkbox"
+                           class="table table-sm"
+                           cellspacing="0" width="100%">
+                        <thead class="miCabeceraTabla">
+                        <tr>
+                            <th>Filas
+                            </th>
+                            <th>Codigo
+                            </th>
+                            <th>Nombre
+                            </th>
+                            <th>Nivel
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{range .res}}
+                        <tr>
+                            <td></td>
+                            <td>{{ .Codigo }}</td>
+                            <td>{{ .Nombre }}</td>
+                            <td>{{ .Nivel }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+
+
+                    <button id="BotonSeleccion"
+                            onclick="cerrarniif()"
+                            class="btn btn-outline-success waves-effect btn-md float-right "
+                            style="height:40px; text-align: center; width:105px; margin-top: 0px; padding: 10px; margin-left: 20px; font-size: 10px; font-family: Arial ">
+                        SALIR
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function cerrarniif() {
+    if('{{ .panel }}'!="False")
+    {
+        //window.parent.cerrarPanel("{{ .panel }}", false);
+        elemento = '{{.elemento }}';
+        var myCustomData = {
+            valido: false,
+            codigoElemento: elemento,
+            elementoPanel: {{ .panel }}
+        }
+     //   alert("salir");
+        var event = new CustomEvent('myEvent', {detail: myCustomData})
+        window.parent.document.dispatchEvent(event)
+
+    }
+    else{
+        window.history.go(-1); return false;
+    }
+
+}
+
+    numeroPanel = 1;
+    $(document).ready(function () {
+        oTable = $('#dt-all-checkbox').dataTable({
+            dom: 'lrtip',
+            "bFilter": true,
+            "scrollY": "150px",
+            "scrollCollapse": true,
+            "scrollXInner": true,
+            "paging": false,
+            columns:
+                [{"data": "Filas"},
+                    {"data": "Codigo"},
+                    {"data": "Nombre"},
+                    {"data": "Nivel"},
+                ],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            "ordering": false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+        });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust()
+                .responsive.recalc();
+        });
+        oTable = $('#dt-all-checkbox').DataTable();
+        $('#Buscar').keyup(function () {
+            oTable.search($(this).val()).draw();
+        })
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+        $('.mdb-select').materialSelect({});
+
+        $("#BotonSeleccion").click(function () {
+            var selectedRows = $('#dt-all-checkbox').DataTable().rows('.selected').data();
+            for (var i = 0; i < selectedRows.length; i++) {
+                Codigo = selectedRows[i].Codigo
+                Nombre = selectedRows[i].Nombre
+                Nivel = selectedRows[i].Nivel
+                var datosEnviar = {
+                    "Codigo": Codigo,
+                    "Nombre": Nombre,
+                    "Nivel": Nivel
+                };
+
+                accion = "/PlandecuentaempresaAgregar";
+                $.ajax({
+                    url: accion,
+                    type: "POST",
+                    async: false,
+                    data: JSON.stringify(datosEnviar),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+                        if (respuesta.NivelAnterior == false) {
+                            alert("Cuenta "+ Codigo +" No Existe Nivel Anterior");
+
+                        } else {
+
+                            if (respuesta.ExisteCuenta == true) {
+                                alert("Cuenra"+ Codigo+" Ya Existe");
+
+                            } else {
+                                alert("Cuenta" + Codigo +"Insertada Correctamente");
+
+                            }
+                        }
+
+                    },
+                });
+            }
+
+            if (varBuscar == "True") {
+
+                url = "/PlandecuentaempresaLista/{{ .panel }}/{{ .codigo }}/{{ .elemento }}";
+
+                $(location).attr('href', url);
+            }
+        });
+    });
+</script>
+
+{{end}}
+
+
+

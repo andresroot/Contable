@@ -1,0 +1,313 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <br>
+            <h3 class="tp">Borrar Cuenta</h3>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home"
+                     role="tabpanel" aria-labelledby="home-tab">
+                    <form method="POST"
+                          action="/PlandecuentaempresaEliminar/{{ .emp.Codigo }}">
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Codigo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Codigo"
+                                           id="Codigo"
+                                           class="form-control"
+                                           minlength="8"
+                                           maxlength="8"
+                                           required/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Nombre"
+                                           id="Nombre"
+                                           class="form-control"
+                                           required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Auto</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Auto"
+                                           id="Auto"
+                                           class="form-control"
+                                           maxlength="5"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nivel</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Nivel"
+                                            id="Nivel"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option selected="selected"
+                                                value="A">A
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Financiero</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Financiero"
+                                            id="Financiero"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        {{ range .financiero }}
+                                        <option value="{{ .Codigo }}">{{ .Nombre }}
+                                        </option>
+                                        {{ end }}
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tercero</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Tercero"
+                                            id="Tercero"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Centro</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Centro"
+                                            id="Centro"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Factura</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Factura"
+                                            id="Factura"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Datosconjunto" class="d-none" >
+
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Cuota</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Cuota"
+                                            id="Cuota"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tipo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Tipo"
+                                            id="Tipo"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="CuotaP">CuotaP
+                                        </option>
+                                        <option value="Cuota1">Cuota1
+                                        </option>
+                                        <option value="Cuota2">Cuota2
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">Cta.
+                                Contra</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Contra"
+                                           id="Contra"
+                                           minlength="8"
+                                           maxlength="8"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Cta.
+                                Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="ContraNombre"
+                                           id="ContraNombre"
+                                           class="form-control"
+                                           readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Cobra Interes</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Interes"
+                                            id="Interes"
+                                            class=" mdb-select md-form-control"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Cta.
+                                Interes</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Cuentaintereses"
+                                           id="Cuentaintereses"
+                                           minlength="8"
+                                           maxlength="8"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Cta.
+                                Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Nombreintereses"
+                                           id="Nombreintereses"
+                                           class="form-control"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Grupo</label>
+                            <div class="col-sm-2">
+                                <select name="Grupo"
+                                        id="Grupo"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    <option value="G1">G1</option>
+                                    <option value="G2">G2</option>
+                                    <option value="G3">G3</option>
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+                        <br>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a onclick="window.history.go(-1); return false;"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                <button type="button" id="BotonBorrar"
+                                        class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--//INICIA CREAR CUENTA NUEVO-->
+<input id="CuentaNuevo"
+       type="hidden"/>
+<!--//TERMINA CREAR CUENTA NUEVO-->
+<script>
+    $(document).ready(function () {
+
+        if ({{ .nombremodulo }}!="" && {{ .emp.Codigo }}.substring(0,{{ .nombremodulo }}.length)=={{ .nombremodulo }})
+        {
+            $("#Datosconjunto").removeClass("d-none");
+        }
+
+
+
+        $('.mdb-select').materialSelect({});
+
+        $("#Codigo").val('{{ .emp.Codigo }}');
+        $("#Nombre").val('{{ .emp.Nombre }}');
+        $("#Auto").val('{{ .emp.Auto }}');
+        $("#Nivel").val("{{ .emp.Nivel }}");
+        $("#Financiero").val("{{ .emp.Financiero }}");
+        $("#Tercero").val("{{ .emp.Tercero }}");
+        $("#Centro").val("{{ .emp.Centro }}");
+        $("#Factura").val("{{ .emp.Factura }}");
+        $("#Cuota").val("{{ .emp.Cuota }}");
+        $("#Grupo").val("{{ .emp.Grupo }}");
+        $("#Tipo").val("{{ .emp.Tipo }}");
+        $("#Contra").val("{{ .emp.Contra }}");
+        $("#ContraNombre").val("{{ .emp.ContraNombre }}");
+        $("#Cuentaintereses").val("{{ .emp.Cuentaintereses }}");
+        $("#Interes").val("{{ .emp.Interes }}");
+        $("#Nombreintereses").val("{{ .emp.Nombreintereses }}");
+
+
+
+        $("#BotonBorrar").click(function(){
+            accion ="/PlandecuentaempresaEliminar/{{ .emp.Codigo }}";
+            $.ajax({
+                url: accion,
+                type: "GET",
+                async: false,
+               // data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    console.log(respuesta);
+
+                    if (respuesta.Siborrar==false)
+                    {
+                        alert(respuesta.Mensaje);
+
+                    }
+                    else
+                    {
+                        //alert("si se borro")                        ;
+                        url = "/PlandecuentaempresaLista/False/False/False";
+                    $(location).attr('href',url);
+
+                    }
+
+                },
+            });
+        });
+
+
+
+    })
+
+</script>
+
+{{end}}
+

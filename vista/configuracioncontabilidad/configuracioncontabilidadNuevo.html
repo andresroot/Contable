@@ -1,0 +1,1877 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <form id="formulario" method="POST"
+                  action="/ConfiguracioncontabilidadInsertar">
+                <input type="hidden" id="panel" name="panel"
+                       value="{{ .panel}}">
+                <div class="card-body">
+                    <h3 class="tp">Configuracion Contabilidad</h3>
+                    <br>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab"
+                               data-toggle="tab" href="#pagos" role="tab"
+                               aria-controls="home"
+                               aria-selected="true">Pagos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab"
+                               data-toggle="tab" href="#general" role="tab"
+                               aria-controls="profile"
+                               aria-selected="false">General</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab"
+                               data-toggle="tab" href="#nomina" role="tab"
+                               aria-controls="profile"
+                               aria-selected="false">Nomina</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab"
+                               data-toggle="tab" href="#horizontal" role="tab"
+                               aria-controls="contact"
+                               aria-selected="false">Horizontal</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="pagos"
+                             role="tabpanel" aria-labelledby="home-tab">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Efectivo</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentaefectivo"
+                                               id  ="Cuentaefectivo"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombreefectivo"
+                                               id  ="Cuentanombreefectivo"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Transferencia</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentatransferencia"
+                                               id  ="Cuentatransferencia"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombretransferencia"
+                                               id  ="Cuentanombretransferencia"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">T.
+                                    Debito</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentatarjetadebito"
+                                               id  ="Cuentatarjetadebito"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombretarjetadebito"
+                                               id  ="Cuentanombretarjetadebito"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">T.
+                                    Credito</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentatarjetacredito"
+                                               id  ="Cuentatarjetacredito"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombretarjetacredito"
+                                               id  ="Cuentanombretarjetacredito"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Anticipo C X C</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentacliente"
+                                               id  ="Cuentacliente"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombrecliente"
+                                               id  ="Cuentanombrecliente"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Anticipo C X P</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentaproveedor"
+                                               id  ="Cuentaproveedor"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombreproveedor"
+                                               id  ="Cuentanombreproveedor"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <label class="col-sm-1 col-form-label">Ajustes</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentaajuste"
+                                               id  ="Cuentaajuste"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentanombreajuste"
+                                               id  ="Cuentanombreajuste"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="cerrarpanel();"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Salir</a>
+                                    <button type="submit" id="guardar"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="general" role="tabpanel"
+                             aria-labelledby="profile-tab">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Utilidad</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentautilidad"
+                                               id="Cuentautilidad"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cuentautilidadnombre"
+                                               id="Cuentautilidadnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="cerrarpanel();"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Salir</a>
+                                    <button type="submit" id="guardar"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nomina" role="tabpanel"
+                             aria-labelledby="profile-tab">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Trabajado</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Trabajado"
+                                               id="Trabajado"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Trabajadonombre"
+                                               id="Trabajadonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Transporte</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Transporte"
+                                               id="Transporte"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Transportenombre"
+                                               id="Transportenombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cesantias</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cesantias"
+                                               id="Cesantias"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cesantiasnombre"
+                                               id="Cesantiasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Intereses</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Intereses"
+                                               id="Intereses"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Interesesnombre"
+                                               id="Interesesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Prima</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Prima"
+                                               id="Prima"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Primanombre"
+                                               id="Primanombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Vacaciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Vacaciones"
+                                               id="Vacaciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Vacacionesnombre"
+                                               id="Vacacionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Dotacion Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Dotaciones"
+                                               id="Dotaciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Dotacionesnombre"
+                                               id="Dotacionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Horas Extras</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Horasextras"
+                                               id="Horasextras"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Horasextrasnombre"
+                                               id="Horasextrasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Icbf Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Icbf"
+                                               id="Icbf"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Icbfnombre"
+                                               id="Icbfnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Sena Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sena"
+                                               id="Sena"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Senanombre"
+                                               id="Senanombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Riesgos Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Riesgos"
+                                               id="Riesgos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Riesgosnombre"
+                                               id="Riesgosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Caja Gastos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Caja"
+                                               id="Caja"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cajanombre"
+                                               id="Cajanombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Salud Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Saludgasto"
+                                               id="Saludgasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Saludgastonombre"
+                                               id="Saludgastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Pension Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensiongasto"
+                                               id="Pensiongasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensiongastonombre"
+                                               id="Pensiongastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Pension RAIS</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensionrais"
+                                               id="Pensionrais"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensionraisnombre"
+                                               id="Pensionraisnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">P. Voluntaria</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensionvoluntaria"
+                                               id="Pensionvoluntaria"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensionvoluntarianombre"
+                                               id="Pensionvoluntarianombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Honorario Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Honorariogasto"
+                                               id="Honorariogasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Honorariogastonombre"
+                                               id="Honorariogastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Servicio Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Serviciogasto"
+                                               id="Serviciogasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Serviciogastonombre"
+                                               id="Serviciogastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Incapacidades</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Incapacidades"
+                                               id="Incapacidades"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Incapacidadesnombre"
+                                               id="Incapacidadesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Licencias</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Licencias"
+                                               id="Licencias"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Licenciasnombre"
+                                               id="Licenciasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Bonificaciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Bonificaciones"
+                                               id="Bonificaciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Bonificacionesnombre"
+                                               id="Bonificacionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Auxilios</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Auxilios"
+                                               id="Auxilios"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Auxiliosnombre"
+                                               id="Auxiliosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Huelgas</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Huelgas"
+                                               id="Huelgas"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Huelgasnombre"
+                                               id="Huelgasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Conceptos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Conceptos"
+                                               id="Conceptos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Conceptosnombre"
+                                               id="Conceptosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Compensacion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Compensaciones"
+                                               id="Compensaciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Compensacionesnombre"
+                                               id="Compensacionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Bonos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Bonos"
+                                               id="Bonos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Bonosnombre"
+                                               id="Bonosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Comisiones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Comisiones"
+                                               id="Comisiones"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Comisionesnombre"
+                                               id="Comisionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Viaticos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Viaticos"
+                                               id="Viaticos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Viaticosnombre"
+                                               id="Viaticosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Sostenimiento</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sostenimiento"
+                                               id="Sostenimiento"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sostenimientonombre"
+                                               id="Sostenimientonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Teletrabajo</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Teletrabajo"
+                                               id="Teletrabajo"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Teletrabajonombre"
+                                               id="Teletrabajonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Indemnizaciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Indemnizaciones"
+                                               id="Indemnizaciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Indemnizacionesnombre"
+                                               id="Indemnizacionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Salud</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Salud"
+                                               id="Salud"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Saludnombre"
+                                               id="Saludnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Pension</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pension"
+                                               id="Pension"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pensionnombre"
+                                               id="Pensionnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Solidaridad</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Solidaridad"
+                                               id="Solidaridad"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Solidaridadnombre"
+                                               id="Solidaridadnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Subsistencia</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Subsistencia"
+                                               id="Subsistencia"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Subsistencianombre"
+                                               id="Subsistencianombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Sindicatos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sindicatos"
+                                               id="Sindicatos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sindicatosnombre"
+                                               id="Sindicatosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Sanciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sanciones"
+                                               id="Sanciones"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Sancionesnombre"
+                                               id="Sancionesnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Libranzas</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Libranzas"
+                                               id="Libranzas"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Libranzasnombre"
+                                               id="Libranzasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Terceros</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Terceros"
+                                               id="Terceros"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Tercerosnombre"
+                                               id="Tercerosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Anticipos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Anticipos"
+                                               id="Anticipos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Anticiposnombre"
+                                               id="Anticiposnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Retencion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Retencion"
+                                               id="Retencion"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Retencionnombre"
+                                               id="Retencionnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Embargos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Embargos"
+                                               id="Embargos"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Embargosnombre"
+                                               id="Embargosnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Educacion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Educacion"
+                                               id="Educacion"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Educacionnombre"
+                                               id="Educacionnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Deuda</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Deuda"
+                                               id="Deuda"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Deudanombre"
+                                               id="Deudanombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Otras</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Otras"
+                                               id="Otras"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Otrasnombre"
+                                               id="Otrasnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Afc</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Afc"
+                                               id="Afc"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Afcnombre"
+                                               id="Afcnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Neto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Neto"
+                                               id="Neto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Netonombre"
+                                               id="Netonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Cesantias</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cesantiascxp"
+                                               id="Cesantiascxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cesantiascxpnombre"
+                                               id="Cesantiascxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Intereses</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Interesescxp"
+                                               id="Interesescxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Interesescxpnombre"
+                                               id="Interesescxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Prima</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Primacxp"
+                                               id="Primacxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Primacxpnombre"
+                                               id="Primacxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Vacaciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Vacacionescxp"
+                                               id="Vacacionescxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Vacacionescxpnombre"
+                                               id="Vacacionescxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Dotaciones</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Dotacionescxp"
+                                               id="Dotacionescxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Dotacionescxpnombre"
+                                               id="Dotacionescxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Riesgos</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Riesgoscxp"
+                                               id="Riesgoscxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Riesgoscxpnombre"
+                                               id="Riesgoscxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aportes I.c.b.f.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Icbfcxp"
+                                               id="Icbfcxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Icbfcxpnombre"
+                                               id="Icbfcxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Aportes Sena</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Senacxp"
+                                               id="Senacxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Senacxpnombre"
+                                               id="Senacxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aportes Caja</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cajacxp"
+                                               id="Cajacxp"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Cajacxpnombre"
+                                               id="Cajacxpnombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Honorarios </label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Honorariocxpgasto"
+                                               id="Honorariocxpgasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Honorariocxpgastonombre"
+                                               id="Honorariocxpgastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Servicios</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Serviciocxpgasto"
+                                               id="Serviciocxpgasto"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Serviciocxpgastonombre"
+                                               id="Serviciocxpgastonombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Ret. Honorarios </label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Rethonorario"
+                                               id="Rethonorario"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Rethonorarionombre"
+                                               id="Rethonorarionombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ret. Servicios</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Retservicio"
+                                               id="Retservicio"
+                                               class="form-control"
+                                        />
+                                    </div>
+                                </div>
+                                <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Retservicionombre"
+                                               id="Retservicionombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="cerrarpanel();"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Salir</a>
+                                    <button type="submit" id="guardar"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="horizontal" role="tabpanel"
+                             aria-labelledby="profile-tab">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Mes Inicial</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Phinicial"
+                                               id="Phinicial"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aviso 1</label>
+                                <div class="col-sm-7">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="71"
+                                               name="Textoaviso1"
+                                               id="Textoaviso1"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Descuento 1</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="23"
+                                               name="Textodescuento1"
+                                               id="Textodescuento1"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="23"
+                                               name="Descuento1diainicial"
+                                               id="Descuento1diainicial"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="23"
+                                               name="Descuento1diafinal"
+                                               id="Descuento1diafinal"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aviso 2</label>
+                                <div class="col-sm-7">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="71"
+                                               name="Textoaviso2"
+                                               id="Textoaviso2"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Descuento 2</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="23"
+                                               name="Textodescuento2"
+                                               id="Textodescuento2"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="2"
+                                               name="Descuento2diainicial"
+                                               id="Descuento2diainicial"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="2"
+                                               name="Descuento2diafinal"
+                                               id="Descuento2diafinal"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aviso 3</label>
+                                <div class="col-sm-7">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="71"
+                                               name="Textoaviso3"
+                                               id="Textoaviso3"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Descuento 3</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="23"
+                                               name="Textodescuento3"
+                                               id="Textodescuento3"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="2"
+                                               name="Descuento3diainicial"
+                                               id="Descuento3diainicial"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="2"
+                                               name="Descuento3diafinal"
+                                               id="Descuento3diafinal"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Aviso 4</label>
+                                <div class="col-sm-7">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               minlength="1"
+                                               maxlength="71"
+                                               name="Textoaviso4"
+                                               id="Textoaviso4"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="cerrarpanel();"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Salir</a>
+                                    <button type="submit" id="guardar"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input id="PlandecuentaempresaNuevo"
+       type="hidden"/>
+<script>
+    function cerrarpanel() {
+        //alert("cerrarPanel");
+        var myCustomData = {
+            elementoPanel: "{{ .panel}}"
+        }
+        var event = new CustomEvent('myEvent', {detail: myCustomData})
+        window.parent.document.dispatchEvent(event)
+    }
+
+    $(document).ready(function () {
+        // INICIA COMPRA AUTOCOMPLETA
+        autocompletaPlandecuentaempresa("#Cuentaefectivo", "#Cuentanombreefectivo");
+        autocompletaPlandecuentaempresa("#Cuentacliente", "#Cuentanombrecliente");
+        autocompletaPlandecuentaempresa("#Cuentatarjetadebito", "#Cuentanombretarjetadebito");
+        autocompletaPlandecuentaempresa("#Cuentatarjetacredito", "#Cuentanombretarjetacredito");
+        autocompletaPlandecuentaempresa("#Cuentatransferencia", "#Cuentanombretransferencia");
+        autocompletaPlandecuentaempresa("#Cuentaproveedor", "#Cuentanombreproveedor");
+        autocompletaPlandecuentaempresa("#Cuentaajuste", "#Cuentanombreajuste");
+        autocompletaPlandecuentaempresa("#Cuentautilidad", "#Cuentautilidadnombre");
+        autocompletaPlandecuentaempresa("#Trabajado", "#Trabajadonombre");
+        autocompletaPlandecuentaempresa("#Transporte", "#Transportenombre");
+        autocompletaPlandecuentaempresa("#Cesantias", "#Cesantiasnombre");
+        autocompletaPlandecuentaempresa("#Intereses", "#Interesesnombre");
+        autocompletaPlandecuentaempresa("#Prima", "#Primanombre");
+        autocompletaPlandecuentaempresa("#Vacaciones", "#Vacacionesnombre");
+        autocompletaPlandecuentaempresa("#Viaticos", "#Viaticosnombre");
+        autocompletaPlandecuentaempresa("#Horasextras", "#Horasextrasnombre");
+        autocompletaPlandecuentaempresa("#Incapacidades", "#Incapacidadesnombre");
+        autocompletaPlandecuentaempresa("#Licencias", "#Licenciasnombre");
+        autocompletaPlandecuentaempresa("#Bonificaciones", "#Bonificacionesnombre");
+        autocompletaPlandecuentaempresa("#Auxilios", "#Auxiliosnombre");
+        autocompletaPlandecuentaempresa("#Huelgas", "#Huelgasnombre");
+        autocompletaPlandecuentaempresa("#Conceptos", "#Conceptosnombre");
+        autocompletaPlandecuentaempresa("#Compensaciones", "#Compensacionesnombre");
+        autocompletaPlandecuentaempresa("#Bonos", "#Bonosnombre");
+        autocompletaPlandecuentaempresa("#Comisiones", "#Comisionesnombre");
+        autocompletaPlandecuentaempresa("#Dotaciones", "#Dotacionesnombre");
+        autocompletaPlandecuentaempresa("#Sostenimiento", "#Sostenimientonombre");
+        autocompletaPlandecuentaempresa("#Teletrabajo", "#Teletrabajonombre");
+        autocompletaPlandecuentaempresa("#Indemnizaciones", "#Indemnizacionesnombre");
+        autocompletaPlandecuentaempresa("#Salud", "#Saludnombre");
+        autocompletaPlandecuentaempresa("#Pension", "#Pensionnombre");
+        autocompletaPlandecuentaempresa("#Solidaridad", "#Solidaridadnombre");
+        autocompletaPlandecuentaempresa("#Subsistencia", "#Subsistencianombre");
+        autocompletaPlandecuentaempresa("#Sindicatos", "#Sindicatosnombre");
+        autocompletaPlandecuentaempresa("#Sanciones", "#Sancionesnombre");
+        autocompletaPlandecuentaempresa("#Libranzas", "#Libranzasnombre");
+        autocompletaPlandecuentaempresa("#Terceros", "#Tercerosnombre");
+        autocompletaPlandecuentaempresa("#Anticipos", "#Anticiposnombre");
+        autocompletaPlandecuentaempresa("#Otras", "#Otrasnombre");
+        autocompletaPlandecuentaempresa("#Retencion", "#Retencionnombre");
+        autocompletaPlandecuentaempresa("#Afc", "#Afcnombre");
+        autocompletaPlandecuentaempresa("#Embargos", "#Embargosnombre");
+        autocompletaPlandecuentaempresa("#Educacion", "#Educacionnombre");
+        autocompletaPlandecuentaempresa("#Deuda", "#Deudanombre");
+        autocompletaPlandecuentaempresa("#Neto", "#Netonombre");
+        autocompletaPlandecuentaempresa("#Cesantiascxp", "#Cesantiascxpnombre");
+        autocompletaPlandecuentaempresa("#Interesescxp", "#Interesescxpnombre");
+        autocompletaPlandecuentaempresa("#Primacxp", "#Primacxpnombre");
+        autocompletaPlandecuentaempresa("#Vacacionescxp", "#Vacacionescxpnombre");
+        autocompletaPlandecuentaempresa("#Dotacionescxp", "#Dotacionescxpnombre");
+        autocompletaPlandecuentaempresa("#Riesgoscxp", "#Riesgoscxpnombre");
+        autocompletaPlandecuentaempresa("#Icbfcxp", "#Icbfcxpnombre");
+        autocompletaPlandecuentaempresa("#Senacxp", "#Senacxpnombre");
+        autocompletaPlandecuentaempresa("#Cajacxp", "#Cajacxpnombre");
+        autocompletaPlandecuentaempresa("#Riesgos", "#Riesgosnombre");
+        autocompletaPlandecuentaempresa("#Caja", "#Cajanombre");
+        autocompletaPlandecuentaempresa("#Icbf", "#Icbfnombre");
+        autocompletaPlandecuentaempresa("#Sena", "#Senanombre");
+        autocompletaPlandecuentaempresa("#Saludgasto", "#Saludgastonombre");
+        autocompletaPlandecuentaempresa("#Pensiongasto", "#Pensiongastonombre");
+        autocompletaPlandecuentaempresa("#Honorariogasto", "#Honorariogastonombre");
+        autocompletaPlandecuentaempresa("#Serviciogasto", "#Serviciogastonombre");
+        autocompletaPlandecuentaempresa("#Honorariocxpgasto", "#Honorariocxpgastonombre");
+        autocompletaPlandecuentaempresa("#Serviciocxpgasto", "#Serviciocxpgastonombre");
+        autocompletaPlandecuentaempresa("#Rethonorario", "#Rethonorarionombre");
+        autocompletaPlandecuentaempresa("#Retservicio", "#Retservicionombre");
+        autocompletaPlandecuentaempresa("#Pensionrais", "#Pensionraisnombre");
+        autocompletaPlandecuentaempresa("#Pensionvoluntaria", "#Pensionvoluntarianombre");
+        // agrega clase
+        $( "#Cuentaefectivo" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentatransferencia" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentatarjetadebito" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentatarjetacredito" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentacliente" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentaproveedor" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentaajuste" ).addClass( "tituloAutocompleta" );
+        $( "#Cuentautilidad" ).addClass( "tituloAutocompleta" );
+        $( "#Trabajado" ).addClass( "tituloAutocompleta" );
+        $( "#Transporte" ).addClass( "tituloAutocompleta" );
+
+        // INICIA COMPRA MASCARAS
+        $("#Cuentefectivo").mask('0000000000');
+        elemento = "#Compracuentabase";
+        // var cleave = new Cleave(elemento, {
+        //     numeral: true,
+        //     numeralThousandsGroupStyle: 'thousand'
+        // });
+
+        $("#Pagocuentaporcentajeretfte").mask('##.00', {reverse: true});
+        $("#Pagocuentaporcentajeretotra").mask('##.00', {reverse: true});
+        $("#Pagocuentaefectivo").focus();
+
+        // INICIA CONFIGURACION CONTABILIDAD VALORES
+        $("#Cuentaefectivo").val("{{ .parametro.Cuentaefectivo}}");
+        $("#Cuentanombreefectivo").val("{{ .parametro.Cuentanombreefectivo}}");
+        $("#Cuentacliente").val("{{ .parametro.Cuentacliente}}");
+        $("#Cuentanombrecliente").val("{{ .parametro.Cuentanombrecliente}}");
+        $("#Cuentatarjetadebito").val("{{ .parametro.Cuentatarjetadebito}}");
+        $("#Cuentanombretarjetadebito").val("{{ .parametro.Cuentanombretarjetadebito}}");
+        $("#Cuentatarjetacredito").val("{{ .parametro.Cuentatarjetacredito}}");
+        $("#Cuentanombretarjetacredito").val("{{ .parametro.Cuentanombretarjetacredito}}");
+        $("#Cuentatransferencia").val("{{ .parametro.Cuentatransferencia}}");
+        $("#Cuentanombretransferencia").val("{{ .parametro.Cuentanombretransferencia}}");
+        $("#Cuentaproveedor").val("{{ .parametro.Cuentaproveedor}}");
+        $("#Cuentanombreproveedor").val("{{ .parametro.Cuentanombreproveedor}}");
+        $("#Cuentaajuste").val("{{ .parametro.Cuentaajuste}}");
+        $("#Cuentanombreajuste").val("{{ .parametro.Cuentanombreajuste}}");
+        $("#Phinicial").val("{{ .parametro.Phinicial}}");
+        $("#Textodescuento1").val("{{ .parametro.Textodescuento1}}");
+        $("#Textodescuento2").val("{{ .parametro.Textodescuento2}}");
+        $("#Textodescuento3").val("{{ .parametro.Textodescuento3}}");
+
+        $("#Descuento1diainicial").val("{{ .parametro.Descuento1diainicial}}");
+        $("#Descuento1diafinal").val("{{ .parametro.Descuento1diafinal}}");
+        $("#Descuento2diainicial").val("{{ .parametro.Descuento2diainicial}}");
+        $("#Descuento2diafinal").val("{{ .parametro.Descuento2diafinal}}");
+        $("#Descuento3diainicial").val("{{ .parametro.Descuento3diainicial}}");
+        $("#Descuento3diafinal").val("{{ .parametro.Descuento3diafinal}}");
+        $("#Textoaviso1").val("{{ .parametro.Textoaviso1}}");
+        $("#Textoaviso2").val("{{ .parametro.Textoaviso2}}");
+        $("#Textoaviso3").val("{{ .parametro.Textoaviso3}}");
+        $("#Textoaviso4").val("{{ .parametro.Textoaviso4}}");
+        $("#Cuentautilidad").val("{{ .parametro.Cuentautilidad}}");
+        $("#Cuentautilidadnombre").val("{{ .parametro.Cuentautilidadnombre}}");
+        $("#Trabajado").val("{{ .parametro.Trabajado}}");
+        $("#Trabajadonombre").val("{{ .parametro.Trabajadonombre}}");
+        $("#Transporte").val("{{ .parametro.Transporte}}");
+        $("#Transportenombre").val("{{ .parametro.Transportenombre}}");
+        $("#Cesantias").val("{{ .parametro.Cesantias}}");
+        $("#Cesantiasnombre").val("{{ .parametro.Cesantiasnombre}}");
+        $("#Intereses").val("{{ .parametro.Intereses}}");
+        $("#Interesesnombre").val("{{ .parametro.Interesesnombre}}");
+        $("#Prima").val("{{ .parametro.Prima}}");
+        $("#Primanombre").val("{{ .parametro.Primanombre}}");
+        $("#Vacaciones").val("{{ .parametro.Vacaciones}}");
+        $("#Vacacionesnombre").val("{{ .parametro.Vacacionesnombre}}");
+        $("#Viaticos").val("{{ .parametro.Viaticos}}");
+        $("#Viaticosnombre").val("{{ .parametro.Viaticosnombre}}");
+        $("#Horasextras").val("{{ .parametro.Horasextras}}");
+        $("#Horasextrasnombre").val("{{ .parametro.Horasextrasnombre}}");
+        $("#Incapacidades").val("{{ .parametro.Incapacidades}}");
+        $("#Incapacidadesnombre").val("{{ .parametro.Incapacidadesnombre}}");
+        $("#Licencias").val("{{ .parametro.Licencias}}");
+        $("#Licenciasnombre").val("{{ .parametro.Licenciasnombre}}");
+        $("#Bonificaciones").val("{{ .parametro.Bonificaciones}}");
+        $("#Bonificacionesnombre").val("{{ .parametro.Bonificacionesnombre}}");
+        $("#Auxilios").val("{{ .parametro.Auxilios}}");
+        $("#Auxiliosnombre").val("{{ .parametro.Auxiliosnombre}}");
+        $("#Huelgas").val("{{ .parametro.Huelgas}}");
+        $("#Huelgasnombre").val("{{ .parametro.Huelgasnombre}}");
+        $("#Conceptos").val("{{ .parametro.Conceptos}}");
+        $("#Conceptosnombre").val("{{ .parametro.Conceptosnombre}}");
+        $("#Compensaciones").val("{{ .parametro.Compensaciones}}");
+        $("#Compensacionesnombre").val("{{ .parametro.Compensacionesnombre}}");
+        $("#Bonos").val("{{ .parametro.Bonos}}");
+        $("#Bonosnombre").val("{{ .parametro.Bonosnombre}}");
+        $("#Comisiones").val("{{ .parametro.Comisiones}}");
+        $("#Comisionesnombre").val("{{ .parametro.Comisionesnombre}}");
+        $("#Dotaciones").val("{{ .parametro.Dotaciones}}");
+        $("#Dotacionesnombre").val("{{ .parametro.Dotacionesnombre}}");
+        $("#Sostenimiento").val("{{ .parametro.Sostenimiento}}");
+        $("#Sostenimientonombre").val("{{ .parametro.Sostenimientonombre}}");
+        $("#Teletrabajo").val("{{ .parametro.Teletrabajo}}");
+        $("#Teletrabajonombre").val("{{ .parametro.Teletrabajonombre}}");
+        $("#Indemnizaciones").val("{{ .parametro.Indemnizaciones}}");
+        $("#Indemnizacionesnombre").val("{{ .parametro.Indemnizacionesnombre}}");
+        $("#Salud").val("{{ .parametro.Salud}}");
+        $("#Saludnombre").val("{{ .parametro.Saludnombre}}");
+        $("#Pension").val("{{ .parametro.Pension}}");
+        $("#Pensionnombre").val("{{ .parametro.Pensionnombre}}");
+        $("#Solidaridad").val("{{ .parametro.Solidaridad}}");
+        $("#Solidaridadnombre").val("{{ .parametro.Solidaridadnombre}}");
+        $("#Subsistencia").val("{{ .parametro.Subsistencia}}");
+        $("#Subsistencianombre").val("{{ .parametro.Subsistencianombre}}");
+        $("#Sindicatos").val("{{ .parametro.Sindicatos}}");
+        $("#Sindicatosnombre").val("{{ .parametro.Sindicatosnombre}}");
+        $("#Sanciones").val("{{ .parametro.Sanciones}}");
+        $("#Sancionesnombre").val("{{ .parametro.Sancionesnombre}}");
+        $("#Libranzas").val("{{ .parametro.Libranzas}}");
+        $("#Libranzasnombre").val("{{ .parametro.Libranzasnombre}}");
+        $("#Terceros").val("{{ .parametro.Terceros}}");
+        $("#Tercerosnombre").val("{{ .parametro.Tercerosnombre}}");
+        $("#Anticipos").val("{{ .parametro.Anticipos}}");
+        $("#Anticiposnombre").val("{{ .parametro.Anticiposnombre}}");
+        $("#Otras").val("{{ .parametro.Otras}}");
+        $("#Otrasnombre").val("{{ .parametro.Otrasnombre}}");
+        $("#Retencion").val("{{ .parametro.Retencion}}");
+        $("#Retencionnombre").val("{{ .parametro.Retencionnombre}}");
+        $("#Afc").val("{{ .parametro.Afc}}");
+        $("#Afcnombre").val("{{ .parametro.Afcnombre}}");
+        $("#Embargos").val("{{ .parametro.Embargos}}");
+        $("#Embargosnombre").val("{{ .parametro.Embargosnombre}}");
+        $("#Educacion").val("{{ .parametro.Educacion}}");
+        $("#Educacionnombre").val("{{ .parametro.Educacionnombre}}");
+        $("#Deuda").val("{{ .parametro.Deuda}}");
+        $("#Deudanombre").val("{{ .parametro.Deudanombre}}");
+        $("#Neto").val("{{ .parametro.Neto}}");
+        $("#Netonombre").val("{{ .parametro.Netonombre}}");
+        $("#Cesantiascxp").val("{{ .parametro.Cesantiascxp}}");
+        $("#Cesantiascxpnombre").val("{{ .parametro.Cesantiascxpnombre}}");
+        $("#Interesescxp").val("{{ .parametro.Interesescxp}}");
+        $("#Interesescxpnombre").val("{{ .parametro.Interesescxpnombre}}");
+        $("#Primacxp").val("{{ .parametro.Primacxp}}");
+        $("#Primacxpnombre").val("{{ .parametro.Primacxpnombre}}");
+        $("#Vacacionescxp").val("{{ .parametro.Vacacionescxp}}");
+        $("#Vacacionescxpnombre").val("{{ .parametro.Vacacionescxpnombre}}");
+        $("#Dotacionescxp").val("{{ .parametro.Dotacionescxp}}");
+        $("#Dotacionescxpnombre").val("{{ .parametro.Dotacionescxpnombre}}");
+        $("#Riesgoscxp").val("{{ .parametro.Riesgoscxp}}");
+        $("#Riesgoscxpnombre").val("{{ .parametro.Riesgoscxpnombre}}");
+        $("#Icbfcxp").val("{{ .parametro.Icbfcxp}}");
+        $("#Icbfcxpnombre").val("{{ .parametro.Icbfcxpnombre}}");
+        $("#Senacxp").val("{{ .parametro.Senacxp}}");
+        $("#Senacxpnombre").val("{{ .parametro.Senacxpnombre}}");
+        $("#Cajacxp").val("{{ .parametro.Cajacxp}}");
+        $("#Cajacxpnombre").val("{{ .parametro.Cajacxpnombre}}");
+        $("#Riesgos").val("{{ .parametro.Riesgos}}");
+        $("#Riesgosnombre").val("{{ .parametro.Riesgosnombre}}");
+        $("#Caja").val("{{ .parametro.Caja}}");
+        $("#Cajanombre").val("{{ .parametro.Cajanombre}}");
+        $("#Icbf").val("{{ .parametro.Icbf}}");
+        $("#Icbfnombre").val("{{ .parametro.Icbfnombre}}");
+        $("#Sena").val("{{ .parametro.Sena}}");
+        $("#Senanombre").val("{{ .parametro.Senanombre}}");
+        $("#Saludgasto").val("{{ .parametro.Saludgasto}}");
+        $("#Saludgastonombre").val("{{ .parametro.Saludgastonombre}}");
+        $("#Pensiongasto").val("{{ .parametro.Pensiongasto}}");
+        $("#Pensiongastonombre").val("{{ .parametro.Pensiongastonombre}}");
+        $("#Honorariogasto").val("{{ .parametro.Honorariogasto}}");
+        $("#Honorariogastonombre").val("{{ .parametro.Honorariogastonombre}}");
+        $("#Serviciogasto").val("{{ .parametro.Serviciogasto}}");
+        $("#Serviciogastonombre").val("{{ .parametro.Serviciogastonombre}}");
+        $("#Honorariocxpgasto").val("{{ .parametro.Honorariocxpgasto}}");
+        $("#Honorariocxpgastonombre").val("{{ .parametro.Honorariocxpgastonombre}}");
+        $("#Serviciocxpgasto").val("{{ .parametro.Serviciocxpgasto}}");
+        $("#Serviciocxpgastonombre").val("{{ .parametro.Serviciocxpgastonombre}}");
+        $("#Rethonorario").val("{{ .parametro.Rethonorario}}");
+        $("#Rethonorarionombre").val("{{ .parametro.Rethonorarionombre}}");
+        $("#Retservicio").val("{{ .parametro.Retservicio}}");
+        $("#Retservicionombre").val("{{ .parametro.Retservicionombre}}");
+        $("#Pensionrais").val("{{ .parametro.Pensionrais}}");
+        $("#Pensionraisnombre").val("{{ .parametro.Pensionraisnombre}}");
+        $("#Pensionvoluntaria").val("{{ .parametro.Pensionvoluntaria}}");
+        $("#Pensionvoluntarianombre").val("{{ .parametro.Pensionvoluntarianombre}}");
+    });
+</script>
+{{template "autocompletaPlandecuentaempresa" }}
+{{end}}

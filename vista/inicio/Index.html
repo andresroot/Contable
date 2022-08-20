@@ -1,0 +1,1174 @@
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <link rel='shortcut icon' type='image/x-icon'
+          href="../static/img/favicon.ico"/>
+    <title>Sadconf Cloud 1.0</title>
+    <link rel="stylesheet" href="../static/css/all.min.css"/>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/css/mdb.min.css"/>
+    <link rel="stylesheet" href="../static/css/estilomenu.css"/>
+<!--    <link rel="stylesheet" href="static/css/menu.css"/>-->
+    <link rel="stylesheet" href="../static/css/addons/datatables.css"/>
+    <link rel="stylesheet"
+          href="../static/css/addons/datatables-select.min.css"/>
+    <link rel="stylesheet" href="../static/css/estilo.css"/>
+    <link rel="stylesheet" href="../static/css/jspanel.css"/>
+    <style></style>
+</head>
+<body class="fixed-sn white-skin">
+<header>
+    <nav class="barramenu">
+
+        <div class="row pt-1 pb-1 titulomenu">
+            <div class="col-4 pl-4">{{.empresa.Nombre }}</div>
+            <div class="col-4">Periodo sesion {{.miperiodo }}</div>
+
+            <div class="col-4 text-right pr-4">Andres Eduardo Ojeda Medina</div>
+
+
+        </div>
+
+    </nav>
+
+
+    <nav class="nav-area">
+        <ul>
+            <li><a href="#">Comprobante</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('ComprobanteLista',false)">Comprobante</a></li>
+                    <li><a href="#">Soporte Compra</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('PedidosoporteLista',false)">Pedido Soporte</a></li>
+                            <li><a href="#" onclick="panelLista('SoporteLista',false)">Soporte Compra</a></li>
+                            <li><a href="#" onclick="panelLista('DevolucionsoporteLista',false)">Devolucion Soporte</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Soporte Servicios</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('PedidosoporteservicioLista',false)">Pedido Soporte</a></li>
+                            <li><a href="#" onclick="panelLista('SoporteservicioLista',false)">Soporte Servicios</a></li>
+                            <li><a href="#" onclick="panelLista('DevolucionsoporteservicioLista',false)">Devolucion Soporte</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Factura Gastos</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('PedidofacturagastoLista',false)">Pedido Factura</a></li>
+                            <li><a href="#" onclick="panelLista('FacturagastoLista',false)">Factura Gasto</a></li>
+                            <li><a href="#" onclick="panelLista('DevolucionfacturagastoLista',false)">Devolucion Factura</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="panelLista('BancoLista',false)">Tesoreria</a> </li>
+                </ul>
+            </li>
+            <li><a href="#">Archivo</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('DocumentoLista',false)">Documento</a></li>
+                    <li><a href="#">Cuentas</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('PlandecuentaempresaLista/False/False/False', false)">Plan De Cuentas</a></li>
+                            <li><a href="#" onclick="panelLista('PlandecuentaniifLista',false)">Plan De Cuentas Niif</a></li>
+                            <li><a href="#" onclick="panelLista('PlandecuentapucLista',false)">Plan Cuentas Puc</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="panelLista('TerceroLista',false)">Terceros</a></li>
+                    <li><a href="#" onclick="panelLista('CentroLista',false)">Centro de Costos</a></li>
+                    <li><a href="#" onclick="panelLista('ConceptoLista',false)">Conceptos</a></li>
+                    <li><a href="#" onclick="panelLista('PeriodoLista',false)">Periodos</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Procesos</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('ConciliacionLista',false)">Conciliacion B.</a></li>
+                    <li><a href="#" onclick="panelLista('PropiedadGenerar',false)">Depreciaciones</a></li>
+                    <li><a href="#" onclick="panelLista('DiferidoGenerar',false)">Amortizaciones</a></li>
+                    <li><a href="#" onclick="panelLista('CierrecontableLista',false)">Cierre Contable</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">Informes</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('BalancedepruebaLista',false)">Balance De Prueba</a></li>
+                    <li><a href="#" onclick="panelLista('PropiedadLista',false)">Propiedades, Equipo</a></li>
+                    <li><a href="#" onclick="panelLista('DiferidoLista',false)">Amortizaciones</a></li>
+                    <li><a href="#">Estados Financieros</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('EstadoResultadoLista',false)">Estado Resultados</a></li>
+                            <li><a href="#" onclick="panelLista('SituacionFinancieraLista',false)">Situacion financiera</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Información Exogena</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('ExogenaLista/False/False/False',false)">Cuentas</a></li>
+                            <li><a href="#" onclick="panelLista('ExogenaGenerar',true)">Información Exogena</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="panelLista('CertificadosalariosLista',false)">Retencion Salarios</a></li>
+                    <li><a href="#" onclick="panelLista('CertificadoretencionLista',false)">Retencion Otros</a></li>
+                    <li><a href="#" onclick="panelLista('CertificadoicaLista',false)">Retencion Ica</a></li>
+                </ul>
+            </li>
+
+
+            <li><a href="#">Utilidades</a>
+                <ul>
+                    <li><a href="#">Resoluciones</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('ResolucionventaLista',false)">Resolucion Ventas</a></li>
+                            <li><a href="#" onclick="panelLista('ResolucionsoporteLista',false)">Resolucion Soporte</a></li>
+                            <li><a href="#" onclick="panelLista('ResolucionnominaLista',false)">Numeracion Nomina</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="panelLista('ConfiguracioncontabilidadNuevo',true)">Contabilidad</a></li>
+                    <li><a href="#" onclick="panelLista('CuotaLista',false)">Calcular Cuota</a></li>
+                    <li><a href="#" onclick="panelLista('DepreciacionLista',false)">Tabla Depreciacion</a></li>
+                    <li><a href="#" onclick="panelLista('RetencionenlafuenteLista',false)">Tabla Retencion</a></li>
+                    <li><a href="#" onclick="panelLista('EmpresaLista',false)">Datos Empresa</a></li>
+                    <li><a href="#" onclick="panelLista('UsuarioLista',false)">Usuarios</a></li>
+                    <li><a href="#" onclick="panelLista('CopiaGenerar',true)">Copia de Seguridad</a></li>
+
+                </ul>
+            </li>
+            <li><a href="#">Nomina</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('EmpleadoLista',false)">Datos Empleados</a></li>
+                    <li><a href="#" onclick="panelLista('NominaLista',false)">Nomina Empleados</a></li>
+                    <li><a href="#" onclick="panelLista('NominaprestacionesLista',false)">Prestaciones Sociales</a></li>
+                    <li><a href="#" onclick="panelLista('NominaaportesLista',false)">Aportes de Nomina</a></li>
+                    <li><a href="#" onclick="panelLista('CertificadoempleadoLista',false)">Certificado Empleado</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Auditoria</a></li>
+            <li><a href="#">Cuenta de Cobro</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('ResidenteLista',false)">Datos Residente</a></li>
+                    <li><a href="#" onclick="panelLista('CuentadecobroLista',true)">Cuentas de Cobro</a></li>
+                    <li><a href="#" onclick="panelLista('CuentadecobroDato',true)">Datos Cuentas</a></li>
+
+                </ul>
+            </li>
+
+            <li><a href="#">Datos</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('AlmacenistaLista',false)">Almacenista</a></li>
+                    <li><a href="#" onclick="panelLista('BodegaLista',false)">Bodega</a></li>
+                    <li><a href="#" onclick="panelLista('GrupoLista',false)">Grupo</a></li>
+                    <li><a href="#" onclick="panelLista('SubgrupoLista',false)">Subgrupo</a></li>
+                    <li><a href="#" onclick="panelLista('ProductoLista',false)">Producto</a></li>
+                    <li><a href="#" onclick="panelLista('VendedorLista',false)">Vendedor</a></li>
+                    <li><a href="#" onclick="panelLista('IvaLista',false)">Iva</a></li>
+                    <li><a href="#">Tributario</a>
+                        <ul>
+                            <li><a href="#" onclick="panelLista('MediodepagoLista',false)">Medio Pago</a></li>
+                            <li><a href="#" onclick="panelLista('FormadepagoLista',false)">Forma Pago</a></li>
+                            <li><a href="#" onclick="panelLista('RegimenfiscalLista',false)">Regimen Fiscal</a></li>
+                            <li><a href="#" onclick="panelLista('DocumentoidentificacionLista',false)">Documento</a></li>
+                            <li><a href="#" onclick="panelLista('ResponsabilidadfiscalLista',false)">Responsabilidad</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">Movimiento</a>
+                <ul>
+                    <li ><a href="#">Compras</a>
+                        <ul class="menuizquierda">
+                            <li><a href="#">Productos</a>
+                                <ul class="menuizquierda">
+                                    <li><a href="#" onclick="panelLista('PedidoLista',false)">Pedido</a></li>
+                                    <li><a href="#" onclick="panelLista('CompraLista',false)">Compras</a></li>
+                                    <li><a href="#" onclick="panelLista('DevolucioncompraLista',false)">Devoluciones</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Servicios</a>
+                                <ul class="menuizquierda">
+                                    <li><a href="#" onclick="panelLista('PedidoservicioLista',false)">Pedido</a></li>
+                                    <li><a href="#" onclick="panelLista('CompraservicioLista',false)">Servicios</a></li>
+                                    <li><a href="#" onclick="panelLista('DevolucioncompraservicioLista',false)">Devoluciones</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Ventas</a>
+                        <ul class="menuizquierda">
+                            <li><a href="#">Productos</a>
+                                <ul class="menuizquierda">
+                                    <li><a href="#" onclick="panelLista('CotizacionLista',false)">Cotizacion</a></li>
+                                    <li><a href="#" onclick="panelLista('VentaLista',false)">Venta</a></li>
+                                    <li><a href="#" onclick="panelLista('DevolucionventaLista',false)">Devoluciones</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Servicios</a>
+                                <ul class="menuizquierda">
+                                    <li><a href="#" onclick="panelLista('CotizacionservicioLista',false)">Cotizacion</a></li>
+                                    <li><a href="#" onclick="panelLista('VentaservicioLista',false)">Servicios</a></li>
+                                    <li><a href="#" onclick="panelLista('DevolucionventaservicioLista',false)">Devoluciones</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#" onclick="panelLista('TrasladoLista',false)">Traslados</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Iniciales</a>
+                <ul>
+                    <li><a href="#" onclick="panelLista('InventarioinicialLista',false)">Inicial</a></li>
+                    <li><a href="#" onclick="panelLista('InventarioLista',false)">Movimiento</a></li>
+                    <li><a href="#" onclick="panelLista('SaldoLista',false)">Saldo</a></li>
+                    <li><a href="#" onclick="panelLista('SaldoBodegaLista',false)">Saldo Bodega</a></li>
+                    <li><a href="#" onclick="panelLista('KardexLista',false)">Kardex</a></li>
+                    <li><a href="#" onclick="panelLista('KardexCostoLista',false)">Costos</a></li>
+                    <li><a href="#" onclick="panelLista('ConfiguracioninventarioNuevo',true)">Inventario</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Configuracion</a>
+                <ul>
+                    <li><a href="/" >Empresas</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+
+
+<!--    <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav">-->
+<!--        <div class="breadcrumb-dn mr-1">-->
+<!--            <p>-->
+<!--                {{.empresa.Nombre }}-->
+<!--            </p>-->
+<!--        </div>-->
+<!--        <ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--            <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--                   id="userDropdown" data-toggle="dropdown"-->
+<!--                   aria-haspopup="true" aria-expanded="false">-->
+<!--                    <i class="fas fa-user"></i> <span-->
+<!--                        class="clearfix d-none d-sm-inline-block">Comprobantes</span></a>-->
+<!--                     <div class="dropdown-menu dropdown-menu-right"-->
+<!--                    aria-labelledby="userDropdown1">-->
+<!--                    <a class="dropdown-item" onclick="panelLista('ComprobanteLista',false)">Comprobante</a>-->
+<!--                    <ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--                        <li class="nav-item dropdown  menublanco">-->
+<!--                            <a class="nav-link dropdown-toggle" href="#"-->
+<!--                                id="userDropdown" data-toggle="dropdown"-->
+<!--                                aria-haspopup="true" aria-expanded="false">-->
+<!--                                <span class="clearfix d-none d-sm-inline-block menublanco">Documento Soporte Compra</span></a>-->
+<!--                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">-->
+<!--                                    <a class="dropdown-item" onclick="panelLista('PedidosoporteLista',false)">Pedido Documento Soporte</a>-->
+<!--                                    <a class="dropdown-item" onclick="panelLista('SoporteLista',false)">Documento Soporte</a>-->
+<!--                                    <a class="dropdown-item" onclick="panelLista('DevolucionsoporteLista',false)">Devolucion Documento-->
+<!--                                    Soporte</a>-->
+<!--                                </div>-->
+<!--                            </a>-->
+
+<!--                        <a class="nav-link dropdown-toggle" href="#"-->
+<!--                           id="userDropdown" data-toggle="dropdown"-->
+<!--                           aria-haspopup="true" aria-expanded="false">-->
+<!--                            <span class="clearfix d-none d-sm-inline-block menublanco">Documento Soporte Servicio</span></a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">-->
+<!--                            <a class="dropdown-item" onclick="panelLista('PedidosoporteservicioLista',false)">Pedido Soporte Servicio</a>-->
+<!--                            <a class="dropdown-item" onclick="panelLista('SoporteservicioLista',false)">Documento Soporte Servicio</a>-->
+<!--                            <a class="dropdown-item" onclick="panelLista('DevolucionsoporteservicioLista',false)">Devolucion Soporte Servicio</a>-->
+<!--                        </div>-->
+<!--                    </a>-->
+
+<!--                        <a class="nav-link dropdown-toggle" href="#"-->
+<!--                           id="userDropdown" data-toggle="dropdown"-->
+<!--                           aria-haspopup="true" aria-expanded="false">-->
+<!--                            <span class="clearfix d-none d-sm-inline-block menublanco">Factura Gasto</span></a>-->
+<!--                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">-->
+<!--                            <a class="dropdown-item" onclick="panelLista('PedidofacturagastoLista',false)">Pedido Factura Gasto</a>-->
+<!--                            <a class="dropdown-item" onclick="panelLista('FacturagastoLista',false)">Factura Gasto</a>-->
+<!--                            <a class="dropdown-item" onclick="panelLista('DevolucionfacturagastoLista',false)">Devolucion Factura Gasto</a>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--    <li class="nav-item dropdown">-->
+<!--        <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--           id="userDropdown" data-toggle="dropdown"-->
+<!--           aria-haspopup="true" aria-expanded="false">-->
+<!--            <i class="fas fa-user"></i> <span-->
+<!--                class="clearfix d-none d-sm-inline-block">Archivo</span>-->
+<!--        </a>-->
+<!--        <div class="dropdown-menu dropdown-menu-right"-->
+<!--             aria-labelledby="userDropdown">-->
+<!--            <a class="dropdown-item" onclick="panelLista('DocumentoLista',false)">Documentos</a>-->
+<!--            <a class="nav-link dropdown-toggle" href="#"-->
+<!--               id="userDropdown" data-toggle="dropdown"-->
+<!--               aria-haspopup="true" aria-expanded="false">-->
+<!--               <span class="clearfix d-none d-sm-inline-block menublanco">Plan de Cuentas</span></a>-->
+<!--                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">-->
+<!--                        <a class="dropdown-item" onclick="panelLista('PlandecuentaempresaLista/False/False/False',false)">Plan de Cuentas Empresa</a>-->
+<!--                        <a class="dropdown-item" onclick="panelLista('PlandecuentaniifLista',false)">Plan de Cuentas Niif</a>-->
+<!--                        <a class="dropdown-item" onclick="panelLista('PlandecuentapucLista',false)">Plan de Cuentas Puc</a>-->
+<!--                    </div>-->
+<!--            </a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('TerceroLista',false)">Terceros</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('CentroLista',false)">Centro de Costos</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('ConceptoLista',false)">Conceptos</a>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--    <li class="nav-item dropdown">-->
+<!--        <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--           id="userDropdown" data-toggle="dropdown"-->
+<!--           aria-haspopup="true" aria-expanded="false">-->
+<!--            <i class="fas fa-user"></i> <span-->
+<!--                class="clearfix d-none d-sm-inline-block">Procesos</span></a>-->
+<!--        <div class="dropdown-menu dropdown-menu-right"-->
+<!--             aria-labelledby="userDropdown">-->
+<!--            <a class="dropdown-item" onclick="panelLista('ConciliacionLista',false)">Conciliacion Bancaria</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('PropiedadGenerar',false)">Depreciaciones</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('DiferidoGenerar',false)">Amortizaciones</a>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--<li class="nav-item dropdown">-->
+
+<!--    <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--       id="userDropdown" data-toggle="dropdown"-->
+<!--       aria-haspopup="true" aria-expanded="false">-->
+<!--        <i class="fas fa-user"></i> <span-->
+<!--            class="clearfix d-none d-sm-inline-block">Nomina</span></a>-->
+
+<!--    <div class="dropdown-menu dropdown-menu-right"-->
+<!--         aria-labelledby="userDropdown1">-->
+
+<!--        <a class="dropdown-item" onclick="panelLista('NominaDatosPersonalesLista',false)">Datos-->
+<!--            Personales</a>-->
+<!--        <a class="dropdown-item" onclick="panelLista('UsuarioLista',false)">Datos-->
+<!--            Devengados</a>-->
+<!--        <a class="dropdown-item" onclick="panelLista('UsuarioLista',false)">Datos-->
+<!--            Deducciones</a>-->
+
+<!--        <a class="dropdown-item" onclick="panelLista('planillaDato',false)">Planilla</a>-->
+
+
+
+<!--    </div>-->
+<!--</li>-->
+<!--</ul>-->
+
+
+
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--    <li class="nav-item dropdown">-->
+<!--        <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--           id="userDropdown" data-toggle="dropdown"-->
+<!--           aria-haspopup="true" aria-expanded="false">-->
+<!--            <i class="fas fa-user"></i> <span-->
+<!--                class="clearfix d-none d-sm-inline-block">Informes</span></a>-->
+<!--        <div class="dropdown-menu dropdown-menu-right"-->
+<!--             aria-labelledby="userDropdown">-->
+<!--            <a class="dropdown-item" onclick="panelLista('BalancedepruebaLista',false)">Balance de Prueba</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('EstadoResultadoLista',false)">Estado de Resultado</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('SituacionFinancieraLista',false)">Estado de Situacion Financiera</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('PropiedadLista',false)">Propiedades y Equipo</a>-->
+<!--            <a class="dropdown-item" onclick="panelLista('DiferidoLista',false)">Diferidos</a>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--    <li class="nav-item dropdown">-->
+
+<!--       <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--       id="userDropdown" data-toggle="dropdown"-->
+<!--       aria-haspopup="true" aria-expanded="false">-->
+<!--       <i class="fas fa-user"></i> <span-->
+<!--       class="clearfix d-none d-sm-inline-block">Utilidades</span></a>-->
+
+<!--        <div class="dropdown-menu dropdown-menu-right"-->
+<!--            aria-labelledby="userDropdown1">-->
+
+<!--            <a class="dropdown-item" onclick="panelLista('EmpresaLista',false)">Datos-->
+<!--            Empresa</a>-->
+
+<!--            <a class="dropdown-item" onclick="panelLista('UsuarioLista',false)">Datos-->
+<!--            Usuarios</a>-->
+
+<!--            <ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--                <li class="nav-item dropdown  menublanco">-->
+
+<!--                    <a class="nav-link dropdown-toggle" href="#"-->
+<!--                    id="userDropdown" data-toggle="dropdown"-->
+<!--                    aria-haspopup="true" aria-expanded="false">-->
+<!--                    <span class="clearfix d-none d-sm-inline-block menublanco">Resoluciones</span></a>-->
+
+<!--                    <div class="dropdown-menu dropdown-menu-right"-->
+<!--                        aria-labelledby="userDropdown">-->
+
+<!--                        <a class="dropdown-item"-->
+<!--                        onclick="panelLista('ResolucionventaLista',false)">Resolucion-->
+<!--                        Factura Electronica</a>-->
+
+<!--                        <a class="dropdown-item"-->
+<!--                        onclick="panelLista('ResolucionsoporteLista',false)">Resolucion-->
+<!--                        Documento Soporte</a>-->
+
+<!--                        <a class="dropdown-item"-->
+<!--                        onclick="panelLista('resolucionnominaLista',false)">Resolucion-->
+<!--                        Nomina Electronica</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--<ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--<li class="nav-item dropdown">-->
+
+<!--    <a class="nav-link dropdown-toggle waves-effect" href="#"-->
+<!--       id="userDropdown" data-toggle="dropdown"-->
+<!--       aria-haspopup="true" aria-expanded="false">-->
+<!--        <i class="fas fa-user"></i> <span-->
+<!--            class="clearfix d-none d-sm-inline-block">Ventas</span></a>-->
+
+<!--    <div class="dropdown-menu dropdown-menu-right"-->
+<!--         aria-labelledby="userDropdown1">-->
+
+<!--        <a class="dropdown-item" onclick="panelLista('CotizacionLista',false)">Cotizaciones</a>-->
+<!--        <a class="dropdown-item" onclick="panelLista('VentaLista',false)">Factura de Venta</a>-->
+<!--        <a class="dropdown-item" onclick="panelLista('DevolucionventaLista',false)">Devolucion Factura de Venta</a>-->
+
+<!--        <ul class="nav navbar-nav nav-flex-icons ml-3">-->
+<!--            <li class="nav-item dropdown  menublanco">-->
+
+<!--                <a class="nav-link dropdown-toggle" href="#"-->
+<!--                   id="userDropdown" data-toggle="dropdown"-->
+<!--                   aria-haspopup="true" aria-expanded="false">-->
+<!--                    <span class="clearfix d-none d-sm-inline-block menublanco">Compras</span></a>-->
+
+<!--                <div class="dropdown-menu dropdown-menu-right"-->
+<!--                     aria-labelledby="userDropdown">-->
+
+<!--                    <a class="dropdown-item"-->
+<!--                       onclick="panelLista('ResolucionventaLista',false)">Resolucion-->
+<!--                        Factura Electronica</a>-->
+
+<!--                    <a class="dropdown-item"-->
+<!--                       onclick="panelLista('ResolucionsoporteLista',false)">Resolucion-->
+<!--                        Documento Soporte</a>-->
+
+<!--                    <a class="dropdown-item"-->
+<!--                       onclick="panelLista('resolucionnominaLista',false)">Resolucion-->
+<!--                        Nomina Electronica</a>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</li>-->
+<!--</ul>-->
+
+
+
+
+
+
+
+
+
+<!--</nav>-->
+
+
+        <!--    <div id="slide-out" class="side-nav sn-bg-4 fixed">-->
+        <!--        <ul class="custom-scrollbar">-->
+        <!--            <li class="logo-sn waves-effect py-3">-->
+        <!--                <div class="text-center">-->
+        <!--                    <a href="#" class="pl-0"><img-->
+        <!--                            src="static/img/LOGO.png"/></a>-->
+        <!--                </div>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--                <ul class="collapsible collapsible-accordion">-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r" onclick="panelLista('EmpresaLista',false)"><i-->
+        <!--                                class="fas fa-industry"></i>Empresa<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r" onclick="panelLista('DocumentoLista',false)"><i-->
+        <!--                                class="fas fa-book"></i>Archivos<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DocumentoLista',false)"-->
+        <!--                                       class="waves-effect">Documentos</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ConceptoLista',false)"-->
+        <!--                                       class="waves-effect">Conceptos</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('TerceroLista',false)"-->
+        <!--                                       class="waves-effect">Terceros</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CentroLista',false)"-->
+        <!--                                       class="waves-effect">Centro de Costos</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Cuentas<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PlandecuentaempresaLista/False/False/False',false)"-->
+        <!--                                       class="waves-effect">Plan de Cuentas Empresa</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PlandecuentaniifLista/False/False/False',false)"-->
+        <!--                                       class="waves-effect">Plan de Cuentas Niif</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PlandecuentapucLista',false)"-->
+        <!--                                       class="waves-effect">Plan de Cuentas Puc</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('RetencionenlafuenteLista',false)"-->
+        <!--                                       class="waves-effect">Tabla de Retencion en la Fuente</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('FinancieroLista',false)"-->
+        <!--                                       class="waves-effect">Grupo de Cuentas Financiero</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DepreciacionLista',false)"-->
+        <!--                                       class="waves-effect">Depreciacion Fiscal</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Comprobante<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ComprobanteLista',false)"-->
+        <!--                                       class="waves-effect">Comprobante</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CuotaLista',false)"-->
+        <!--                                       class="waves-effect">Calcular Cuota</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ConciliacionLista',false)"-->
+        <!--                                       class="waves-effect">Conciliacion Bancaria</a>-->
+        <!--                                </li>-->
+
+
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Tesoreria<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('BancoLista',false)"-->
+        <!--                                       class="waves-effect">Bancos</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Factura de Gasto<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PedidofacturagastoLista',false)"-->
+        <!--                                       class="waves-effect">Pedido Gasto</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('FacturagastoLista',false)"-->
+        <!--                                       class="waves-effect">Factura Gasto</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucionfacturagastoLista',false)"-->
+        <!--                                       class="waves-effect">Devolucion Gasto</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Propiedades y Equipo<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PropiedadLista',false)"-->
+        <!--                                       class="waves-effect">Propiedades y Equipo</a>-->
+        <!--                                </li>-->
+
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PropiedadGenerar',false)"-->
+        <!--                                       class="waves-effect">Depreciacion Mes</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-book"></i>Diferidos<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DiferidoLista',false)"-->
+        <!--                                       class="waves-effect">Diferidos</a>-->
+        <!--                                </li>-->
+
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DiferidoGenerar',false)"-->
+        <!--                                       class="waves-effect">Amortizacion Mes</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Inventarios<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('SaldoLista',false)"-->
+        <!--                                       class="waves-effect">Saldo</a>-->
+        <!--                                </li>-->
+
+
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('InventarioinicialLista',false)"-->
+        <!--                                       class="waves-effect">Inventario-->
+        <!--                                        Inicial</a>-->
+        <!--                                </li>-->
+
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('InventarioLista',false)"-->
+        <!--                                       class="waves-effect">Inventario</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('KardexLista', false)"-->
+        <!--                                       class="waves-effect">Kardex</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('KardexCostoLista', false)"-->
+        <!--                                       class="waves-effect">Comprobante Costo</a>-->
+        <!--                                </li>-->
+
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('BodegaLista',false)"-->
+        <!--                                       class="waves-effect">Bodegas</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('GrupoLista',false)"-->
+        <!--                                       class="waves-effect">Grupos</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('SubgrupoLista',false)"-->
+        <!--                                       class="waves-effect">Subgrupos</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('VendedorLista',false)"-->
+        <!--                                       class="waves-effect">Vendedores</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('AlmacenistaLista',false)"-->
+        <!--                                       class="waves-effect">Almacenistas</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ProductoLista',false)"-->
+        <!--                                       class="waves-effect">Productos</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Resoluciones<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ResolucionventaLista',false)"-->
+        <!--                                       class="waves-effect">Resolucion Venta</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ResolucionsoporteLista',false)"-->
+        <!--                                       class="waves-effect">Resolucion Soporte</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ResolucionnominaLista',false)"-->
+        <!--                                       class="waves-effect">Resolucion Nomina</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Compras<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PedidoLista',false)"-->
+        <!--                                       class="waves-effect">Pedidos</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CompraLista',false)"-->
+        <!--                                       class="waves-effect">Compras</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucioncompraLista',false)"-->
+        <!--                                       class="waves-effect">Devolucion-->
+        <!--                                        Compras</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Ventas<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CotizacionLista',false)"-->
+        <!--                                       class="waves-effect">Cotizacion</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('VentaLista',false)"-->
+        <!--                                       class="waves-effect">Ventas</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucionventaLista',false)"-->
+        <!--                                       class="waves-effect">Devoluciones-->
+        <!--                                        Ventas</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Venta Servicios<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CotizacionservicioLista',false)"-->
+        <!--                                       class="waves-effect">Cotizacion Servicio</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('VentaservicioLista',false)"-->
+        <!--                                       class="waves-effect">Ventas Servicios</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucionventaservicioLista',false)"-->
+        <!--                                       class="waves-effect">Devolucion Venta Servicios</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Soporte<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PedidosoporteLista',false)"-->
+        <!--                                       class="waves-effect">Pedido Soporte</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('SoporteLista',false)"-->
+        <!--                                       class="waves-effect">Documento Soporte</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucionsoporteLista',false)"-->
+        <!--                                       class="waves-effect">Devolucion Soporte</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Soporte Servicios<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('PedidosoporteservicioLista',false)"-->
+        <!--                                       class="waves-effect">Pedido Soporte servicio</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('SoporteservicioLista',false)"-->
+        <!--                                       class="waves-effect">Soporte Servicios</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('DevolucionsoporteservicioLista',false)"-->
+        <!--                                       class="waves-effect">Devolucion Soporte Servicios</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Traslados Ajustes<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('TrasladoLista',false)"-->
+        <!--                                       class="waves-effect">Traslados</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-shopping-cart"></i>Cuenta De Cobro<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CuentadecobroLista',false)"-->
+        <!--                                       class="waves-effect">Listado Cuenta De Cobro</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    <div class="collapsible-body">-->
+        <!--                        <ul>-->
+        <!--                            <li>-->
+        <!--                                <a onclick="panelLista('CuentadecobroGenerar',false)"-->
+        <!--                                   class="waves-effect">Generar Cuenta De Cobro</a>-->
+        <!--                            </li>-->
+        <!--                        </ul>-->
+        <!--                    </div>-->
+        <!--                    <div class="collapsible-body">-->
+        <!--                        <ul>-->
+        <!--                            <li>-->
+        <!--                                <a onclick="panelLista('CuentadecobroDato',false)"-->
+        <!--                                   class="waves-effect">Datos Cuenta De Cobro</a>-->
+        <!--                            </li>-->
+        <!--                        </ul>-->
+        <!--                    </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-gavel"></i>Nomina<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('CargoLista',false)"-->
+        <!--                                       class="waves-effect">Cargos Empleados</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('NominaDatosPersonalesLista',false)"-->
+        <!--                                       class="waves-effect">Datos Personales</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-gavel"></i>Informes<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('BalancedepruebaLista',false)"-->
+        <!--                                       class="waves-effect">Balance de Prueba</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('SituacionFinancieraLista',false)"-->
+        <!--                                       class="waves-effect">Estado de Situacion Financiera</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('EstadoResultadoLista',false)"-->
+        <!--                                       class="waves-effect">Estados de Resultados</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li>-->
+        <!--                        <a class="collapsible-header waves-effect arrow-r"><i-->
+        <!--                                class="fas fa-gavel"></i>Configuracion<i-->
+        <!--                                class="fas fa-angle-down rotate-icon"></i></a>-->
+        <!--                        <div class="collapsible-body">-->
+        <!--                            <ul>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ConfiguracioncontabilidadNuevo',true)"-->
+        <!--                                       class="waves-effect">Parametros Contabilidad</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ConfiguracioninventarioNuevo',true)"-->
+        <!--                                       class="waves-effect">Parametros Inventarios</a>-->
+        <!--                                </li>-->
+        <!--                                <li>-->
+        <!--                                    <a onclick="panelLista('ConfiguracionnominaNuevo',true)"-->
+        <!--                                       class="waves-effect">Parametros Nomina</a>-->
+        <!--                                </li>-->
+        <!--                            </ul>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                </ul>-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--&lt;!&ndash;        <div class="sidenav-bg mask-strong"></div>&ndash;&gt;-->
+        <!--    </div>-->
+
+</header>
+
+<script src="../static/js/jquery-3.4.1.min.js"></script>
+<script src="../static/js/jquery.mask.min.js"></script>
+<script src="../static/js/jspdf.min.js"></script>
+<script type="text/javascript" src="../static/js/popper.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/mdb.js"></script>
+<script type="text/javascript"
+        src="../static/js/addons/datatables.js"></script>
+<script type="text/javascript"
+        src="../static/js/addons/datatables-select.min.js"></script>
+<script type="text/javascript" src="../static/js/jspanel.js"></script>
+
+
+<!--<main>-->
+
+<!--<div class="centroprincipal">-->
+<!--    <div class="row col-12">-->
+<!--        <h1>mititulo</h1>-->
+<!--    </div>-->
+
+<!--    {{template "titulo" }}-->
+<!--</div>-->
+<!--</main>-->
+
+<script>
+
+$(document).ready(function () {
+    $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+        if (!$(this).next().hasClass('show')) {
+            $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+        }
+        var $subMenu = $(this).next(".dropdown-menu");
+        $subMenu.toggleClass('show');
+
+
+        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+            $('.dropdown-submenu .show').removeClass("show");
+        });
+
+
+        return false;
+    });
+    // $(".button-collapse").sideNav();
+    //
+    // var container = document.querySelector('.custom-scrollbar');
+    // var ps = new PerfectScrollbar(container, {
+    //     wheelSpeed: 2,
+    //     wheelPropagation: true,
+    //     minScrollbarLength: 20
+    // });
+
+
+// SideNav Default Options
+//         $('.button-collapse').sideNav({
+//             edge: 'left', // Choose the horizontal origin
+//             closeOnClick: false, // Closes side-nav on &lt;a&gt; clicks, useful for Angular/Meteor
+//             breakpoint: 1000, // Breakpoint for button collapse
+//             menuWidth: 240, // Width for sidenav
+//             timeDurationOpen: 500, // Time duration open menu
+//             timeDurationClose: 500, // Time duration open menu
+//             timeDurationOverlayOpen: 0, // Time duration open overlay
+//             timeDurationOverlayClose: 0, // Time duration close overlay
+//             easingOpen: 'easeInOutQuad', // Open animation
+//             easingClose: 'easeInOutQuad', // Close animation
+//             showOverlay: true, // Display overflay
+//             showCloseButton: false, // Append close button into siednav
+//             slim: false, // turn on slime mode
+//             onOpen: null, // callback function
+//             onClose: null, // callback function
+//
+//
+//         });
+});
+
+
+// Ps.initialize(sideNavScrollbar);
+
+numeroPanel = 1;
+
+// function panelComprobante(modulo) {
+//     numeroPanel = numeroPanel + 1;
+//     cadenaPanel = "panel" + numeroPanel;
+//     url = '/' + modulo + '/';
+//     url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 0px; border:0px;\'></iframe>";
+//     jsPanel.create({
+//         theme: {
+//             bgContent: '#fff',
+//             colorHeader: 'black',
+//             border: '1px #A8A8A8 solid'
+//         },
+//         headerControls: {
+//             maximize: 'remove',
+//             size: 'xs'
+//         },
+//         id: cadenaPanel,
+//         size: {width: 800, height: 600},
+//         contentSize: {width: '1300px', height: '650px'}, // must be object
+//         content: url,
+//         position: {
+//             top: '350px',
+//             left: '600px'
+//         },
+//         headerTitle: 'Sadconf Cloud 1.0'
+//     });
+// }
+
+function panelLista(modulo, panel) {
+    numeroPanel = numeroPanel + 1;
+    cadenaPanel = "panel" + numeroPanel;
+    if (panel == false) {
+        url = '/' + modulo + '';
+
+    } else {
+
+        url = '/' + modulo + '/' + cadenaPanel;
+    }
+
+    url = "<iframe src=\'" + url +
+        "\' width=\'100%\' height=\'100%\' style=\'padding: 0px; border:0px;\'></iframe>";
+    panel = jsPanel.create({
+        // iconfont: [ 'custom-minimize', 'custom-normalize',  'custom-close'],
+        theme: {
+            bgContent: 'white',
+            colorHeader: '#4A2758',
+            border: '1px silver solid'
+        },
+
+        headerControls: {
+            // maximize: 'remove',
+            size: 'xs'
+        },
+        boxShadow: 0,
+        id: cadenaPanel,
+        size: {width: 800, height: 600},
+        // JPANEL MEDIDAS
+        contentSize: {width: '1306px', height: '500px'},
+        content: url,
+        contentOverflow: 'hidden',
+        position: {
+            top: '350px',
+            left: '600px',
+            minTop: '70px',
+        },
+        headerTitle: 'Sadconf Cloud 1.0'
+    });
+    jsPanel.zi = false;
+    jsPanel.ziBase = 2000 + (100 * numeroPanel);
+}
+
+function tabla() {
+
+    $('#dt-all-checkbox').dataTable({
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox select-checkbox-all',
+            targets: 0
+        }],
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        }
+    });
+    $('#dt-all-checkbox').DataTable();
+    $('#dt-all-checkbox_wrapper').find('label').each(function () {
+        $(this).parent().append($(this).children());
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+        const $this = $(this);
+        $this.attr("placeholder", "Buscar");
+        $this.removeClass('form-control-sm');
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+    $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+    $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+    $('.mdb-select').materialSelect({});
+}
+
+
+window.document.addEventListener('myEvent', handleEvent, false)
+
+function handleEvent(e) {
+
+
+    //alert(e.detail.codigoElemento);
+
+
+    valor = e.detail.elementoPanel;
+    //alert(valor);
+    id = valor;
+    $("#" + valor).remove();
+    // panelNuevo.close();
+
+
+    //console.log(e.detail) // outputs: {foo: 'bar'}
+}
+</script>
+        </body>
+        </html>

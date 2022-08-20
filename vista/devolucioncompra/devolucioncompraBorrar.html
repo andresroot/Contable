@@ -1,0 +1,390 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/inventario.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Borrar Devolucion Compra</h3>
+                </div>
+                <br>
+                        <form id="formulario" method="POST"
+                              action="/DevolucioncompraEliminar/{{ .devolucioncompra.Codigo }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Devolucion No</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Proveedor</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroCodigo"
+                                               class="form-control text-left" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroNombre"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroDireccion"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Factura No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Compra"
+                                               id="Compra"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha
+                                    Vence</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               name="Vence"
+                                               id="Vence"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Forma Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="FormadepagoNombre"
+                                               id="FormadepagoNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Formadepago"
+                                               id="Formadepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Medio Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="MediodepagoNombre"
+                                               id="MediodepagoNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Mediodepago"
+                                               id="Mediodepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Almacenista</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="AlmacenistaNombre"
+                                               id="AlmacenistaNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Almacenista"
+                                               id="Almacenista"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="CentroNombre"
+                                               id="CentroNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Centro"
+                                               id="Centro"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                         </div>
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>No</th>
+                                        <th style="padding-left: 6px">Codigo</th>
+                                        <th style="padding-left: 5px">Nombre Producto</th>
+                                        <th style="padding-left: 5px">Unidad</th>
+                                        <th style="padding-left: 15px">Iva</th>
+                                        <th style="padding-left: 6px">Bodega</th>
+                                        <th style="padding-left: 65px">Cantidad</th>
+                                        <th style="padding-left: 50px">Vr. Unitario</th>
+                                        <th style="padding-left: 100px">Total</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="hidden" id="Subtotal19"/>
+                            <input type="hidden" id="Subtotal5"/>
+                            <input type="hidden" id="Subtotal0"/>
+                            <input type="hidden" id="SubtotalDescuento19"/>
+                            <input type="hidden" id="SubtotalDescuento5"/>
+                            <input type="hidden" id="SubtotalDescuento0"/>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Base
+                                    19%</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="SubtotalBase19"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Base
+                                    5%</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="SubtotalBase5"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Base
+                                    0%</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="SubtotalBase0"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label tl">Subtotal</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 ml-4 mdt">
+                                        <input type="text"
+                                               id="Subtotal"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Iva
+                                    19%</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="SubtotalIva19"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Iva
+                                    5%</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="SubtotalIva5"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Total Items</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="Items"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label tl">Total Iva</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 ml-4 mdt">
+                                        <input type="text"
+                                               id="TotalIva"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-6">
+                                </div>
+                                <label class="col-sm-1 col-form-label">Porcentaje</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="PorcentajeRetencionFuente"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label tl">Ret. Fte.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 ml-4 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionFuente"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-6">
+                                </div>
+                                <label class="col-sm-1 col-form-label">Porcentaje</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdo">
+                                        <input type="text"
+                                               id="PorcentajeRetencionIca"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label tl">Ret. Ica</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 ml-4 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionIca"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9">
+                                </div>
+                                <label class="col-sm-1 col-form-label tl">Total Neto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 ml-4 mdt">
+                                        <input type="text"
+                                               id="Neto"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="window.history.go(-1); return false;"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="submit"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="ProductoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/devolucioncompra.js"></script>
+
+    {{template "devolucioncomprascript" }}
+    {{template "autocompletaBodega" }}
+
+<script>
+    $(document).ready(function () {
+        // llenar valores
+        $("#Codigo").val('{{ .devolucioncompra.Codigo }}');
+        $("#Fecha").val('{{ .devolucioncompra.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .devolucioncompra.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .devolucioncompra.Tercero }}');
+        $("#terceroDv").val('{{ .devolucioncompra.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .devolucioncompra.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .devolucioncompra.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .devolucioncompra.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .devolucioncompra.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .devolucioncompra.Subtotal }}');
+        $('#Descuento').val('{{ .devolucioncompra.Descuento}}');
+        $('#SubtotalIva19').val('{{ .devolucioncompra.Subtotaliva19 }}');
+        $('#SubtotalIva5').val('{{ .devolucioncompra.Subtotaliva5 }}');
+        $('#SubtotalBase19').val('{{ .devolucioncompra.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .devolucioncompra.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .devolucioncompra.Subtotalbase0 }}');
+        $('#Total').val('{{.devolucioncompra.Total }}');
+        $('#PorcentajeRetencionFuente').val('{{ .devolucioncompra.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .devolucioncompra.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .devolucioncompra.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .devolucioncompra.TotalRetencionIca }}');
+        $('#Neto').val('{{ .devolucioncompra.Neto }}');
+        $('#FormaDePago').val('{{ .devolucioncompra.Formadepago}}');
+        $('#MedioDePago').val('{{ .devolucioncompra.Mediodepago}}');
+        $('#Almacenista').val('{{ .devolucioncompra.Almacenista}}');
+        $('#Compra').val('{{ .devolucioncompra.Compra}}');
+        $('#Centro').val('{{ .devolucioncompra.Centro}}');
+        $("#PorcentajeRetencionFuente").val( $("#retfte").val());
+
+        $('#CentroNombre').val('{{ .devolucioncompra.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .devolucioncompra.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .devolucioncompra.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .devolucioncompra.AlmacenistaDetalle.Nombre}}');
+        // llenar detalle
+        cont = 1;
+
+        {{ range.detalle }}
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Producto }}');
+        $('#seleccion_producto' + cont).attr('disabled', 'disabled');
+        $('#nombre' + cont).html('{{ .ProductoNombre }}');
+        $('#unidad' + cont).html('{{ .ProductoUnidad }}');
+        $('#iva' + cont).html('{{ .ProductoIva }}');
+        $('#seleccion_bodega' + cont).val('{{ .Bodega }}');
+        $('#seleccion_bodega_nombre' + cont).attr('disabled', 'disabled');
+        $('#seleccion_bodega_nombre' + cont).val('{{ .BodegaNombre }}');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#cantidad' + cont).attr('disabled', 'disabled');
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        $('#valor' + cont).attr('disabled', 'disabled');
+        cont++;
+
+        {{ end }}
+        totales();
+
+    });
+
+</script>
+
+{{end}}

@@ -1,0 +1,285 @@
+/* AUTOCOMPLETE*/
+.ui-autocomplete {
+    position: fixed !important;
+    /*top: 100% !important;*/
+    /*left: 0 !important;*/
+    z-index: 1000 !important;
+    /*display: none !important;*/
+    color: #3c61ae !important;
+    float: left !important;
+    min-width: 160px !important;
+    padding: 5px 0 !important;
+    margin: 2px 0 0 !important;
+    list-style: none !important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    text-align: left !important;
+    background-color: #ffffff !important;
+    border: 1px solid #999999 !important;
+    border-radius: 4px !important;
+    background-clip: padding-box !important;
+}
+
+.ui-autocomplete > li > div {
+    display: block !important;
+    padding: 3px 20px !important;
+    clear: both !important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    font-weight: normal !important;
+    white-space: nowrap !important;
+}
+
+.ui-state-hover,
+.ui-state-active,
+.ui-state-focus {
+    text-decoration: none !important;
+    color: #262626 !important;
+    background-color: #d4edda !important;
+    cursor: pointer !important;
+}
+
+.ui-helper-hidden-accessible {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+}
+
+/*!* COMPROBANTE *!*/
+.md-form .form-control {
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font-size: 13px;
+}
+
+.row {
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+    margin-right: -15px !important;
+    margin-left: -15px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+}
+
+.form-group {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    min-height:  25px !important;
+    padding-bottom: 0px!important;
+    padding-top: 0px!important;
+}
+
+.col-form-label {
+    padding-top: 6px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    margin-bottom: 0px !important;
+    height: 10px !important;
+}
+
+/*!* FOCO DEL INPUT*!*/
+.md-form input:not([type]):focus:not([readonly]),
+.md-form input[type="text"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="password"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="email"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="url"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="time"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="date"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+.md-form
+input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="tel"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="number"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search-md"]:focus:not([readonly]),
+.md-form textarea.md-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #21b799 !important;
+    box-shadow: 0 1px 0 0 #ffffff !important;
+}
+
+/* LINEA VERDE EN INPUT*/
+.md-form input:not([type]), .md-form input[type="password"]:not(.browser-default), .md-form input[type="email"]:not(.browser-default), .md-form input[type="url"]:not(.browser-default), .md-form input[type="time"]:not(.browser-default), .md-form input[type="date"]:not(.browser-default), .md-form input[type="datetime"]:not(.browser-default), .md-form input[type="datetime-local"]:not(.browser-default), .md-form input[type="tel"]:not(.browser-default), .md-form input[type="number"]:not(.browser-default), .md-form input[type="search"]:not(.browser-default), .md-form input[type="search-md"], .md-form input[type="text"]:not(.browser-default), .md-form textarea.md-textarea {
+    box-sizing: content-box !important;
+    background-color: transparent !important;
+    border-top-width: initial !important;
+    border-right-width: 0px !important;
+    border-left-width: 0px !important;
+    border-top-color: initial !important;
+    border-right-color: initial !important;
+    border-left-color: initial !important;
+    box-shadow: none !important;
+    border-style: none solid !important;
+    border-image: initial !important;
+    border-bottom: 1px solid #ced4da !important;
+    border-radius: 0px !important;
+    outline: 0px !important;
+    /*transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;*/
+}
+.dropdown-content li>a, .dropdown-content li>span {
+    color: black !important;
+}
+
+.md-form {
+    margin-top: 0.1rem  !important;
+    margin-bottom: 0.1rem  !important;
+}
+
+/*!* COMPROBANTE *!*/
+.md-form input[type=text]:disabled {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+}
+.md-form input[type=text] {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+table.dataTable tbody td.select-checkbox::before, table.dataTable tbody th.select-checkbox::before {
+    content: " " !important;
+    margin-top: 1px !important;
+    margin-left: -6px !important;
+    border: 0px solid rgb(0, 0, 0) !important;
+    border-radius: 3px !important;
+}
+
+table.dataTable tr.selected td.select-checkbox::after, table.dataTable tr.selected th.select-checkbox::after {
+    content: "✔";
+    color: #21b799 !important;
+    top: 0.4em !important;
+    margin-top: 0px;
+    margin-left: -4px;
+    text-align: center;
+    text-shadow: none !important;
+}
+
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+    background-color: #ffffff !important;
+}
+
+.dataTables_scrollHead
+{
+    height:30px !important;
+}
+
+.tp {
+    color: white !important;
+    background-color: #21b799 !important;
+    width: 332px !important;
+    text-align: center !important;
+    height: 40px !important;
+    margin-left: 0px !important;
+}
+
+.tpl {
+    color: white !important;
+    background-color: #21b799 !important;
+    width: 312px !important;
+    text-align: center !important;
+    height: 40px !important;
+    margin-left: 0px !important;
+}
+.col-form-label {
+    padding-top: 6px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    margin-bottom: 0px !important;
+    height: 10px !important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    font-weight: 500 !important;
+}
+
+
+
+table td {
+    font-size: 13px  !important;
+    font-weight: 400 !important;
+}
+
+table.table-sm td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+}
+table.table-sm th {
+    font-size: 13px !important;
+    font-family: Roboto !important;
+}
+
+
+/* MARGEN DERECHO BOTONES SUPERIORES */
+.mdbs {
+    height: 40px !important;
+    text-align: center !important;
+    width: 105px !important;
+    margin-top: 0px !important;
+    padding: 0px !important;
+    margin-right: 20px !important;
+    font-size: 12px !important;
+    font-family: Roboto !important;
+}
+
+.select-wrapper input.select-dropdown {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 15px!important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    padding: 0;
+    margin: 0 0 0.94rem;
+    font-size: 13px;
+    line-height: 2.9rem;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    outline: 0;
+}
+
+.dropdown-content li.active, .dropdown-content li:hover {
+    background-color: #d4edda;
+}
+
+/* MARGEN DERECHO BOTONES INFERIORES*/
+.mdbi {
+    height: 40px !important;
+    text-align: center !important;
+    width: 105px !important;
+    margin-top: 0px !important;
+    padding: 10px !important;
+    margin-right: 30px !important;
+    font-size: 12px !important;
+    font-family: Roboto !important;
+}
+

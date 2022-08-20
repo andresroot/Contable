@@ -1,0 +1,7 @@
+.select-wrapper input.select-dropdown {
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    height: 20px !important;
+    margin-top: 10px  !important;
+    border-bottom: 0px solid #ced4da !important;
+}

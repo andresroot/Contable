@@ -1,0 +1,19 @@
+.form-group {
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    border-bottom: 1px solid #ced4da!important;
+    height: 15px !important;
+}
+
+.form-control{
+    font-size: 13px !important;
+    font-family: Roboto !important;
+}
+
+.form-label{
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    color: #b21111;
+}

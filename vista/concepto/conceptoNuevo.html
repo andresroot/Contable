@@ -1,0 +1,115 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                <h3 class="tp">Nuevo Concepto</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="aviso"
+                             class="alert text-center alert-success alert-dismissible"
+                             role="alert" style="width: 302px; height: 40px; padding-top: 7px">
+                            <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p id="textoaviso">Cargando...</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/ConceptoInsertar">
+        <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Codigo</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-5">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Nombre"
+                                               id="Nombre"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="window.history.go(-1); return false;"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="submit" id="guardar"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        //INICIA FOCUS
+        $("#Codigo").focus();
+
+        // INICIA CODIGO YA EXISTE
+        $("#aviso").hide();
+        $("#guardar").prop("disabled", false);
+        $("#guardar").prop("disabled", true);
+        $("#Codigo").focusout(function () {
+            if ($("#Codigo").val().length > 0) {
+                console.log("Handler for .keyup() called." + $("#Codigo").val());
+                $.ajax({
+                    url: "/ConceptoExiste/" + $("#Codigo").val(),
+                    type: "GET",
+                    dataType: "json",
+                    async: false,
+                    success: function (respuesta) {
+                        if (respuesta.result == true) {
+                            console.log(respuesta.result);
+                            $("#Codigo").val("");
+                            $("#textoaviso").html("El codigo Ya Existe");
+                            $("#aviso").show();
+                            $("#guardar").prop("disabled", true);
+                        } else {
+                            console.log(respuesta.result);
+                            $("#aviso").hide();
+                            $("#guardar").prop("disabled", false);
+                        }
+                    },
+                });
+            }
+        });
+
+        // TRAER COPIA DE EDITAR
+        if("False"== "{{ .codigo}}")
+        {
+        }else{
+            //INICIA DATOS INICIALES
+            $('#Nombre').val("{{ .emp.Nombre}}");
+        }
+    });
+</script>
+{{end}}

@@ -1,0 +1,216 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/exogena.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Exogena</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                        <form id="formulario" method="POST"
+                              action="CuentadecobroActualizar/{{ .cuentadecobro.Numero }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Codigo</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control"
+                                               minlength="8"
+                                               maxlength="8"
+                                               required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-8">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Nombre"
+                                               id="Nombre"
+                                               class="form-control"
+                                               required/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr style="color: white;background-color: #21B799">
+                                        <th style="color: white;background-color: #21B799"></th>
+                                        <th ></th>
+                                        <th >No</th>
+                                        <th style="padding-left: 11px">Formato</th>
+                                        <th style="padding-left: 11px">Concepto</th>
+                                        <th style="padding-left: 100px">Columna</th>
+                                        <th style="padding-left: 105px">Valor</th>
+                                        <th ></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <br>
+                               <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="window.history.go(-1); return false;"
+                                       class="btn btn-outline-dark waves-effect
+                                       btn-md float-right mdbi">Cancelar</a>
+                                    <button type="button"
+                                            onclick="guardar('Actualizar')"
+                                            class="btn btn-outline-success
+                                             waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="Panel" value="{{ $.panel }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/cuentadecobro.js"></script>
+<!--    TERMINA NUEVO TERCERO-->
+<input id="FormatoNuevo"
+       type="hidden"/>
+<input id="ConceptoNuevo"
+       type="hidden"/>
+<!--   INICIA TEMPLATE-->
+{{template "exogenascript" }}
+        {{template "autocompletaFormato" }}
+        {{template "autocompletaConcepto" }}
+        {{template "autocompletaColumna" }}
+        {{template "autocompletaPlandecuentaempresa" }}
+<script>
+ var miconcepto=[];
+ {{range .concepto }}
+    miconcepto.push({ 'Formato': '{{ .Formato }}', 'Concepto': '{{ .Concepto }}', 'Nombre': '{{ .Nombre }}'})
+ {{end}}
+
+ var micolumna=[];
+ {{range .columna }}
+ micolumna.push({ 'Formato': '{{ .Formato }}', 'Columna': '{{ .Columna }}', 'Nombre': '{{ .Nombre }}'})
+ {{end}}
+    $(document).ready(function () {
+        $('#Centro').materialSelect({});
+
+
+
+        // llenar valores
+
+        $("#Codigo").val('{{ .cuenta.Codigo }}');
+        $("#Nombre").val('{{ .cuenta.Nombre }}' );
+
+        autocompletaPlandecuentaempresa("#Codigo", "#Nombre");
+
+
+
+        // llenar detalle
+        cont = 1;
+        {{range.detalle }}
+        agregar();
+        $('#formato' + cont).val('{{ .Formato }}');
+
+        llenarConcepto('#formato'+ cont)
+
+        //$('#formatonombre' + cont).val('{{ .FormatoNombre }}');
+      //  $('#columnanombre' + cont).val('{{ .ColumnaNombre }}');
+
+        $('#valor' + cont).val('{{ .Valor }}');
+
+       // llenarConcepto('#formato' + cont);
+        $('#concepto' + cont).val('{{ .Concepto }}');
+        $('#columna' + cont).val('{{ .Columna }}');
+       // $('#conceptonombre' + cont).val('{{ .ConceptoNombre }}');
+
+        cont++;
+        {{end}}
+
+        if (cont==1){
+
+            agregar();
+        }
+    });
+
+
+    function traer_datos(cuenta)
+    {
+        var filas = 0;
+        $('#tabla tbody tr').each(function () {
+            filas++;
+            $('#fila' +filas+"" ).remove();
+
+        });
+
+        var accion = "";
+        accion = '/ExogenaListaDatos/'+cuenta;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            //data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+           dataType: "json",
+            success: function (response) {
+                // BindDataTable(response);
+                console.log(JSON.stringify(response));
+                if (jQuery.isEmptyObject(response)) {
+                    //alert("no existe Cuenta 1002");
+                    agregar();
+                   // $(obj).val('');
+                } else {
+
+                    cont111 = 1;
+                    var json = '[{"id":"1","tagName":"apple"},{"id":"2","tagName":"orange"},{"id":"3","tagName":"banana"},{"id":"4","tagName":"watermelon"},{"id":"5","tagName":"pineapple"}]';
+                    var json=response;
+                    $.each((json), function(idx, obj) {
+                        agregar();
+                      //  alert(obj.Formato);
+                        $('#formato' + cont111).val(obj.Formato);
+                        $('#formatonombre' + cont111).val(obj.FormatoNombre);
+                        $('#formatonombre' + cont111).val(obj.FormatoNombre);
+                        $('#columnanombre' + cont111).val(obj.ColumnaNombre);
+                        $('#columna' + cont111).val(obj.Columna );
+                        $('#valor' + cont111).val(obj.Valor);
+                        //
+                        //  // llenarConcepto('#formato' + cont);
+                        $('#concepto' + cont111).val(obj.Concepto);
+                        $('#conceptonombre' + cont111).val(obj.ConceptoNombre);
+
+                        cont111++;
+                    });
+
+
+
+                }
+            }
+        })
+    }
+
+</script>
+{{end}}
+

@@ -1,0 +1,284 @@
+
+.inputNumero:read-only {
+    background-color: #ffffff !important;
+    margin: 0em !important;
+    font: 400 15px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+    border-image: initial;
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: right !important;
+    margin: 0px 0px 0px 0px !important;
+    border: none;
+    border-bottom: 0px solid #ced4da !important;
+}
+
+.custom-select {
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px) !important;
+    padding: .375rem 1.75rem .375rem .75rem !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.ui-autocomplete-input {
+    border: none;
+    border-bottom: 0px solid #ced4da !important;
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 0px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: left !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 15px Roboto !important;
+}
+
+.inputNumero1 {
+    background-color: white !important;
+    margin: 0em !important;
+    font: 400 15px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+    border-image: initial;
+    width: 50px !important;
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: left !important;
+    margin: 0px 0px 0px 0px !important;
+    border: none;
+    border-bottom: 0px solid #ced4da !important;
+}
+
+.inputNumero {
+    background-color: white !important;
+    margin: 0em !important;
+    font: 400 16px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+    border-image: initial;
+    width: 120px !important;
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: right !important;
+    margin: 0px 0px 0px 0px !important;
+    border: none;
+    border-bottom: 0px solid #ced4da !important;
+}
+
+.select-wrapper input[type=text] {
+    border-bottom: 0px solid #ced4da !important;
+}
+
+.celdaNombre {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+}
+
+.celdaBodega {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+}
+
+.celdaIva {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+}
+
+.celdaUnidad {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+}
+
+.celdaFila {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 15px Roboto !important;
+}
+
+.celdaAccion {
+    text-align: right !important;
+    width: 20px !important;
+}
+
+.select-wrapper input.select-dropdown, .select-wrapper span.caret {
+    color: black !important;
+    background-color: white !important;
+    padding-top: 0px !important;
+    padding-bottom: 3px;
+    height: 25px !important;
+}
+
+.card, .navbar, .pagination .page-item.active .page-link .page-link {
+    /*box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important;
+    font-weight: 500 !important;*/
+}
+
+tr {
+    height: 60px;
+!important;
+}
+
+.table tr, .table td {
+    height: 10px !important;
+    padding-right: 5px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+}
+
+.inputTotal {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: right !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+    //font-weight: 700 !important;
+}
+
+.card-body {
+    padding: 0rem !important;
+}
+
+.md-form input[type=text]:disabled {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+}
+
+table.table-sm th {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    font: 400 16px Roboto !important;
+}
+
+table.table-sm td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    border-bottom: 0px !important;
+}
+
+table.table td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    border-bottom: 0px !important;
+}
+
+tr {
+    border-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+.table-sm tbody tr:first-child td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.table-sm tbody tr td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+div.scrollable-table-wrapper {
+    height: 200px;
+    overflow: auto;
+}
+
+div.scrollable-table-wrapper thead tr th {
+    position: sticky;
+    background-color: white !important;
+    top: 0;
+    margin-top: 0px !important;
+    z-index: 9999 !important;
+}
+
+.col-form-label {
+    font-size: 13px!important;
+}
+
+.md-form input:not([type]), .md-form input[type=password]:not(.browser-default), .md-form input[type=email]:not(.browser-default), .md-form input[type=url]:not(.browser-default), .md-form input[type=time]:not(.browser-default), .md-form input[type=date]:not(.browser-default), .md-form input[type=datetime]:not(.browser-default), .md-form input[type=datetime-local]:not(.browser-default), .md-form input[type=tel]:not(.browser-default), .md-form input[type=number]:not(.browser-default), .md-form input[type=search]:not(.browser-default), .md-form input[type=search-md], .md-form input[type=text]:not(.browser-default), .md-form textarea.md-textarea {
+    font-size: 13px!important;
+}
+.md-form .form-control {
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    /* height: 15px; */
+}

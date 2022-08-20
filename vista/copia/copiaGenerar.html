@@ -1,0 +1,106 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+<section>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <br>
+            <div class="form-group row mb-4 mt-0 ml-0">
+                <h3 class="tp">Copia De Seguridad</h3>
+                <div class="col-sm-6"></div>
+
+            </div>
+            <br>
+            <div class="form-group row mb-0 pl-3">
+
+
+
+
+                <div class="col-sm-4">
+                    <button type="button" id="actualizar"
+                            class="btn btn-outline-success waves-effect btn-md float-right mdbs">
+                        Descargar
+                    </button>
+                    <button type="button" onclick="cerrarpanel()" id="salir"
+                            class="btn btn-outline-dark waves-effect btn-md float-right mdbs">
+                        salir
+                    </button>
+
+                </div>
+            </div>
+            <br>
+
+        </div>
+    </div>
+        </div>
+        </section>
+        </div>
+<input id="CentroNuevo"
+       type="hidden"/>
+
+
+<script>
+
+    function download(url) {
+        const a = document.createElement('a')
+        a.href = url
+        a.download = url.split('/').pop()
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+    }
+function cerrarpanel() {
+    //  alert("cerrarPanel");
+
+    var myCustomData = {
+        elementoPanel: "{{ .panel}}"
+    }
+    var event = new CustomEvent('myEvent', {detail: myCustomData})
+    window.parent.document.dispatchEvent(event)
+}
+
+// INICIA FOCUS
+$("#Mes").focus();
+numeroPanel = 1;
+
+$(document).ready(function () {
+
+
+    $("#actualizar").click(function () {
+        // enviar
+        accion = "/CopiaGenerarArchivo";
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            success: function (respuesta) {
+                alert("Descargando Archivo...");
+                download("{{ .hosting }}static/copiadb/"+respuesta.Mensaje);
+
+            },
+        });
+    });
+    $('.mdb-select').materialSelect({});
+});
+
+
+function limpiarformato1(cnumero) {
+    cnumero = cnumero.replace("$", "");
+    cnumero = cnumero.replace(/,/g, '');
+    return Number(cnumero)
+}
+
+function calcular() {
+valor = limpiarformato1(($("#PorcentajeAnual").val()));
+valor=valor/100;
+valor=Math.pow(1+valor,1/12)-1;
+valor=valor*100;
+valor=valor.toFixed(2);
+$("#PorcentajeInteresesmes").val(valor);
+}
+</script>
+
+{{end}}

@@ -1,0 +1,1232 @@
+{{define "comprobantescript" }}
+<script>
+    function limpiarformato(cnumero) {
+        cnumero = cnumero.replace("$", "");
+        cnumero = cnumero.replace(/,/g, '');
+        return Number(cnumero)
+    }
+
+    function formatomoneda(input_val) {
+        console.log("numero recibido");
+        console.log(input_val);
+
+        // don't validate empty input
+        if (input_val == "") {
+            return "";
+        }
+
+        if (input_val == "0.00") {
+            return "";
+        }
+        // original length
+        var original_len = input_val.length;
+        // check for decimalcon(
+        if (input_val.indexOf(".") >= 0) {
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+            var right_side = input_val.substring(decimal_pos);
+            // con(input_val);
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+            // validate right side
+            right_side = formatNumber(right_side);
+
+
+            // Limit decimal to only 2 digits
+            right_side = right_side.substring(0, 2);
+
+            if (right_side.length==1)
+                right_side=right_side+'0';
+
+            // join number by .
+            input_val =  left_side + "." + right_side;
+            //con(input_val);"$" +
+
+        } else {
+            // no decimal entered
+            input_val = formatNumber(input_val);
+            input_val += ".00";
+        }
+
+        console.log("numero procesado");
+        console.log(input_val);
+
+        return input_val;
+    }
+
+    // Funcion Numero
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+
+    function formatCurrency(input, blur) {
+        // appends $ to value, validates decimal side
+        // and puts cursor back in right position.
+
+        // get input value
+        var input_val = input.val();
+
+        // don't validate empty input
+        if (input_val === "") {
+            return;
+        }
+
+        // original length
+        var original_len = input_val.length;
+
+        // initial caret position
+        //  var caret_pos = input.prop("selectionStart");
+
+        // check for decimal
+        if (input_val.indexOf(".") >= 0) {
+            // alert(input_val);
+            // get position of first decimal
+            // this prevents multiple decimals from
+            // being entered
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+            var right_side = input_val.substring(decimal_pos);
+
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+            // validate right side
+            right_side = formatNumber(right_side);
+
+            // On blur make sure 2 numbers after decimal
+            if (blur === "blur") {
+                right_side += "00";
+                if(left_side.length==0)
+                {
+                    left_side="0";
+
+                }
+            }
+
+            // Limit decimal to only 2 digits
+            right_side = right_side.substring(0, 2);
+
+            // join number by  "$" +.
+            input_val = left_side + "." + right_side;
+
+        } else {
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits"$" +
+            input_val = formatNumber(input_val);
+            input_val = input_val;
+
+            // final formatting
+            if (blur === "blur") {
+
+                input_val += ".00";
+                //alert(input_val);
+            }
+        }
+
+        // send updated string to input
+        input.val(input_val);
+
+        // put caret back in the right position
+        var updated_len = input_val.length;
+        //caret_pos = updated_len - original_len + caret_pos;
+        //input[0].setSelectionRange(caret_pos, caret_pos);
+    }
+
+    function formatoguardar(cnumero) {
+        // 12,222,222.12  a 12222222.12
+        cnumero = cnumero.replace("$", "");
+        cnumero=cnumero.replace(/\,/g,'');
+
+        return (cnumero)
+    }
+
+    var numeroPanel = 1;
+
+    $(document.body).on('focusout', '#PorcentajeRetencionFuente', function (e) {
+        totales();
+    });
+
+    $(document.body).on('focusout', '#PorcentajeRetencionIca', function (e) {
+        totales();
+    });
+
+    // llena los datos del producto
+    function llenarFila(numeroFila) {
+        elemento = '#seleccion_producto' + numeroFila;
+        productoCodigo = $(elemento).val();
+        unidad = '#unidad' + cont;
+        impuesto = '#iva' + cont;
+        nombre = '#nombre' + cont;
+
+        var datosEnviar = {
+            "productoCodigo": productoCodigo
+        };
+        accion = "/ProductoActual/" + productoCodigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+
+                    $(unidad).html('');
+                    $(impuesto).html('');
+                    $(nombre).html('');
+
+                } else {
+                    $.each(response, function (i, item) {
+                        $(unidad).html(item.Unidad);
+                        $(impuesto).html(item.Iva);
+                        $(nombre).html(item.Nombre);
+                    });
+                }
+            }
+        });
+    }
+
+    // FUNCION TOTALES
+    function totales() {
+        var totalDebito=0;
+        var totalCredito=0;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            debito= limpiarformato($("#Debito" + cont).val());
+            credito = limpiarformato($("#Credito" + cont).val());
+            totalDebito+=debito;
+            totalCredito+=credito;
+            cont++;
+        });
+        console.log("totalDebito");
+        console.log(totalDebito);
+
+        console.log("totalCredito");
+        console.log(totalDebito);
+
+
+        // oultar diferencia
+        $("#DiferenciaDebito").hide();
+        $("#DiferenciaCredito").hide();
+
+        var diferenciaDebito=0;
+        var diferenciaCredito=0;
+        if(totalDebito>totalCredito)
+        {
+            diferenciaCredito=totalDebito-totalCredito;
+            diferenciaDebito=0;
+            $("#DiferenciaCredito").show();
+            $("#DiferenciaCredito").val(formatomoneda(diferenciaCredito.toFixed(2)));
+        }
+
+        if(totalCredito>totalDebito)
+        {
+            diferenciaDebito=totalCredito-totalDebito;
+            diferenciaCredito=0;
+            $("#DiferenciaDebito").show();
+            $("#DiferenciaDebito").val(formatomoneda(diferenciaDebito.toFixed(2)));
+        }
+
+        $("#TotalDebito").val(formatomoneda(totalDebito.toFixed(2)));
+        $("#TotalCredito").val(formatomoneda(totalCredito.toFixed(2)));
+        $("#Items").val(cont-1);
+
+    }
+
+    function guardar(accion) {
+
+        if (moment($('#Fecha').val()).isValid() == false) {
+            alert('Por Favor Revisar Fecha');
+            return
+        } else
+        {
+            if ($('#miperiodo').val()!=moment($('#Fecha').val()).year())
+            {
+                alert('Por Favor Revisar Fecha');
+            }
+
+
+        }
+
+
+        if (sumasIguales()==false)
+        {
+            alert('Por Favor Revisar Diferencia');
+            numero_valido = false;
+            return true;
+        }
+
+        tercero_valido = true;
+        numero_valido = true;
+        if ($("#Numero").val() == '') {
+            alert('Por Favor Digitar Un numero de Comprobante');
+            numero_valido = false;
+            return true;
+        }
+
+        // valores cabecera
+        Numero = $('#Numero').val();
+        Fecha = $('#Fecha').val();
+      //  Fechaconsignacion = $('#Fechaconsignacion').val();
+        var Fecha = moment(Fecha).format("YYYY-MM-DDTHH:mm:ssZ");
+
+        var m = moment().set('year', $('#miperiodo').val()).format("YYYY-MM-DD");
+        var Fechaconsignacion = moment(m).format("YYYY-MM-DDTHH:mm:ssZ");
+        Documento = $('#Documento').val();
+       // alert(Documento);
+        Periodo = "2021";
+        Licencia = "0150";
+        Usuario = "1";
+        Estado = "revisado";
+        TotalDebito = $('#TotalDebito').val();
+        TotalCredito = $('#TotalCredito').val();
+
+        // cuenta filas
+        var filas = 0;
+        $('#tabla tbody tr').each(function () {
+            filas++;
+        });
+
+        Items = filas + " ";
+
+        // DATOS ENVIAR
+        var datosEnviar = {
+            "Accion": accion,
+            "Detalle": [],
+            "Documento": Documento,
+            "Numero": Numero,
+            "Fecha": Fecha,
+            "Fechaconsignacion": Fechaconsignacion,
+            "Periodo": Periodo,
+            "Licencia": Licencia,
+            "Usuario": Usuario,
+            "Estado": Estado,
+            "Debito": TotalDebito,
+            "Credito": TotalCredito
+        };
+
+        var MovimientoValido = true;
+        // valida r movimiento
+        ultimo = Items;
+        // alert(ultimo);
+
+        // borra ultimo
+        if ($("#seleccion_cuenta" + ultimo).val() == '' ||
+            $("#seleccion_tercero" + ultimo).val() == '' ||
+            $("#seleccion_centro" + ultimo).val() == '' ||
+            $("#concepto" + ultimo).val() == '')
+
+        {
+            eliminar(ultimo);
+            // alert("Borrar Ultimo");
+        }
+
+        // revisa que todos esten completos
+        var sianulado=false;
+
+        if  ($("#concepto1").val().trim().toUpperCase() == 'ANULADO'){
+            alert($("#concepto1").val());
+            sianulado=true;
+            var contAnulado = 1;
+
+            $('#tabla tbody tr').each(function () {
+                $("#Debito" + contAnulado).val('')  ;
+                $("#Credito" + contAnulado).val('') ;
+                    mifila=contAnulado+"";
+
+                    if (contAnulado>1){
+
+                        eliminar(mifila);
+
+                    }
+                contAnulado++;
+            });
+
+        }
+
+        if(sianulado==false){
+
+            var cont = 1;
+
+            $('#tabla tbody tr').each(function () {
+                // fila = cont;
+                if ($("#seleccion_cuenta" + cont).val() == '' ||
+                    $("#seleccion_tercero" + cont).val() == '' ||
+                    $("#seleccion_centro" + cont).val() == '' ||
+                    $("#concepto" + cont).val() == '') {
+                    MovimientoValido = false;
+                }
+                cont++;
+            });
+
+
+
+        }
+
+
+        if (MovimientoValido = false) {
+            siEnvio = false;
+            alert("Completar La Información De Filas");
+            return true;
+        }
+
+        var cont = 1;
+        var filavalida = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            if ($("#Debito" + cont).val() == '' &&
+                $("#Credito" + cont).val() == '' && sianulado==false) {
+
+            } else {
+
+                mesconciliacion = $("#MesConciliacion" + cont).html();
+                cuenta = $("#seleccion_cuenta" + cont).val();
+                tercero = $("#seleccion_tercero" + cont).val();
+                centro = $("#seleccion_centro" + cont).val();
+                concepto = $("#concepto" + cont).val();
+                factura = $("#factura" + cont).val();
+                Debito =formatoguardar( $("#Debito" + cont).val());
+                Credito = formatoguardar($("#Credito" + cont).val());
+                fila = cont + " ";
+
+                // DATOS ENVIAR DETALLE
+                datosEnviar.Detalle.push({
+                    "Fila": fila,
+                    "Documento": Documento,
+                    "MesConciliacion": mesconciliacion,
+                    "Numero": Numero,
+                    "Fecha": Fecha,
+                    "Fechaconsignacion": Fechaconsignacion,
+                    "Cuenta": cuenta,
+                    "Tercero": tercero,
+                    "Centro": centro,
+                    "Concepto": concepto,
+                    "Factura": factura,
+                    "Debito": Debito,
+                    "Credito": Credito
+
+                });
+                filavalida++;
+            }
+            cont++;
+        });
+
+        // JSON.stringify(datosEnviar)
+        console.log(JSON.stringify(datosEnviar));
+        var siEnvio = true;
+
+        if (numero_valido == false) {
+            alert("Llenar Numero")
+            siEnvio = false;
+            return true;
+        }
+
+        // comprueba fila valida
+        if (filavalida == 0) {
+            //   //  alert("Llenar Items")
+            siEnvio = false;
+            alert("Completar la información detalle");
+            return true;
+        }
+
+        // envia Pedido
+        if (siEnvio == true) {
+
+            // enviar
+            accion = "/ComprobanteAgregar";
+            $.ajax({
+                url: accion,
+                type: "POST",
+                async: false,
+                data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        alert("Documento Guardado Correctamente");
+                        document.location.href = '/ComprobanteLista';
+                    } else {
+                        alert("Ocurrio Un Error Al Guardar");
+                    }
+                },
+            });
+        }
+    }
+
+    var cont = 0
+    var id_fila_selected;
+
+    //Agregar Linea
+    function filas()
+    {
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        return cont-1;
+
+    }
+
+    function agregar() {
+        // cont++;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        //cont=cont+1;
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td  style=\"width:10px\"  class=\"celdaAccion\"><a onclick=\"insertar('fila" + cont + "')\" ><i class=\"fas fa-plus-circle mt-0 color\" style=\"color:#21B799\"></i></a><td>";
+
+        fila = fila + "<td><div style=\"width: 50px\" class=\"celdaFilaComprobante\" id=\"Fila" + cont + '\">' + cont + '</div>';
+        fila = fila + "<div style=\"color:white;height: 1px\"  id=\"MesConciliacion" + cont + '\"></div></td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 100px\" type=\"text\" value=\"\" id=\"seleccion_cuenta" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input style=\"width: 120px\"  type=\"text\" value=\"\" id=\"seleccion_tercero" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input style=\"width: 50px\"  type=\"text\" value=\"\" id=\"seleccion_centro" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 320px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"concepto" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input style=\"width: 110px\"  class=\"celdaFactura\" type=\"text\" value=\"\" id=\"factura" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        //fila = fila + "<td   ><input style=\"width: 150px\"  pattern=\"^\\$\\d{1,3}(,\\d{3})*(\\.\\d{2})?$\" data-type=\"currency\" class=\"inputNumero\" type=\"text\" value=\"\" id=\"Debito" + cont + '"\ /></td>';
+        fila = fila + "<td   ><input style=\"min-width:140px\"  class=\"inputNumeroComprobante\" type=\"text\" value=\"\" id=\"Debito" + cont + '"\ /></td>';
+
+       // fila = fila + "<td   ><input  style=\"width: 150px\" pattern=\"^\\$\\d{1,3}(,\\d{3})*(\\.\\d+)?$\" data-type=\"currency\" class=\"inputNumero\" type=\"text\" value=\"\" id=\"Credito" + cont + '"\ /></td>';
+        fila = fila + "<td   ><input  style=\"min-width: 140px\" class=\"inputNumeroComprobante\" type=\"text\" value=\"\" id=\"Credito" + cont + '"\ /></td>';
+
+        fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminar('fila" + cont + "')\" ><i class=\"fas fa-trash-alt mt-0\" style=\"color:#E74C3C\"></i></a><td>";
+
+        fila = fila + '</tr>';
+
+        $('#tabla tbody').append(fila);
+        //reordenar();
+        autocompletaPlandecuentaempresa("#seleccion_cuenta" + cont, "#Cuenta");
+        autocompletaTercero("#seleccion_tercero" + cont, "#Tercero");
+        autocompletaCentro("#seleccion_centro" + cont, "#Centro");
+        $("#seleccion_cuenta" + cont).addClass("Micuenta");
+        $("#seleccion_tercero" + cont).addClass("Mitercero");
+        $("#seleccion_centro" + cont).addClass("Micentro");
+
+/// funciones debito credito
+        // // formato Debito
+        elemento = '#concepto' + cont;
+        $(document.body).on('focusout', elemento, function (e) {
+            filaActual = this.id.replace('concepto', '');
+            valor=$(this).val();
+            valortercero=$("#seleccion_tercero"+filaActual).val();
+            if (valor.indexOf("//") >= 0 && valortercero!="")
+            {
+                nombretercero=    nombreTerceroSolo(valortercero);
+                $(this).val($(this).val().replace("//",nombretercero));
+            }
+        });
+
+        //keydown
+        $(document.body).on('keyup', elemento, function (e) {
+            filaActual = this.id.replace('concepto', '');
+            valor=$(this).val();
+            if (valor.length==1)
+                {
+                    nombreconcepto=conceptoSolo(valor);
+                    if (nombreconcepto!="")
+                    {
+                        $(this).val(nombreconcepto);
+                    }
+                }
+        });
+        elemento = '#Debito' + cont;
+        var cleave = new Cleave(elemento, {
+
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 2
+
+        });
+
+        // // formato Debito
+        elemento = '#Debito' + cont;
+        $(document.body).on('focusout', elemento, function (e) {
+            //alert("Sale focues");
+           // alert(formatomoneda($(elemento).val()));
+           // $(elemento).val(formatomoneda($(elemento).val()));
+            formatCurrency($(this),"blur");
+            totales();
+        });
+
+        $(document).on('keyup', elemento, function (e) {
+            e.preventDefault();
+            var code = e.keyCode || e.which;
+            valor=  $( elemento).val();
+            filaActual = this.id.replace('Debito', '');
+            filaSiguiente = parseInt(filaActual) + 1;
+
+        });
+
+        $(document).on('keydown', elemento, function (e) {
+
+            var code = e.keyCode || e.which;
+            valor=  $( elemento).val();
+            filaActual = this.id.replace('Debito', '');
+            filaSiguiente = parseInt(filaActual) + 1;
+            console.log(typeof valor);
+            if (code === 113)
+                {
+                  //  alert("f2 igualar ");
+                    Igualar(filaActual);
+                }
+
+            if (code === 9) {
+
+
+                valor=  $("#Debito"+filaActual).val();
+
+                if(valor.length==0 )
+                {
+                    $("#Debito"+filaActual).val('');
+                    credito = 'Credito' + filaActual;
+
+
+                }
+                else
+                {
+                    e.preventDefault();
+                    // limpia credito actual
+                    credito = 'Credito' + filaActual;
+                    $('#' + credito).val('');
+                    totales();
+                    if (filaActual== $("#Items").val())
+                    {
+                        agregar();
+                        // asigna cuenta
+                        //$("#seleccion_cuenta"+filaSiguiente).val($("#seleccion_cuenta"+filaActual).val());
+                        $("#seleccion_tercero"+filaSiguiente).val($("#seleccion_tercero"+filaActual).val());
+                        $("#seleccion_centro"+filaSiguiente).val($("#seleccion_centro"+filaActual).val());
+                        $("#concepto"+filaSiguiente).val($("#concepto"+filaActual).val());
+                    }
+
+                    linea = 'seleccion_cuenta' + filaSiguiente;
+                    //alert(producto);
+                    $('#' + linea).focus();
+                    $('#' + linea).focusin();
+
+                }
+            }
+
+
+
+
+
+
+
+        });
+
+
+        // credito
+
+        elemento = '#Credito' + cont;
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 2
+
+        });
+
+        elemento = '#Credito' + cont;
+        $(document).on('focusout', elemento, function (e) {
+        //    $(elemento).val(formatomoneda( $(elemento).val()));
+            totales();
+            formatCurrency($(this),"blur");
+        });
+
+        $(document).on('keyup', elemento, function (e) {
+            e.preventDefault();
+            var code = e.keyCode || e.which;
+            valor=  $( elemento).val();
+            filaActual = this.id.replace('Credito', '');
+            filaSiguiente = parseInt(filaActual) + 1;
+            if (e.which == 13) {
+                //   agregar();
+            } else {
+               // formatCurrency($(this),"");
+            }
+        });
+
+        $(document).on('keydown', elemento, function (e) {
+
+            var code = e.keyCode || e.which;
+            valor=  $( elemento).val();
+            filaActual = this.id.replace('Credito', '');
+            filaSiguiente = parseInt(filaActual) + 1;
+            console.log(typeof valor);
+
+            if (code === 113)
+            {
+                //  alert("f2 igualar ");
+                Igualar(filaActual);
+            }
+
+            if (code === 9) {
+                e.preventDefault();
+
+                //valor=  $("#credito"+filaActual).val();
+
+                if($("#Credito"+filaActual).val()==0 )
+                {
+
+                    debito = 'Debito' + filaActual;
+                    valorDebito=$('#' + debito).val();
+                    if(valorDebito.length==0)
+                    {
+                        alert("Por Favor Llenar Valor")
+                    }
+
+
+                }
+                else
+                {    e.preventDefault();
+                    // limpia debito actual
+                    debito = 'Debito' + filaActual;
+                    $('#' + debito).val('');
+                    // agregar();
+
+                    totales();
+                    if (filaActual== $("#Items").val())
+                    {
+                        if (validar(filaActual)==true)
+                        {
+                            agregar();
+                            //$("#seleccion_cuenta"+filaSiguiente).val($("#seleccion_cuenta"+filaActual).val());
+                            $("#seleccion_tercero"+filaSiguiente).val($("#seleccion_tercero"+filaActual).val());
+                            $("#seleccion_centro"+filaSiguiente).val($("#seleccion_centro"+filaActual).val());
+                            $("#concepto"+filaSiguiente).val($("#concepto"+filaActual).val());
+
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+
+                    linea = 'seleccion_cuenta' + filaSiguiente;
+                    //alert(producto);
+                    $('#' + linea).focus();
+                    $('#' + linea).focusin();
+
+                }
+            }
+        });
+
+
+
+
+    }
+    function validar(miFila){
+
+        MovimientoValido = true;
+
+
+            if ($("#seleccion_cuenta" + miFila).val() == '') {
+                alert(" Falta Cuenta");
+                MovimientoValido = false;
+                return false;
+            }
+
+        if ($("#seleccion_tercero" + miFila).val() == '') {
+            alert(" Falta Tercero");
+            MovimientoValido = false;
+            return false;
+        }
+
+        if ($("#seleccion_centro" + miFila).val() == '') {
+            alert(" Falta Centro");
+            MovimientoValido = false;
+            return false;
+        }
+
+        if ($("#seleccion_concepto" + miFila).val() == '') {
+            alert(" Falta Concepto");
+            MovimientoValido = false;
+            return false;
+        }
+        return true;
+    }
+    function sumasIguales()
+    {
+        var totalDebito=0;
+        var totalCredito=0;
+        var cont = 1;
+        var subtotalLineaTotal = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            debito= limpiarformato($("#Debito" + cont).val());
+            credito = limpiarformato($("#Credito" + cont).val());
+            totalDebito+=debito;
+            totalCredito+=credito;
+            cont++;
+        });
+
+        // alert(totalDebito);
+        // alert(totalCredito);
+        if(totalDebito==totalCredito)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    function Igualar(mifilaactual)
+    {
+        $("#Debito" +mifilaactual).val("");
+        $("#Credito" + mifilaactual).val("");
+
+       //  var totalDebito=0;
+       //  var totalCredito=0;
+       //  var cont = 1;
+       //  var subtotalLineaTotal = 0;
+       //  $('#tabla tbody tr').each(function () {
+       //      fila = cont;
+       //      debito= limpiarformato($("#Debito" + cont).val());
+       //      credito = limpiarformato($("#Credito" + cont).val());
+       //      totalDebito+=debito;
+       //      totalCredito+=credito;
+       //      cont++;
+       //  });
+       // // alert(cont);
+       //  micont=cont-1+"";
+       //  alert(micont);
+       //  // borra ultimo registro
+       //  $("#Debito" + micont).val("0");
+       //  $("#Credito" + micont).val("0");
+
+        totales();
+
+      //  $("#Debito" + micont).val("0");
+     //   $("#Credito" + micont).val("0");
+
+
+        if ( $("#DiferenciaCredito").val()=="")
+        {
+            $("#Debito" + mifilaactual).val($("#DiferenciaDebito").val());
+
+        } else {
+            $("#Credito" + mifilaactual).val($("#DiferenciaCredito").val());
+
+        }
+
+        totales();
+     //   alert( $("#DiferenciaDebito").val())
+
+     //   alert( $("#DiferenciaCredito").val())
+
+
+        // alert(cont);
+        // var totalDebito=0;
+        // var totalCredito=0;
+        // for (var i = 1; i <= cont; i++) {
+        //     debito= limpiarformato($("#Debito" + i).val());
+        //     credito = limpiarformato($("#Credito" + i).val());
+        //     totalDebito+=debito;
+        //     totalCredito+=credito;
+        // }
+
+
+
+        // alert(totalDebito);
+        // alert(totalCredito);
+        // if(totalDebito==totalCredito)
+        // {
+        //     return true;
+        // }
+        // else
+        // {
+        //     return false;
+        // }
+    }
+
+///
+    function insertar(id_fila) {
+        agregar();
+
+         filaActual=id_fila.replace("fila","");
+         NumeroActual=parseInt(filaActual);
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+       for (var j = cont-1; j >=filaActual ; j--) {
+            cadenaActual=""+j;
+            lineaSuperior=j-1;
+            cadenaSuperior=lineaSuperior+"";
+            $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+            $("#seleccion_tercero"+cadenaActual).val($("#seleccion_tercero"+cadenaSuperior).val());
+            $("#seleccion_centro"+cadenaActual).val($("#seleccion_centro"+cadenaSuperior).val());
+            $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+            $("#factura"+cadenaActual).val($("#factura"+cadenaSuperior).val());
+            $("#Debito"+cadenaActual).val($("#Debito"+cadenaSuperior).val());
+            $("#Credito"+cadenaActual).val($("#Credito"+cadenaSuperior).val());
+       }
+        cadenaActual=filaActual;
+        $("#seleccion_cuenta"+cadenaActual).val("");
+        $("#seleccion_tercero"+cadenaActual).val("");
+        $("#seleccion_centro"+cadenaActual).val("");
+        $("#concepto"+cadenaActual).val("");
+        $("#factura"+cadenaActual).val("");
+        $("#Debito"+cadenaActual).val("");
+        $("#Credito"+cadenaActual).val("");
+    totales();
+    reordenar();
+    }
+
+    function eliminar(id_fila) {
+        //agregar();
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        if ((cont-1)>1)
+        {
+        filaActual=id_fila.replace("fila","");
+        NumeroActual=parseInt(filaActual);
+
+
+        lineaSuperior=0;
+
+        for (var j = filaActual; j <cont-1 ; j++) {
+             cadenaActual=""+j;
+
+            lineaSuperior=parseInt(j)+1;
+            cadenaSuperior=lineaSuperior+"";
+
+             $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+             $("#seleccion_tercero"+cadenaActual).val($("#seleccion_tercero"+cadenaSuperior).val());
+             $("#seleccion_centro"+cadenaActual).val($("#seleccion_centro"+cadenaSuperior).val());
+             $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+             $("#factura"+cadenaActual).val($("#factura"+cadenaSuperior).val());
+             $("#Debito"+cadenaActual).val($("#Debito"+cadenaSuperior).val());
+             $("#Credito"+cadenaActual).val($("#Credito"+cadenaSuperior).val());
+        }
+        var fila=cont-1;
+         $('#fila' +fila ).remove();
+
+         }
+
+        totales();
+    }
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+    // cierra panel
+    window.document.addEventListener('myEvent', handleEvent, false)
+    window.document.addEventListener('myEvent1', handleEvent1, false)
+    window.document.addEventListener('pasarParametros', handleEvent2, false)
+
+    function handleEvent1(e) {
+
+        panelNuevo.close();
+
+    }
+    function handleEvent2(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+                valor = e.detail.codigoElementoCentro;
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+
+            if (e.detail.elementoPanel == "terceroCodigo") {
+                valor = e.detail.codigoElemento.replace('.', '');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    // niombre cuenta
+    function nombreCuenta(codigo,elementoNombre)
+    {
+        accion = "/PlandecuentaempresaActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    // nombre tercero
+    function nombreTercero(codigo,elementoNombre)
+    {
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    function nombreTerceroSolo(codigo)
+    {
+       // alert("codigo "+codigo);
+        var nombre=""
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+               // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                   // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+    return nombre;
+    }
+
+    function conceptoSolo(codigo)
+    {
+        // alert("codigo "+codigo);
+        if(codigo=="")
+            return "";
+
+        var nombre=""
+        accion = "/ConceptoActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+        return nombre;
+    }
+    // nombre centro
+    // nombre tercero
+    function nombreCentro(codigo,elementoNombre)
+    {
+        accion = "/CentroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+
+
+    function formatomonedadata(input_val) {
+
+        // don't validate empty input
+        if (input_val == "0.00") {
+            return "";
+        }
+
+        // original length
+        var original_len = input_val.length;
+        // check for decimalcon(
+        if (input_val.indexOf(".") >= 0) {
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+            var right_side = input_val.substring(decimal_pos);
+            // con(input_val);
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+            // validate right side
+            right_side = formatNumber(right_side);
+
+            // On blur make sure 2 numbers after decimal
+            //if (blur === "blur") {
+            //    right_side += "00";
+            //}
+            //con(input_val);
+
+            // Limit decimal to only 2 digits
+            right_side = right_side.substring(0, 2);
+
+            if (right_side.length==1)
+                right_side=right_side+'0';
+
+            // join number by .
+            input_val =  left_side + "." + right_side;
+            //con(input_val);"$" +
+
+        } else {
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits
+            input_val = formatNumber(input_val);
+            input_val =  input_val;
+
+            // final formatting"$" +
+            if (blur === "blur") {
+                input_val += ".00";
+            }
+        }
+        return input_val;
+    }
+</script>
+{{end}}

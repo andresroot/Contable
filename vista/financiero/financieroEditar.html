@@ -1,0 +1,74 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/formulario.css"/>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <br>
+            <h3 class="" style="color: white; background-color: #21B799;
+                     width: 350px; text-align: center; border-radius: 1px">Editar Grupo Financiero</h3>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home"
+                     role="tabpanel" aria-labelledby="home-tab">
+                    <form method="POST"
+                          action="/FinancieroActualizar/{{.emp.Codigo }}">
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Codigo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           value="{{ .emp.Codigo }}"
+                                           name="Codigo"
+                                           id="Codigo" maxlength="2"
+                                           readonly class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <div class="md-form mt-0">
+                                    <input type="text" id="Nombre"
+                                           name="Nombre" required
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a onclick="window.history.go(-1); return false;"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right">Cancelar </a>
+                                <button type="submit"
+                                        class="btn btn-outline-success waves-effect btn-md float-right">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#Nombre').focus();
+
+        //INICIA DATOS INICIALES
+        $('#Nombre').val("{{ .emp.Nombre}}");
+
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Nombre', function (e) {
+            var code = e.keyCode || e.which;
+
+            if (e.which == 113) {
+                document.location.href = '/FinancieroNuevo/'+ $("#Codigo").val();
+            }
+        });
+        // TERMINA CREAR DUPLICADO CON F2
+
+    });
+</script>
+{{end}}
+
+
+

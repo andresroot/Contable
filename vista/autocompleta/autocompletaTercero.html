@@ -1,0 +1,137 @@
+{{define "autocompletaTercero" }}
+<script>
+    //--------------- autocompleta tercero
+    var numeroPanel = 1;
+    function autocompletaTercero(obj) {
+    //
+        $(document.body).on('focusout', obj, function (e) {
+            if ($(obj).val() == '') {
+            } else {
+                terceroCodigo = $(obj).val().replace(/\./g,'');
+                var datosEnviar = {
+                    "terceroCodigo": terceroCodigo
+                };
+                accion = "/TerceroActual/"+terceroCodigo;
+                $.ajax({
+                    url: accion,
+                    type: "GET",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    error: function (response) {
+                        alert('No Existe Tercero');
+                        $(obj).val('');
+                    },
+                    success: function (response) {
+                        if (jQuery.isEmptyObject(response)) {
+
+                        } else {
+                            $.each(response, function (i, item) {
+                              //  $(elementoDv).val(item.Dv);
+                                //$(elementoNombre).val(item.Nombre);
+
+                                $('#terceroDv').val(item.Dv);
+                                $('#terceroNombre').val(item.Nombre);
+                                $('#terceroDireccion').val(item.Direccion);
+                                $('#terceroTelefono1').val(item.Telefono1);
+                                $('#terceroEmail1').val(item.Email1);
+                                $("#PorcentajeRetencionIca").val(item.Ica);
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        $(obj).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/TerceroBuscar/"+request.term.replace(/\./g,''),
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+                $('#TerceroNuevo').val($(obj).val());
+                ui.content.push({
+                    label: " Crear Tercero :  " + $('#TerceroNuevo').val(),
+                    button: true
+                });
+            },
+            select: function (event, ui) {
+                var label = ui.item.label;
+                var value = ui.item.value;
+                valor = $(obj).val();
+                valorBuscar = " Crear Tercero :  " + $('#TerceroNuevo').val();
+                if (label == valorBuscar) {
+                    valor = $('#TerceroNuevo').val();
+                    panelCrea('TerceroNuevo', 'True', valor, obj.replace('#', ''))
+                } else {
+                    elemento = obj;
+                   // $(elementoNombre).html(ui.item.Nombre);
+                }
+            },
+            open: function (event, ui) {
+            }
+        });
+    }
+
+    window.document.addEventListener('myEvent', handleEvent, false)
+
+    function handleEvent(e) {
+        if (e.detail.valido == true) {
+
+            if (e.detail.elementoPanel == "Codigo") {
+                valor = e.detail.codigoElemento.replace(/\./g,'');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelCrea(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panelph" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 500},
+            contentSize: {width: '1306px', height: '500px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px',
+                maxTop: '-20px',
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+
+</script>
+{{end}}

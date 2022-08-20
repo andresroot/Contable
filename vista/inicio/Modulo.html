@@ -1,0 +1,116 @@
+<html lang="es">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Sadconf Cloud</title>
+    <link rel="stylesheet" href="{{ .hosting }}static/css/all.min.css"/>
+    <link rel="stylesheet" href="{{ .hosting }}static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{{ .hosting }}static/css/mdb.min.css"/>
+    <link rel="stylesheet"
+          href="{{ .hosting }}static/css/addons/datatables.css"/>
+    <link rel="stylesheet"
+          href="{{ .hosting }}static/css/addons/datatables-select.min.css"/>
+    <link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+    <link rel="stylesheet" href="{{ .hosting }}static/css/estilo.css"/>
+    <style></style>
+</head>
+<body class="single-page light-blue-skin">
+<header>
+</header>
+<script src="{{ .hosting }}static/js/jquery-3.4.1.min.js"></script>
+<script src="{{ .hosting }}static/js/jquery.mask.min.js"></script>
+<script src="{{ .hosting }}static/js/jspdf.min.js"></script>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/popper.min.js"></script>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/bootstrap.js"></script>
+<script type="text/javascript" src="{{ .hosting }}static/js/mdb.js"></script>
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/moment-with-locales.min.js"></script>
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/addons/datatables.js"></script>
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/datetime.js"></script>
+
+
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/addons/datatables-select.min.js"></script>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/numeral.min.js"></script>
+
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/mascara.js"></script>
+<main>
+    <div id="Imprime">
+        {{template "body" .}}
+    </div>
+</main>
+
+<script>
+
+    function tabla() {
+
+        $('#dt-all-checkbox').dataTable({
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            }
+        });
+        $('#dt-all-checkbox').DataTable();
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+        $('.mdb-select').materialSelect({});
+
+    }
+</script>
+</body>
+</html>

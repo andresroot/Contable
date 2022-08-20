@@ -1,0 +1,231 @@
+{{define "body"}}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <br>
+                <h3 class="tp">Prestaciones Sociales</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                        <form id="formulario" method="POST">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Prestaciones No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Numero"
+                                               id="Numero"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha Inicial</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="FechaInicial"
+                                               id="FechaInicial"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha Final</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="FechaFinal"
+                                               id="FechaFinal"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                                    <div class="cajatabla mt-2">
+<!--                            <div class="form-group row">-->
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr id="cabeceraTitulo">
+                                        <th id=""></th>
+                                        <th id="No">No</th>
+                                        <th id="cabezaCodigo">Codigo</th>
+                                        <th id="cabezaNombre">Nombre</th>
+                                        <th id="cabezaCentro">Centro</th>
+                                        <th class="tar" id="cabezaSueldo">Sueldo</th>
+                                        <th class="tar" id="cabezaCesantias">Cesantias</th>
+                                        <th class="tar" id="cabezaIntereses">Intereses</th>
+                                        <th class="tar" id="cabezaPrima">Prima</th>
+                                        <th class="tar" id="cabezaVacaciones">Vacaciones</th>
+                                        <th class="tar" id="cabezaDotaciones">Dotaciones</th>
+                                        <th class="tar" id="cabezaTotal">Total</th>
+                                        <th id="Accion"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                            </div>
+<!--                            </div>-->
+                            <br>
+                               <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a href="/NominaprestacionesLista"
+                                       class="btn btn-outline-dark waves-effect
+                                       btn-md float-right">Cancelar </a>
+                                    <button type="button"
+                                            onclick="guardardoc('Nuevo')"
+                                            class="btn btn-outline-success
+                                             waves-effect btn-md float-right">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="LineaActual"
+       type="hidden"/>
+<!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="EmpleadoNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<script src="{{ .hosting }}static/js/cuentadecobro.js"></script>
+
+<!--   INICIA TEMPLATE-->
+    {{template "nominaprestacionesscript" }}
+<!--   MODAL VACACIONES COMPENSADAS-->
+    {{template "modalColumna" }}
+    {{template "autocompletaCentro" }}
+    {{template "autocompletaEmpleado"}}
+
+<script>
+    function columnas(opcion,columna)
+    {
+        if($(opcion).is(':checked')) {
+            $('#tabla td:nth-child('+columna+')').show();
+            $('#tabla th:nth-child('+columna+')').show();
+
+        } else {
+            $('#tabla td:nth-child('+columna+')').hide();
+            $('#tabla th:nth-child('+columna+')').hide();
+        }
+    }
+
+    $(document).ready(function () {
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicial").val(m);
+        $("#FechaFinal").val(m);
+
+        listadevengado=[];
+        listadevengado.push("cesantias");
+        listadevengado.push("intereses");
+        listadevengado.push("prima");
+        listadevengado.push("vacaciones");
+        listadevengado.push("dotaciones");
+
+        // inicia fechas
+        // fin calcula dias
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicialVacacionesComunes").val(m);
+        $("#FechaFinalVacacionesComunes").val(m);
+        $("#FechaInicialVacacionesCompensadas").val(m);
+        $("#FechaFinalVacacionesCompensadas").val(m);
+        $('#NuevaColumna').materialSelect({});
+        $('#cabeceraTitulo').click(function() {
+        $('#modalColumna').modal('show');
+        });
+
+        $("th").click(function(){
+            var theLink = $(this).text();
+            //alert(theLink);
+           // alert($(this).attr('id'));
+        });
+
+        crearTotales();
+        // llenar detalle
+
+        // TRAE DATOS DE EDITAR
+        if ("{{ .codigo }}" == "False") {
+            cont = 1;
+            {{range.empleado }}
+            agregar();
+            $('#codigo' + cont).val('{{ .Codigo }}');
+            $('#nombre' + cont).val('{{ .Nombre }}');
+            sueldo=Number({{ .Sueldo }});
+            transporte=Number({{ .Transporte }});
+            cesantias=(sueldo+transporte)/12;
+            intereses=(sueldo+transporte)/12*0.1;
+            prima=(sueldo+transporte)/12;
+            vacaciones=sueldo/24;
+            dotacion={{ .Dotacion }}*1;
+            $('#centro' + cont).val('1');
+            $('#sueldo' + cont).val(moneda(Number({{ .Sueldo }}),0));
+            $('#cesantias' + cont).val(moneda(cesantias,0));
+            $('#intereses' + cont).val(moneda(intereses,0));
+            $('#prima' + cont).val(moneda(prima,0));
+            $('#vacaciones' + cont).val(moneda(vacaciones,0));
+            $('#dotaciones' + cont).val(moneda(dotacion,0));
+            $('#devengado' + cont).val('0');
+            totalfila(cont+'');
+
+            cont++;
+            {{end}}
+
+            totales();
+            $('#Numero').focus();
+        } else {
+
+            $("#FechaInicial").val('{{ .nominaprestaciones.Fechainicial.Format "2006-01-02"}}');
+            $("#FechaFinal").val('{{ .nominaprestaciones.Fechafinal.Format "2006-01-02"}}');
+            cont = 1;
+            {{range.detalle }}
+            agregar();
+            $('#codigo' + cont).val('{{ .Codigo }}');
+            $('#nombre' + cont).val('{{ .Empleadonombre }}');
+            $('#centro' + cont).val('{{ .Centro }}');
+            $('#sueldo' + cont).val(moneda(Number({{ .Sueldo }}),0));
+            $('#cesantias' + cont).val(moneda(Number({{ .Cesantias }}),0));
+            $('#intereses' + cont).val(moneda(Number({{ .Intereses }}),0));
+            $('#prima' + cont).val(moneda(Number({{ .Prima }}),0));
+            $('#vacaciones' + cont).val(moneda(Number({{ .Vacaciones }}),0));
+            $('#dotaciones' + cont).val(moneda(Number({{ .Dotaciones }}),0));
+            $('#total' + cont).val(moneda(Number({{ .Total }}),0));
+            totalfila(cont+'');
+
+            cont++;
+            {{end}}
+
+            totales();
+
+            $('#Numero').focus();
+        }
+    });
+    function moneda(n, dp){
+        var w = n.toFixed(dp), k = w|0, b = n < 0 ? 1 : 0,
+            u = Math.abs(w-k), d = (''+u.toFixed(dp)).substr(2, dp),
+            s = ''+k, i = s.length, r = '';
+        while ( (i-=3) > b ) { r = ',' + s.substr(i, 3) + r; }
+        return s.substr(0, i + 3) + r + (d ? '.'+d: '');
+    };
+</script>
+{{end}}
+

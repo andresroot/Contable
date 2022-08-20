@@ -1,0 +1,548 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/servicio.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <h3 class="tp">Nuevo Soporte Servicio</h3>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div id="aviso"
+                         class="alert text-center alert-success alert-dismissible"
+                         role="alert"
+                         style="width: 302px; height: 40px; padding-top: 7px">
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p id="textoaviso">Cargando...</p>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <br>
+            <form id="formulario" method="POST"
+                  action="/SoporteservicioAgregar">
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Resolucion</label>
+                    <div class="col-sm-5">
+                        <div class="md-form mt-0">
+                            <select name="Resolucionsoporte"
+                                    id="Resolucionsoporte"
+                                    class=" mdb-select md-form-control"
+                                    editable="true">
+                                {{ range .resolucionsoporte }}
+                                <option value="{{ .Codigo }}">
+                                    {{.Numero }}-{{ .Prefijo }} -
+                                    {{.Tipo }}-{{ .Local }}
+                                </option>
+                                {{ end }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Documento</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Codigo"
+                                   id="Codigo"
+                                   class="form-control" readonly/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Proveedor</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="terceroCodigo"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="terceroNombre"
+                                   class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Direccion</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="terceroDireccion"
+                                   class="form-control"
+                                   disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Pedido No.</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Pedidosoporteservicio"
+                                   id="Pedidosoporteservicio"
+                                   class="form-control" required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Fecha</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   placeholder="DD/mm/YYYY"
+                                   name="Fecha"
+                                   id="Fecha"
+                                   class="form-control" required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Fecha
+                        Vence</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   name="Vence"
+                                   id="Vence"
+                                   class="form-control" required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Forma Pago</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="FormadepagoNombre"
+                                   id="FormadepagoNombre"
+                                   class="form-control" required/>
+                            <input type="hidden"
+                                   name="Formadepago"
+                                   id="Formadepago"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Medio Pago</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="MediodepagoNombre"
+                                   id="MediodepagoNombre"
+                                   class="form-control" required/>
+                            <input type="hidden"
+                                   name="Mediodepago"
+                                   id="Mediodepago"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Almacenista</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="AlmacenistaNombre"
+                                   id="AlmacenistaNombre"
+                                   class="form-control" required/>
+                            <input type="hidden"
+                                   name="Almacenista"
+                                   id="Almacenista"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Centro</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="CentroNombre"
+                                   id="CentroNombre"
+                                   class="form-control" required/>
+                            <input type="hidden"
+                                   name="Centro"
+                                   id="Centro"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Cuenta Gasto</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Soporteserviciocuenta0"
+                                   name="Soporteserviciocuenta0"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Soporteservicionombre0"
+                                   name="Soporteservicionombre0"
+                                   class="form-control" disabled>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Ret. Ica. %</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="PorcentajeRetencionIca"
+                                   id="PorcentajeRetencionIca"
+                                   class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-1 col-form-label">Cuenta Ret
+                        Fte</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Soporteserviciocuentaretfte"
+                                   name="Soporteserviciocuentaretfte"
+                                   class="form-control text-left"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Nombre</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   id="Soporteservicionombreretfte"
+                                   name="Soporteservicionombreretfte"
+                                   class="form-control"
+                                   disabled>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Porcentaje</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="PorcentajeRetencionFuente"
+                                   id="PorcentajeRetencionFuente"
+                                   class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <table id="tabla"
+                           class="table table-sm" cellspacing="0" width="100%">
+                        <thead class="miCabeceraTabla">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>No</th>
+                            <th style="padding-left: 5px">Codigo</th>
+                            <th style="padding-left: 5px">Descripcion</th>
+                            <th style="padding-left: 5px">Unidad</th>
+                            <th style="padding-left: 65px">Cantidad</th>
+                            <th style="padding-left: 55px">Vr. Unitario</th>
+                            <th style="padding-left: 120px">Total</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="hidden" id="Subtotal19"/>
+                <input type="hidden" id="Subtotal5"/>
+                <input type="hidden" id="Subtotal0"/>
+                <input type="hidden" id="SubtotalDescuento19"/>
+                <input type="hidden" id="SubtotalDescuento5"/>
+                <input type="hidden" id="SubtotalDescuento0"/>
+                <div class="form-group row mb-0">
+                    <div class="col-sm-9"></div>
+                    <label class="col-sm-1 col-form-label">Subtotal</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0 mdt">
+                            <input type="text"
+                                   id="Subtotal"
+                                   class="form-control text-right"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <div class="col-sm-9">
+                    </div>
+                    <label class="col-sm-1 col-form-label">Ret. Fte.</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0 mdt">
+                            <input type="text"
+                                   id="TotalRetencionFuente"
+                                   class="form-control text-right"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <div class="col-sm-9"></div>
+                    <label class="col-sm-1 col-form-label">Ret. Ica</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0 mdt">
+                            <input type="text"
+                                   id="TotalRetencionIca"
+                                   class="form-control text-right"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <div class="col-sm-9">
+                    </div>
+                    <label class="col-sm-1 col-form-label">Total
+                        Neto</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0 mdt">
+                            <input type="text"
+                                   id="Neto"
+                                   class="form-control text-right"/>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group row mb-0">
+                    <div class="col-sm-12">
+                        <a href="/SoporteservicioLista"
+                           class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                        <button type="button" id="guardar"
+                                onclick="guardardoc('Nuevo')"
+                                class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+        <!--   INICIA NUEVO TERCERO-->
+<input id="terceroNuevo"
+       type="hidden"/>
+<input id="PlandecuentaempresaNuevo"
+       type="hidden"/>
+<input id="FormadepagoNuevo"
+       type="hidden"/>
+<input id="MediodepagoNuevo"
+       type="hidden"/>
+<input id="AlmacenistaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="productoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+<input id="miperiodo" value="{{ .miperiodo }}"
+       type="hidden"/>
+<script src="{{ .hosting }}static/js/soporteservicio.js"></script>
+
+        {{template "soporteservicioscript" }}
+        {{template "autocompletaPlandecuentaempresa" }}
+        {{template "autocompletaFormadepago" }}
+        {{template "autocompletaMediodepago" }}
+        {{template "autocompletaAlmacenista" }}
+        {{template "autocompletaCentro" }}
+
+
+<script>
+$(document).ready(function () {
+    // INICIA MASCARAS
+    $("#PorcentajeRetencionFuente").mask('##.00', {reverse: true});
+
+    // INICIA FECHA
+    var m = moment().set('year', $('#miperiodo').val()).format("YYYY-MM-DD");
+    $("#Fecha").val(m);
+    $("#Vence").val(m);
+
+    // INICIA CODIGO  YA EXISTE
+    $("#Codigo").focus();
+    $("#aviso").hide();
+
+    // INICIA AUTOCOMPLETADO
+    autocompletaTercero('#terceroCodigo');
+    autocompletaPlandecuentaempresa("#Soporteserviciocuenta0", "#Soporteservicionombre0");
+    autocompletaPlandecuentaempresa("#Soporteserviciocuentaretfte", "#Soporteservicionombreretfte");
+    autocompletaFormadepago('#FormadepagoNombre', '#Formadepago');
+    autocompletaMediodepago('#MediodepagoNombre', '#Mediodepago');
+    autocompletaAlmacenista('#AlmacenistaNombre', '#Almacenista');
+    autocompletaCentro('#CentroNombre', '#Centro');
+
+
+    // INICIA FOCUS
+    $('#Fecha').focus();
+
+    $('#Resolucionsoporte').materialSelect({});
+
+    // DATOS INICIALES
+    $("#PorcentajeRetencionIca").val("0.00");
+    $("#PorcentajeRetencionFuente").val("0.00");
+    $('#Formadepago').val("2");
+    $('#FormadepagoNombre').val("Credito");
+    $('#Mediodepago').val("46");
+    $('#MediodepagoNombre').val("Transferencia Debito");
+    $('#Centro').val("1");
+    $('#CentroNombre').val("Almacen Principal");
+    $("#Almacenista").val('{{ .almacenista.Codigo }}');
+    $("#AlmacenistaNombre").val('{{ .almacenista.Nombre }}');
+
+    // TRAE DATOS DE EDITAR
+    if ("{{ .codigo }}" == "False") {
+        agregar();
+    } else {
+        // llenar valores de SOPORTE SERVICIOS
+        $("#Resolucionsoporte").val('{{ .soporteservicio.Resolucionsoporte }}');
+        $("#Fecha").val('{{ .soporteservicio.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .soporteservicio.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .soporteservicio.Tercero }}');
+        $("#terceroDv").val('{{ .soporteservicio.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .soporteservicio.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .soporteservicio.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .soporteservicio.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .soporteservicio.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .soporteservicio.Subtotal }}');
+        $('#SubtotalBase19').val('{{ .soporteservicio.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .soporteservicio.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .soporteservicio.Subtotalbase0 }}');
+        $('#Descuento').val('{{ .soporteservicio.Descuento}}');
+        $('#PorcentajeRetencionFuente').val('{{ .soporteservicio.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .soporteservicio.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .soporteservicio.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .soporteservicio.TotalRetencionIca }}');
+        $('#Neto').val('{{ .soporteservicio.Neto }}');
+        $('#Formadepago').val('{{ .soporteservicio.Formadepago}}');
+        $('#Mediodepago').val('{{ .soporteservicio.Mediodepago}}');
+        $('#Almacenista').val('{{ .soporteservicio.Almacenista}}');
+        $('#Pedidosoporteservicio').val('{{ .soporteservicio.Pedidosoporteservicio}}');
+        $('#Centro').val('{{ .soporteservicio.Centro}}');
+        $('#Soporteserviciocuenta0').val('{{ .soporteservicio.Soporteserviciocuenta0}}');
+        $('#Soporteservicionombre0').val('{{ .soporteservicio.Soporteservicionombre0}}');
+        $('#Soporteserviciocuentaretfte').val('{{ .soporteservicio.Soporteserviciocuentaretfte}}');
+        $('#Soporteservicionombreretfte').val('{{ .soporteservicio.Soporteservicionombreretfte}}');
+        $('#CentroNombre').val('{{ .soporteservicio.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .soporteservicio.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .soporteservicio.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .soporteservicio.AlmacenistaDetalle.Nombre}}');
+        cont = 1;
+
+        {
+            {
+                range.detalle
+            }
+        }
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Codigoservicio }}');
+        $('#nombre' + cont).val('{{ .Nombreservicio }}');
+        $('#unidad' + cont).val('{{ .Unidadservicio }}');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        cont++;
+
+        {
+            {
+                end
+            }
+        }
+        totales();
+
+        $('#Fecha').focus();
+        // TERMINA TRAER DATOS DE EDITAR
+    }
+});
+
+// TRAER PEDIDO SOPORTE SERVICIOS
+$("#Pedidosoporteservicio").focusout(function () {
+    elemento = "#Pedidosoporteservicio";
+    codigo = $(elemento).val().replace(" ", "_").toUpperCase();
+    $(elemento).val(codigo);
+    if ($(elemento).val().length > 0) {
+        $.ajax({
+            url: "/DatosPedidosoporteservicio/" + codigo + "/" + $("#terceroCodigo").val(),
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert('No Existe Pedido para este Proveedor');
+                } else {
+                    var cont = 1;
+                    $('#tabla tbody tr').each(function () {
+                        var fila=cont;
+                        $('#fila' +fila ).remove();
+                        cont++;
+                    });
+                    $.each(response, function (i, miPedido) {
+                        const format2 = "YYYY-MM-DD"
+                        fecha1 = moment(miPedido.Fecha).add(1, 'days');
+                        fecha1 = moment(fecha1).format(format2);
+                        vence1 = moment(miPedido.Vence).add(1, 'days');
+                        vence1 = moment(vence1).format(format2);
+                        $("#Fecha").val(fecha1);
+                        $("#Vence").val(vence1);
+                        $("#Plazo").val('');
+                        $("#terceroCodigo").val(miPedido.Tercero);
+                        $('#Subtotal').val(miPedido.Subtotal);
+                        $('#Descuento').val(miPedido.Descuento);
+                        $('#SubtotalIva19').val(miPedido.Subtotaliva19);
+                        $('#SubtotalIva5').val(miPedido.Subtotaliva5);
+                        $('#SubtotalBase19').val(miPedido.Subtotalbase19);
+                        $('#SubtotalBase5').val(miPedido.Subtotalbase5);
+                        $('#SubtotalBase0').val(miPedido.Subtotalbase0);
+                        $('#Total').val(miPedido.Total);
+                        $('#PorcentajeRetencionFuente').val(miPedido.PorcentajeRetencionFuente);
+                        $('#TotalRetencionFuente').val(miPedido.TotalRetencionFuente);
+                        $('#PorcentajeRetencionIca').val(miPedido.PorcentajeRetencionIca);
+                        $('#TotalRetencionIca').val(miPedido.TotalRetencionIca);
+                        $('#Neto').val(miPedido.Neto);
+                        $('#Formadepago').val(miPedido.Formadepago);
+                        $('#Mediodepago').val(miPedido.Mediodepago);
+                        $('#Almacenista').val(miPedido.Almacenista);
+                        $('#Centro').val(miPedido.Centro);
+                        $("#terceroDv").val(miPedido.TerceroDetalle.Dv);
+                        $("#terceroNombre").val(miPedido.TerceroDetalle.Nombre);
+                        $("#terceroDireccion").val(miPedido.TerceroDetalle.Direccion);
+                        $("#terceroTelefono1").val(miPedido.TerceroDetalle.Telefono1);
+                        $("#terceroEmail1").val(miPedido.TerceroDetalle.Email1);
+                        $('#CentroNombre').val(miPedido.CentroDetalle.Nombre);
+                        $('#AlmacenistaNombre').val(miPedido.AlmacenistaDetalle.Nombre);
+                        $('#FormadepagoNombre').val(miPedido.FormadepagoDetalle.Nombre);
+                        $('#MediodepagoNombre').val(miPedido.MediodepagoDetalle.Nombre);
+                        $('#Soporteserviciocuenta0').val(miPedido.Pedidosoporteserviciocuenta0);
+                        $('#Soporteservicionombre0').val(miPedido.Pedidosoporteservicionombre0);
+                        $('#Soporteserviciocuentaretfte').val(miPedido.Pedidosoporteserviciocuentaretfte);
+                        $('#Soporteservicionombreretfte').val(miPedido.Pedidosoporteservicionombreretfte);
+
+                        // traer detalle
+                        cont = 1;
+                        $.each(miPedido.DetalleEditar, function (e, miDetalle) {
+                            agregar();
+                            $('#seleccion_producto' + cont).val(miDetalle.Codigoservicio);
+                            $('#nombre' + cont).val(miDetalle.Nombreservicio);
+                            $('#unidad' + cont).val(miDetalle.Unidadservicio);
+                            $('#cantidad' + cont).val(formatomoneda(miDetalle.Cantidad));
+                            $('#valor' + cont).val(formatomoneda(miDetalle.Precio));
+                            cont++;
+                        });
+                        totales();
+                    });
+                }
+            },
+        });
+    }
+});
+
+</script>
+
+        {{end}}

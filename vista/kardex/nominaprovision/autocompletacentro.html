@@ -1,0 +1,170 @@
+{{define "autocompletaCentro" }}
+<script>
+  //--------------- autocompleta centro
+  var numeroPanel = 1;
+
+  function autocompletaCentro(obj) {
+
+    $(document.body).on('focusout', obj, function (e) {
+
+      if ($(obj).val().length>2) {
+         // alert($(obj).val().length);
+       // $(obj).val('');
+      //  alert("borrar");
+      }
+
+      if ($(obj).val() == '') {
+      } else {
+
+        $(obj).val($(obj).val().replace('.', ''));
+
+        centroCodigo = $(obj).val().replace('.', '');
+
+        var datosEnviar = {
+          "centroCodigo": centroCodigo
+        };
+
+
+        accion = "/CentroActual/"+centroCodigo;
+        $.ajax({
+          url: accion,
+          type: "GET",
+          async: false,
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          error: function (response) {
+           // alert('No Existe Centro ');
+           // $(obj).val('');
+          },
+          success: function (response) {
+            if (jQuery.isEmptyObject(response)) {
+             // alert("no existe centro ");
+              //  $(obj).val('');
+            } else {
+              $.each(response, function (i, item) {
+               // $(elementoNombre).val(item.Nombre);
+                // alert(item.Nombre)
+              });
+            }
+          }
+        });
+      }
+    });
+
+    $(obj).autocomplete({
+      source: function (request, response) {
+        $.ajax({
+          url: "/CentroBuscarCrear/"+request.term,
+          type: 'GET',
+          dataType: "json",
+          success: function (data) {
+            response(data);
+          }
+        });
+      },
+      messages: {
+        noResults: '',
+        results: function () {
+        }
+      },
+      maxShowItems: 5,
+      response: function (event, ui) {
+        if (ui.content.length === 0) {
+          if ($(obj).val().length>0 && $(obj).val().length<3 ) {
+
+            $('#CentroNuevo').val($(obj).val());
+            ui.content.push({
+              label: " Crear Centro :  " + $('#CentroNuevo').val(),
+              button: true
+            });
+          }
+        } else {
+        }
+      },
+      select: function (event, ui) {
+        var label = ui.item.label;
+        var value = ui.item.value;
+        valor = $(obj).val();
+
+        valorBuscar = " Crear Centro :  " + $('#CentroNuevo').val();
+
+        if (label == valorBuscar) {
+           // alert("alert igual");
+            valor = $('#CentroNuevo').val();
+          //  alert(valor.length);
+
+
+          if (!(valor.length>0 )) {
+          } else {
+              //alert("alert igual22");
+            valor = $('#CentroNuevo').val();
+
+            panelListaCentro('CentroNuevo', 'True', valor,
+                    obj.replace('#', ''))
+
+          }
+
+        } else {
+          elemento = obj;
+       //   $(elementoNombre).val(ui.item.Nombre);
+
+        }
+
+      },
+      open: function (event, ui) {
+        // var d = $('.ui-autocomplete').append("<a href='/AdvancedSearch/[" + search_term + "]'>Crear Producto [" + search_term + "]</a>")
+      }
+    });
+  }
+
+  window.document.addEventListener('myEvent', handleEvent, false)
+
+  function handleEvent(e) {
+
+    if (e.detail.valido == true) {
+      //alert(e.detail.codigoElemento);
+
+      valor = e.detail.codigoElemento.replace('.', '');
+
+      $('#' + e.detail.elementoPanel).val(valor);
+      $('#' + e.detail.elementoPanel).focus();
+      panelNuevo.close();
+    } else {
+      panelNuevo.close();
+    }
+
+    console.log(e.detail) // outputs: {foo: 'bar'}
+  }
+
+  function panelListaCentro(modulo, panel, parametro, elemento) {
+    numeroPanel = numeroPanel + 1;
+    cadenaPanel = "panelcta" + numeroPanel;
+    url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+    url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+    panelNuevo = jsPanel.create({
+      theme: {
+        bgContent: '#fff',
+        colorHeader: 'black',
+        border: '1px #A8A8A8 solid'
+      },
+      headerControls: {
+        maximize: 'remove',
+        size: 'xs'
+      },
+      id: cadenaPanel,
+      size: {width: 800, height: 500},
+      contentSize: {width: '1306px', height: '500px'}, // must be object
+      content: url,
+      position: {
+        top: '350px',
+        left: '600px',
+        maxTop: '-20px',
+      },
+      headerTitle: 'Sadconf Cloud 1.0'
+    });
+  }
+
+  //---autocomppleta tercero
+
+</script>
+{{end}}

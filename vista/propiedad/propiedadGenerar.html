@@ -1,0 +1,174 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tabla.css"/>
+<div class="container-fluid">
+    <section>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <br>
+                    <div class="form-group row mb-4 mt-0 ml-0">
+                        <h3 class="tp" >Generar Depreciacion</h3>
+                        <div class="col-sm-7"></div>
+                        <button id="Actualizar"
+                                class="btn btn-outline-success waves-effect btn-md float-right mdbs">
+                            ACEPTAR
+                        </button>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Mes</label>
+                        <div class="col-sm-2">
+                            <select name="Mes"
+                                    id="Mes"
+                                    class=" mdb-select md-form-control"
+                                    searchable="Buscar...">
+
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--                            <table id="dt-all-checkbox"-->
+                    <!--                                   class="table table-borderless table-striped table-sm"-->
+                    <!--                                   cellspacing="0" width="100%">-->
+                    <!--                                <thead style="color: white; background-color: #21B799" class="th-sm">-->
+                    <!--                                <tr>-->
+                    <!--                                    <th>Numero</th>-->
+                    <!--                                    <th>Tercero</th>-->
+                    <!--                                    <th>Nombre</th>-->
+                    <!--                                    <th>Anterior</th>-->
+                    <!--                                    <th>Actual</th>-->
+                    <!--                                    <th>Total</th>-->
+                    <!--                                </tr>-->
+                    <!--                                </thead>-->
+                    <!--                                <tbody>-->
+                    <!--                                </tbody>-->
+                    <!--                            </table>-->
+                </div>
+            </div>
+        </div>
+</section>
+</div>
+
+<script>
+    numeroPanel = 1;
+    $(document).ready(function () {
+
+        $("#Actualizar").click(function () {
+            //alert( "actualizar" );
+            Mes = $("#Mes").val();
+            var accion = "";
+
+
+            accion = 'PropiedadMes/' + Mes;
+
+            $.ajax({
+                url: accion,
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    // BindDataTable(response);
+                    console.log(JSON.stringify(response));
+                    //datos(response);
+                    alert("Comprobante Generado " + response.Documento + " - " + response.Numero);
+                    // datatable.clear();
+                    window.location.href = "/PropiedadLista";
+                    // datatable.rows.add(response);
+                    // datatable.draw();
+                }
+
+            })
+
+
+        });
+
+
+        $('.mdb-select').materialSelect({});
+    });
+
+    function datos(datosAjax) {
+        Producto = $("#Producto").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        Bodega = $("#Bodega").val();
+
+
+        $('#dt-all-checkbox').dataTable().fnDestroy();
+        var datatable = $('#dt-all-checkbox').dataTable({
+            "dom": 'lrtip',
+            "scrollY": "340px",
+            "scrollCollapse": true,
+            "scrollXInner": true,
+            "paging": false,
+            "aaData": datosAjax,
+            columns:
+                [
+                    {"data": "Numero"},
+                    {"data": "Tercero"},
+                    {"data": "TerceroNombre"},
+                    {"data": "Totalanterior", className: "text-right"},
+                    {"data": "Totalactual", className: "text-right"},
+                    {"data": "Total", className: "text-right"},
+                ],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            "ordering": false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            }
+        });
+        $('#dt-all-checkbox').DataTable();
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+
+    }
+
+</script>
+
+{{end}}

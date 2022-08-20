@@ -1,0 +1,152 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Borrar Usuario</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/UsuarioEliminar/{{ .emp.Codigo }}">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Nit. No.</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Codigo"
+                                       id="Codigo"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <!-- <label for="campo2" class="col-sm-1 col-form-label">Dv</label>-->
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Dv"
+                                       id="Dv" class="form-control"
+                                       readonly/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Nombre</label>
+                        <div class="col-sm-7">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Nombre"
+                                       id="Nombre"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Tipo</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Tipo"
+                                        id="Tipo"
+                                        class=" mdb-select md-form-control"
+                                        disabled>
+                                    <option value="Administrador">
+                                        Administrador
+                                    </option>
+                                    <option value="Usuario">
+                                        Usuario
+                                    </option>
+                                    <option value="Contador">
+                                        Contador
+                                    </option>
+                                    <option value="Revisor Fiscal">
+                                        Revisor Fiscal
+                                    </option>
+                                    <option value="Vendedor">
+                                        Vendedor
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Clave
+                            1</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="password"
+                                       name="Clave1"
+                                       id="Clave1"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Clave
+                            2</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="password"
+                                       name="Clave2"
+                                       id="Clave2"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">E-mail 1
+                        </label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email"
+                                       name="Email1"
+                                       id="Email1"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">E-mail
+                            2</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email"
+                                       name="Email2"
+                                       id="Email2"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a onclick="window.history.go(-1); return false;"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                            <button type="submit" id="guardar"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<input id="TerceroNuevo"
+       type="hidden"/>
+<script>
+
+    $(document).ready(function () {
+        //INICIA SELECT
+        $('.mdb-select').materialSelect({});
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val("{{ .emp.Codigo}}");
+        $('#Dv').val("{{ .emp.Dv}}");
+        $('#Nombre').val("{{ .emp.Nombre}}");
+        $('#Tipo').val("{{ .emp.Tipo }}");
+        $('#Clave1').val("{{ .emp.Clave1}}");
+        $('#Clave2').val("{{ .emp.Clave2}}");
+        $('#Email1').val("{{ .emp.Email1}}");
+        $('#Email2').val("{{ .emp.Email2}}");
+    });
+</script>
+{{end}}

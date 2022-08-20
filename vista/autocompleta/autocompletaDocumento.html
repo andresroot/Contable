@@ -1,0 +1,146 @@
+{{define "autocompletaDocumento" }}
+<script>
+    //--------------- autocompleta Documento
+    var numeroPanel = 1;
+    function autocompletaDocumento(elementoNombre, elementoCodigo) {
+        // parametros
+        urlBuscarDocumento="/DocumentoBuscar/";
+        urlActualDocumento="/DocumentoActual";
+        urlNuevoDocumento="DocumentoNuevo";
+        labelCrearDocumento=" Crear Documento :  ";
+        elementoNuevoDocumento='#DocumentoNuevo';
+        $(document.body).on('focusout', elementoNombre, function (e) {
+                Codigo = $(elementoCodigo).val();
+                Nombre=$(elementoNombre).val();
+                var datosEnviar = {
+                    "Codigo": Codigo,
+                    "Nombre": Nombre,
+                };
+                accion = urlActualDocumento;
+             //   alert(accion);
+                $.ajax({
+                    url: accion,
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(datosEnviar),
+                    error: function (response) {
+                        $(elementoNombre).val('');
+                    },
+                    success: function (response) {
+                        if (jQuery.isEmptyObject(response)) {
+                            $(elementoCodigo).val("");
+                            $(elementoNombre).val("");
+                          //  alert("No Existe");
+                        } else {
+                            $.each(response, function (i, item) {
+                                $(elementoNombre).val(item.Nombre);
+                                $(elementoCodigo).val(item.Codigo);
+                            });
+                        }
+                    }
+                });
+        });
+
+        $(elementoNombre).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: urlBuscarDocumento+request.term.replace(/\./g,''),
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+
+                // if (ui.content.length === 0) {
+                $( elementoNuevoDocumento).val($(elementoNombre).val());
+                ui.content.push({
+                    label: labelCrearDocumento + $( elementoNuevoDocumento).val(),
+                    button: true
+                });
+            },
+            select: function (event, ui) {
+                var label = ui.item.label;
+                var value = ui.item.value;
+                valor = $(elementoNombre).val();
+                valorBuscarDocumento = labelCrearDocumento + $( elementoNuevoDocumento).val();
+
+                if (label == valorBuscarDocumento) {
+                    valor = $( elementoNuevoDocumento).val();
+                  //  alert("nuevo elemento");
+                    $(elementoCodigo).val("");
+                    panelLista(urlNuevoDocumento, 'True', valor, elementoNombre.replace('#', ''))
+
+                } else {
+                    $(elementoNombre).val(label);
+                    $(elementoCodigo).val(ui.item.id);
+                }
+            },
+        });
+    }
+
+    window.document.addEventListener('pasarParametros', handleEvent, false)
+    window.document.addEventListener('cerrarPanel', handleEventCerrar, false)
+
+    function handleEventCerrar(e) {
+            panelNuevo.close();
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function handleEvent(e) {
+        if (e.detail.valido == true) {
+
+            if (e.detail.elementoPanel == "Codigo") {
+                valor = e.detail.codigoElemento.replace(/\./g,'');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panelph" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+
+</script>
+{{end}}

@@ -1,0 +1,100 @@
+{{define "modalVacacionesCompensadas" }}
+        <!-- Modal: Contact form -->
+<div class="modal fade" id="modalVacacionesCompensadas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vacaciones Compensadas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+          <div class="form-group row m-5">
+            <label for="FechaInicialVacacionesCompensadas" class="col-sm-5 col-form-label ml-5">Fecha Inicial</label>
+            <div class="col-sm-7">
+              <input type="Date"
+                     placeholder="DD/mm/YYYY"  class="form-control" id="FechaInicialVacacionesCompensadas">
+            </div>
+          </div>
+
+          <div class="form-group row m-5">
+            <label for="FechaFinalVacacionesCompensadas" class="col-sm-5 col-form-label ml-5">Fecha Final</label>
+            <div class="col-sm-7">
+              <input  type="Date"
+                      placeholder="DD/mm/YYYY"   class="form-control" id="FechaFinalVacacionesCompensadas">
+            </div>
+          </div>
+
+          <div class="form-group row m-5">
+            <label for="DiasVacacionesCompensadas" class="col-sm-5 col-form-label ml-5">Dias Compensadas</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" disabled="disabled"  id="DiasVacacionesCompensadas">
+            </div>
+          </div>
+
+
+          <div class="form-group row m-5">
+            <label for="ValorVacacionesCompensadas" class="col-sm-5 col-form-label ml-5">Valor</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  disabled="disabled" value="20000" id="ValorVacacionesCompensadas">
+            </div>
+          </div>
+
+          <div class="form-group row m-5">
+            <label for="TotalVacacionesCompensadas" class="col-sm-5 col-form-label ml-5">Total Compensadas</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" disabled="disabled" id="TotalVacacionesCompensadas">
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="AceptarVacacionesCompensadas" class="btn btn-outline-success
+                                             waves-effect btn-md float-right">Aceptar</button>
+        <button type="button" class="btn btn-outline-dark waves-effect
+                                       btn-md float-right" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- Modal: Contact form -->
+<script>
+
+// boton acpetar vacaciones comunes
+$( "#AceptarVacacionesCompensadas" ).click(function() {
+  $('#vacacionescompensadas'+$("#LineaActual").val()).val(($('#TotalVacacionesCompensadas').val()));
+  $('#modalVacacionesCompensadas').modal('hide');
+
+});
+
+//calcula dias
+$('#FechaInicialVacacionesCompensadas').on('focusout', function (event) {
+  totalVacacionesCompensadas();
+
+});
+$('#FechaFinalVacacionesCompensadas').on('focusout', function (event) {
+  totalVacacionesCompensadas();
+});
+function totalVacacionesCompensadas()
+{
+  var fecha1 = moment( $('#FechaInicialVacacionesCompensadas').val());
+  var fecha2 = moment($('#FechaFinalVacacionesCompensadas').val());
+  tiempo=fecha2.diff(fecha1, 'days');
+  $('#DiasVacacionesCompensadas').val(tiempo);
+
+  total= ((limpiarformato($('#ValorVacacionesCompensadas').val())*tiempo)/720).toFixed(2);
+  $('#TotalVacacionesCompensadas').val(moneda(Number(total)));
+
+}
+
+
+</script>
+        <!-- Modal: Contact form -->
+
+        {{end}}

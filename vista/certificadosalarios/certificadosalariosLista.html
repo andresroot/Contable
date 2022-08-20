@@ -1,0 +1,355 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+<section>
+    <div class="col-md-12">
+    <div class="card">
+    <div class="card-body">
+        <div class="form-group row mb-4 mt-0 pl-3">
+            <h3 class="tp">Certificado Salarios</h3>
+            <div class="col-sm-2"></div>
+            <div id="areaBuscar"></div>
+            <label class="col-sm-1 col-form-label miBusquedalabel">Buscar</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="text"
+                           name="Buscar"
+                           id="Buscar"
+                           class="form-control miBusqueda"
+                           required/>
+                </div>
+            </div>
+            <button type="button" id="pdf"
+                    class="btn btn-outline-danger waves-effect btn-md float-right mdbs">PDF
+            </button>
+            <button type="button" id="excel"
+                    class="btn btn-outline-info waves-effect btn-md float-right mdbs">
+                EXCEL
+            </button>
+            <button type="button" id="actualizar"
+                    class="btn btn-outline-success mdbs">ACEPTAR</button>
+        </div>
+        <br>
+        <div class="form-group row mb-0 pl-3">
+            <label class="col-sm-1 col-form-label">Cuenta</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Text"
+                           value="1"
+                           name="CuentaInicial"
+                           id="CuentaInicial"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+            <label class="col-sm-1 col-form-label">Hasta</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Text"
+                           value="999999999999"
+                           name="CuentaFinal"
+                           id="CuentaFinal"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+            <label class="col-sm-1 col-form-label">Fecha</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Date"
+                           placeholder="DD/mm/YYYY"
+                           name="FechaInicial"
+                           id="FechaInicial"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+            <label class="col-sm-1 col-form-label">Hasta</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Date"
+                           placeholder="DD/mm/YYYY"
+                           name="FechaFinal"
+                           id="FechaFinal"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row mb-0 pl-3">
+            <label class="col-sm-1 col-form-label">Tercero</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Text"
+                           value="1"
+                           name="TerceroInicial"
+                           id="TerceroInicial"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+            <label class="col-sm-1 col-form-label">Hasta</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Text"
+                           value="999999999999"
+                           name="TerceroFinal"
+                           id="TerceroFinal"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+            <label class="col-sm-1 col-form-label">Expedicion</label>
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                    <input type="Date"
+                           placeholder="DD/mm/YYYY"
+                           name="FechaExpedicion"
+                           id="FechaExpedicion"
+                           class="form-control"
+                           required/>
+                </div>
+            </div>
+        </div>
+        <table id="dt-all-checkbox"
+               class="table table-sm" cellspacing="0" width="100%">
+            <thead class="miCabeceraTabla">
+            <tr>
+                <th>No.</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Accion</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+</div>
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+
+        {{template "autocompletaTercero" }}
+        {{template "autocompletaPlandecuentaempresa" }}
+<script>
+numeroPanel = 1;
+$(document).ready(function () {
+
+    $("#TerceroFinal").keydown(function (e) {
+        if (e.keyCode == 32) {
+            $("#TerceroFinal").val($("#TerceroInicial").val().trim());
+        }
+    });
+
+    // INICIA FECHA
+    var m = moment().format("YYYY-MM-DD");
+    $("#FechaInicial").val(m);
+    $("#FechaFinal").val(m);
+    $("#FechaExpedicion").val(m);
+
+    autocompletaPlandecuentaempresa("#CuentaInicial", "#Cuenta");
+    autocompletaPlandecuentaempresa("#CuentaFinal", "#Cuenta");
+    autocompletaTercero("#TerceroInicial");
+    autocompletaTercero("#TerceroFinal");
+
+    $("#actualizar").click(function () {
+        // alert("si entro");
+        CuentaInicial = $("#CuentaInicial").val();
+        CuentaFinal = $("#CuentaFinal").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        TerceroInicial = $("#TerceroInicial").val();
+        TerceroFinal = $("#TerceroFinal").val();
+        FechaExpedicion = $("#FechaExpedicion").val();
+
+        var datosEnviar = {
+            "CuentaInicial": CuentaInicial,
+            "CuentaFinal": CuentaFinal,
+            "FechaInicial": FechaInicial,
+            "FechaFinal": FechaFinal,
+            "TerceroInicial": TerceroInicial,
+            "TerceroFinal": TerceroFinal,
+            "FechaExpedicion": FechaExpedicion,
+        };
+        var accion = "";
+        accion = '/CertificadosalariosDatos';
+        $.ajax({
+            url: accion,
+            type: "POST",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                // BindDataTable(response);
+                console.log(JSON.stringify(response));
+                datos(response);
+            }
+        })
+    });
+
+    //EXCEL
+    $("#excel").click(function () {
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        var accion = "";
+        accion = '/BalancedepruebaExcel';
+        accion += "/" + FechaInicial + "/" + FechaFinal + "/" + $("#CuentaInicial").val();
+        accion += "/" + $("#CuentaFinal").val();
+        accion += "/" + $("#TerceroInicial").val();
+        accion += "/" + $("#TerceroFinal").val();
+        window.open(accion, '_blank').focus();
+    });
+
+    // pdf
+    $("#pdf").click(function () {
+        // FechaInicial = $("#FechaInicial").val();
+        // FechaFinal = $("#FechaFinal").val();
+        // var accion = "";
+        // accion = '/BalancedepruebaPdf';
+        // accion += "/" + FechaInicial + "/" + FechaFinal + "/" + $("#CuentaInicial").val();
+        // accion += "/" + $("#CuentaFinal").val();
+        // accion += "/" + $("#TerceroInicial").val();
+        // accion += "/" + $("#TerceroFinal").val();
+        // window.open(accion, '_blank').focus();
+        // alert("si entro");
+        CuentaInicial = $("#CuentaInicial").val();
+        CuentaFinal = $("#CuentaFinal").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        TerceroInicial = $("#TerceroInicial").val();
+        TerceroFinal = $("#TerceroFinal").val();
+        FechaExpedicion = $("#FechaExpedicion").val();
+
+
+        parametro=  "/"+ CuentaInicial;
+        parametro+="/"+ CuentaFinal;
+        parametro+= "/"+FechaExpedicion;
+        parametro+= "/"+FechaInicial;
+        parametro+="/"+FechaFinal;
+        parametro+="/"+TerceroInicial;
+        parametro+="/"+TerceroFinal;
+
+
+
+
+        var accion = "";
+        accion = '/CertificadoSalariosTodosPdf'+parametro;
+
+
+
+
+        window.open(accion, '_blank');
+
+
+
+
+    });
+
+
+    $('.mdb-select').materialSelect({});
+});
+function Certificado(Codigo){
+    CuentaInicial = $("#CuentaInicial").val();
+    CuentaFinal = $("#CuentaFinal").val();
+    FechaInicial = $("#FechaInicial").val();
+    FechaFinal = $("#FechaFinal").val();
+    TerceroInicial = $("#TerceroInicial").val();
+    TerceroFinal = $("#TerceroFinal").val();
+    FechaExpedicion = $("#FechaExpedicion").val();
+
+
+    var accion = "";
+    accion = '/Certificadosalarios';
+    accion += "/"+ Codigo
+    accion+= "/" + CuentaInicial + "/" + CuentaFinal ;
+    accion += "/"+ FechaExpedicion
+    accion+=  "/" + FechaInicial + "/" + FechaFinal ;
+
+    window.open(accion, '_blank').focus();
+}
+function datos(datosAjax) {
+    $('#dt-all-checkbox').dataTable().fnDestroy();
+    var datatable = $('#dt-all-checkbox').dataTable({
+        "dom": 'lrtip',
+        "scrollY": "350px",
+        "scrollCollapse": true,
+        "scrollXInner": true,
+        "paging": false,
+        "aaData": datosAjax,
+        columns:
+            [{"data": "Fila"},
+                {"data": "Codigo"},
+                {"data": "Nombre"},
+                {"data": "Codigo",
+                    "render": function(data, type, row, meta){
+                        data1 = '<a   ';
+                        data1 += '    onclick=\"Certificado('+data+')\"   ';
+                        data1 += '     class=\'blue-text pl-3\'';
+                        data1 += "   ><img src=\'static//img//pdf-file.png\'/></a>";
+                        return data1;
+                    }
+                }
+            ],
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox select-checkbox-all',
+            targets: 0
+        }
+            ],
+        "ordering" : false,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+    });
+
+    oTable = $('#dt-all-checkbox').DataTable();
+    $('#Buscar').keyup(function () {
+        oTable.search($(this).val()).draw();
+    })
+    $('#dt-all-checkbox_wrapper').find('label').each(function () {
+        $(this).parent().append($(this).children());
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+        const $this = $(this);
+        $this.attr("placeholder", "Buscar");
+        $this.removeClass('form-control-sm');
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+    $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+    $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+}
+</script>
+{{end}}

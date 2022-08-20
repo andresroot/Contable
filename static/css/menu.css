@@ -1,0 +1,62 @@
+.white-skin .navbar .navbar-nav .nav-item .dropdown-menu a:active, .white-skin .navbar .navbar-nav .nav-item .dropdown-menu a:focus, .white-skin .navbar .navbar-nav .nav-item .dropdown-menu a:hover {
+     background-color: #2a75f3;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+.menublanco{
+    color: #030303;
+
+}
+.menublanco:hover{
+    color: #010101;
+}
+
+.dropdown-submenu a::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 0px;
+    top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
+}
+.fixed-sn .double-nav, .fixed-sn footer, .fixed-sn main {
+    padding-left: 0rem !important;
+}
+
+
+.pink-skin .navbar {
+    color: #fff !important;
+    background-color: #847F9C !important;
+}
+.centroprincipal{
+    color: #fff !important;
+    background-color: #847F9C !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: lime;
+    background: #abbaab;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #a2a2a2, #abbaab);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #abbaab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+
+.pink-skin .side-nav .sidenav-bg.mask-strong:after, .pink-skin .side-nav .sidenav-bg:after {
+    background: #847F9C !important;
+}
+
+.side-nav .collapsible a {
+    font-size: .8rem !important;
+    font-weight: 400 !important;
+}
+

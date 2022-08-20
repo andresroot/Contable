@@ -1,0 +1,271 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="tpl">Borrar Pago por Anticipado</h3>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel"
+                     aria-labelledby="home-tab">
+                    <form method="POST"
+                          action="/DiferidoEliminar/{{ .emp.Codigo }}">
+                        <div class="form-group row mb-0">
+                            <br>
+                            <label class="col-sm-1 col-form-label">Codigo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Codigo"
+                                           id="Codigo"
+                                           class="form-control" readonly />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Nombre"
+                                           id="Nombre"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Cuenta</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuenta"
+                                           name="Cuenta"
+                                           class="form-control text-left" readonly=/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuentanombre"
+                                           name="Cuentanombre"
+                                           class="form-control" readonly=>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Ubicacion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Ubicacion"
+                                           id="Ubicacion"
+                                           class="form-control" readonly=/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Centro</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Centronombre"
+                                           id="Centronombre"
+                                           class="form-control" readonly/>
+                                    <input type="hidden"
+                                           name="Centro"
+                                           id="Centro"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Fecha</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fecha"
+                                           id="Fecha"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Inicia</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Inicia"
+                                           id="Inicia"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Valor</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Valor"
+                                           id="Valor"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">V.
+                                Residual</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Vresidual"
+                                           id="Vresidual"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Meses</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Vidautil"
+                                           id="Vidautil"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Total Mes</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           value="0"
+                                           name="Totalmes"
+                                           id="Totalmes"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Acumulado</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           value="0"
+                                           name="Acumulado"
+                                           id="Acumulado"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Saldo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           value="0"
+                                           name="Saldo"
+                                           id="Saldo"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Proveedor</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Tercero"
+                                           class="form-control text-left" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="terceroNombre"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Cuenta
+                                Gasto</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuentagasto"
+                                           name="Cuentagasto"
+                                           class="form-control text-left" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuentagastonombre"
+                                           name="Cuentagastonombre"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Contra</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuentacontra"
+                                           name="Cuentacontra"
+                                           class="form-control text-left" readonly/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Cuentacontranombre"
+                                           name="Cuentacontranombre"
+                                           class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Libros</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="Libros"
+                                           name="Libros"
+                                           class="form-control text-left"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a onclick="window.history.go(-1); return false;"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right">Cancelar </a>
+                                <button type="submit"
+                                        class="btn btn-outline-success waves-effect btn-md float-right">
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.mdb-select').materialSelect({});
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val("{{ .emp.Codigo}}");
+        $('#Nombre').val("{{ .emp.Nombre}}");
+        $('#Cuenta').val("{{ .emp.Cuenta}}");
+        $('#Ubicacion').val("{{ .emp.Ubicacion}}");
+        $("#Fecha").val('{{ .emp.Fecha.Format "2006-01-02"}}');
+        $("#Inicia").val('{{ .emp.Inicia.Format "2006-01-02"}}');
+        $('#Valor').val(formatomoneda("{{ .emp.Valor}}"));
+        $('#Vresidual').val(formatomoneda("{{ .emp.Vresidual}}"));
+        $('#Vidautil').val(formatomoneda("{{ .emp.Vidautil}}"));
+        $('#Totalmes').val(formatomoneda("{{ .emp.Totalmes}}"));
+        $('#Acumulado').val("{{ .emp.Acumulado}}");
+        $('#Saldo').val("{{ .emp.Saldo}}");
+        $('#Libros').val("{{ .emp.Libros}}");
+        $('#Cuentagasto').val("{{ .emp.Cuentagasto}}");
+        $('#Cuentacontra').val("{{ .emp.Cuentacontra}}");
+        $('#Centro').val("{{ .emp.Centro}}");
+        $('#Tercero').val("{{ .emp.Tercero}}");
+        $('#terceroNombre').val("{{ .emp.TerceroDetalle.Nombre}}");
+        $('#Cuentanombre').val("{{ .emp.CuentaDetalle.Nombre}}");
+        $('#Cuentagastonombre').val("{{ .emp.CuentagastoDetalle.Nombre}}");
+        $('#Centronombre').val("{{ .emp.CentroDetalle.Nombre}}");
+        $('#Cuentacontranombre').val("{{ .emp.CuentacontraDetalle.Nombre}}");
+    });
+
+</script>
+{{end}}

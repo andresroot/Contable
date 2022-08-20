@@ -1,0 +1,408 @@
+.cajatabla{
+    border: #0b2a41 solid 3px;
+    height: 350px;
+    width: 1300px;
+    border: 0px solid #ddd;
+    background: white;
+    overflow-x: scroll;
+}
+.cabezanueva
+{
+    background: #63db2e;
+}
+
+.labelBuscador {min-width: 400px;
+    background: #0c5460;}
+
+.inputNumero:read-only {
+    background-color: white !important;
+    margin: 0em !important;
+    font: 400 16px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+
+    border-image: initial;
+    /*width: 100% !important;*/
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: right !important;
+    margin: 0px 0px 0px 0px !important;
+
+    border: none;
+    /*border-color: red !important;*/
+    border-bottom: 0px solid #ced4da !important;
+}
+
+
+.custom-select {
+    display: inline-block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px) !important;
+    padding: .375rem 1.75rem .375rem .75rem !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.ui-autocomplete-input {
+
+    border: none;
+    border-color: red !important;
+    border-bottom: 0px solid #ced4da !important;
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 0px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: left !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+
+}
+.inputItem {
+    background-color: white !important;
+    margin: 0em !important;
+    font: 400 16px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+
+    border-image: initial;
+    /*width: 100% !important;*/
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    text-align: left !important;
+    margin: 0px 0px 0px 0px !important;
+
+    border: none;
+    border-color: red !important;
+    border-bottom: 0px solid #ced4da !important;
+
+}
+.inputNumero {
+    background-color: white !important;
+    margin: 0em !important;
+    font: 400 16px Roboto !important;
+    padding: 0px 0px !important;
+    border-width: 2px !important;
+    border-style: inset;
+
+    border-image: initial;
+    /*width: 100% !important;*/
+    height: 30px !important;
+    padding-right: 5px !important;
+    padding-top: 2px !important;
+    padding-left: 5px !important;
+    padding-bottom: 1px !important;
+    text-align: right !important;
+    margin: 0px 0px 0px 0px !important;
+
+    border-top: 1px solid #ced4da !important;
+    border-right: 1px solid #ced4da !important;
+    border-left: 1px solid #ced4da !important;
+    border-bottom: 1px solid #ced4da !important;
+    /*border-color: red !important;*/
+ margin-top: 5px;
+
+}
+
+.select-wrapper input[type=text] {
+    border-bottom: 1px solid #ced4da !important;
+}
+
+.celdaNombre {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+
+.celdaBodega {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.celdaIva {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.celdaUnidad {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.celdaFila {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.celdaAccion {
+    text-align: right !important;
+    /*width: 20px !important;*/
+}
+
+.select-wrapper input.select-dropdown, .select-wrapper span.caret {
+    color: black !important;
+    background-color: white !important;
+    padding-top: 0px !important;
+    padding-bottom: 3px;
+    height: 25px !important;
+
+
+}
+
+.card, .navbar, .pagination .page-item.active .page-link .page-link {
+    /*box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important;
+    font-weight: 500 !important;*/
+}
+
+tr {
+    height: 60px;
+!important;
+}
+
+
+
+.inputTotal {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    text-align: right !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+    font-weight: 700 !important;
+}
+
+.card-body {
+
+    padding: 1.5rem !important;
+}
+
+.md-form input[type=text]:disabled {
+
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+
+}
+
+table.table-sm th {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    font: 400 16px Roboto !important;
+}
+
+table.table-sm td {
+    border-top: 0px solid red !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    border-bottom: 0px !important;
+}
+
+table.table td {
+    border-top: 0px solid red !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    border-bottom: 0px !important;
+}
+
+tr {
+    border-top: 0px solid red !important;
+    border-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+.table-sm tbody tr:first-child td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.table-sm tbody tr td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+div.scrollable-table-wrapper {
+    height: 200px;
+    overflow: auto;
+}
+
+div.scrollable-table-wrapper thead tr th {
+    position: sticky;
+    background-color: white !important;
+    top: 0;
+    margin-top: 0px !important;
+    z-index: 9999 !important;
+}
+
+.celdaConcepto {
+    color: black !important;
+    border-bottom: 0px solid #ced4da !important;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.celdaFactura {
+    color: black !important;
+    border-bottom: 1px solid #ced4da !important;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    text-align: left !important;
+    height: 30px !important;
+    padding-right: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+    padding-bottom: 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    font: 400 16px Roboto !important;
+
+}
+
+.textocruzado {
+    display: block;
+    position: absolute;
+    background: #8f4800;
+    text-align: center;
+    top:40px;
+    right:-180px;
+    top: -15px\0/; /* ie8 and 9 */
+    right:-32px\0/; /* ie8 and 9 */
+    width: 150px;
+    height: 50px;
+    -ms-transform:rotate(45deg); /* IE9 */
+    -moz-transform: rotate(45deg);  /* FF3.5/3.6 */
+    -o-transform: rotate(45deg);  /* Opera 10.5 */
+    -webkit-transform: rotate(45deg);  /* Saf3.1+ */
+    transform: rotate(45deg);  /* Newer browsers */
+    /*filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476); *//* IE6,IE7, but produces nasty results, so I disabled it */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)"; /* IE8 */
+}
+
+.a11{
+    width:200px;
+    height:200px;
+    position:relative;
+    background: #fff;
+    overflow: hidden;
+}
+.b11{
+    width:100px;
+    height:100px;
+    position: absolute;
+    /*background: green;*/
+    top:-50px;
+    right:-50px;
+    transform: rotate(45deg);
+}
+.b11 span{
+    position: absolute;
+    bottom:0;
+    display: block;
+    font-size:16px;
+    color:#fff;
+    background: #36A8FF;
+    width:100px;
+    text-align: center;
+}
+
+table.table-sm th {
+    padding-top: 3px !important;
+    padding-bottom: 6px !important;
+    margin-bottom: 10px!important;
+    font: 400 16px Roboto !important;
+}
+.table tr, .table td {
+    height: 15px !important;
+    padding-right: 5px !important;
+    padding-top: 0px !important;
+    padding-left: 5px !important;
+    padding-bottom: 6px !important;
+
+}

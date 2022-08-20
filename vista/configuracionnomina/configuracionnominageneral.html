@@ -1,0 +1,75 @@
+{{define "configuracioninventarioinventariogeneral" }}
+<div class="tab-pane fade" id="inventariogeneral"
+     role="tabpanel" aria-labelledby="home-tab">
+    <div class="form-group row mb-0">
+        <label class="col-sm-1 col-form-label">Costo Ventas</label>
+        <div class="col-sm-2">
+            <div class="md-form mt-0">
+                <input type="text"
+                       name="Cuentacosto"
+                       id="Cuentacosto"
+                       class="form-control"
+                />
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="md-form mt-0">
+                <input type="text"
+                       name="Cuentacostonombre"
+                       id="Cuentacostonombre"
+                       class="form-control"
+                />
+            </div>
+        </div>
+        <label class="col-sm-1 col-form-label">Contra Costo</label>
+        <div class="col-sm-2">
+            <div class="md-form mt-0">
+                <input type="text"
+                       name="Cuentacostocontra"
+                       id="Cuentacostocontra"
+                       class="form-control"/>
+            </div>
+        </div>
+        <!--                            <label class="col-sm-1 col-form-label">Nombre</label>-->
+        <div class="col-sm-3">
+            <div class="md-form mt-0">
+                <input type="text"
+                       name="Cuentacostocontranombre"
+                       id="Cuentacostocontranombre"
+                       class="form-control"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row mb-0">
+        <label class="col-sm-1 col-form-label">Decimales</label>
+        <div class="col-sm-2">
+            <div class="md-form mt-0">
+                <select name="Decimales"
+                        id="Decimales"
+                        class="mdb-select md-form"
+                        editable="true">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="form-group row mb-0">
+        <div class="col-sm-12">
+            <a onclick="cerrarpanel();"
+               class="btn btn-outline-dark waves-effect btn-md float-right"
+               style="width: 100px; height: 40px; font-size: 11px;  padding: 10px;">Salir</a>
+            <button type="submit" id="guardar"
+                    class="btn btn-outline-success waves-effect btn-md float-right"
+                    style="width: 100px; height: 40px; font-size: 11px;  padding: 10px;">
+                Guardar
+            </button>
+        </div>
+    </div>
+</div>
+{{ end }}

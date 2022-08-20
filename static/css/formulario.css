@@ -1,0 +1,113 @@
+.md-form .form-control {
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+}
+
+.form-group {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    min-height:  25px !important;
+    padding-bottom: 0px!important;
+    padding-top: 0px!important;
+}
+
+.col-form-label {
+    padding-top: 6px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    margin-bottom: 0px !important;
+    height: 10px !important;
+}
+
+.select-wrapper input.select-dropdown {
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+        height: 30px !important;
+    margin-top: 5px  !important;
+    border-bottom: 0px solid #ced4da !important;
+}
+
+.md-form input:not([type]):focus:not([readonly]),
+.md-form input[type="text"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="password"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="email"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="url"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="time"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="date"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+.md-form
+	input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="tel"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="number"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search-md"]:focus:not([readonly]),
+.md-form textarea.md-textarea:focus:not([readonly]) {
+	border-bottom: 1px solid limegreen !important;
+	box-shadow: 0 1px 0 0 #ced4da !important;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: black !important;
+}
+
+@media print {
+  .nav-tabs {
+    display: none !important;
+  }
+    .side-nav {
+    display: none !important;
+  }
+.btn {
+    display: none !important;
+  }
+  .tab-content > .tab-pane {
+    display: block !important;
+    outline: 0px dashed red;  /* REMOVE THIS! */
+  }
+  .tab-content > .fade {
+    opacity: 1;
+  }
+}
+
+.form-control-plaintext {
+    border-bottom: 1px solid #ced4da !important;
+	box-shadow: 0px 0px 0px 0px #ced4da !important;
+    background-color: white !important;
+    border-radius: 0px;
+}
+
+.select-wrapper input.select-dropdown:disabled {
+    color:#495057 !important;
+}
+
+.md-form {
+    margin-top: 0.5rem  !important;
+    margin-bottom: 0.5rem  !important;
+}
+
+.nav-link {
+    color: #343a40 !important;
+}
+
+.nav-link.active{
+    color: #28a745  !important;
+}
+
+

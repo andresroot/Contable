@@ -1,0 +1,392 @@
+{{define "body"}}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <br>
+                <h3 class="tp">Editar Nomina</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                        <form id="formulario" method="POST">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Nomina No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Numero"
+                                               id="Numero"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Prefijo</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Prefijo"
+                                               id="Prefijo"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Final</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="FechaInicial"
+                                               id="FechaInicial"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="FechaFinal"
+                                               id="FechaFinal"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+                                    <div class="cajatabla mt-2">
+<!--                            <div class="form-group row">-->
+                                <table id="tabla"
+                                       class="table table-sm"
+                                       cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr  id="cabeceraTitulo">
+                                        <th></th>
+                                        <th>Filas</th>
+                                        <th class="tal" id="cabezaCodigo">Codigo</th>
+                                        <th class="tal" id="cabezaNombre">Nombre</th>
+                                        <th class="tal" id="cabezaCentro">Centro</th>
+                                        <th class="tar" id="cabezaSueldo">Sueldo</th>
+                                        <th class="tar" id="cabezaDias">Dias</th>
+                                        <th class="tar" id="cabezaTrabajado">Trabajado</th>
+                                        <th class="tar" id="cabezaTransporte">Transporte</th>
+                                        <th class="tar" id="cabezaCesantias">Cesantias</th>
+                                        <th class="tar" id="cabezaIntereses">Intereses</th>
+                                        <th class="tar" id="cabezaPrima">Prima</th>
+                                        <th class="tar" id="cabezaVacaciones">Vacaciones</th>
+                                        <th class="tar" id="cabezaViaticos">Viaticos</th>
+                                        <th class="tar" id="cabezaHorasextras">Horas Extras</th>
+                                        <th class="tar" id="cabezaIncapacidades">Incapacidades</th>
+                                        <th class="tar" id="cabezaLicencias">Licencias</th>
+                                        <th class="tar" id="cabezaBonificaciones">Bonificaciones</th>
+                                        <th class="tar" id="cabezaAuxilios">Auxilios</th>
+                                        <th class="tar" id="cabezaHuelgas">Huelgas</th>
+                                        <th class="tar" id="cabezaConceptos">Conceptos</th>
+                                        <th class="tar" id="cabezaCompensaciones">Compensaciones</th>
+                                        <th class="tar" id="cabezaBonos">Bonos</th>
+                                        <th class="tar" id="cabezaComisiones">Comisiones</th>
+                                        <th class="tar" id="cabezaDotaciones">Dotaciones</th>
+                                        <th class="tar" id="cabezaSostenimiento">Sostenimiento</th>
+                                        <th class="tar" id="cabezaTeletrabajo">Teletrabajo</th>
+                                        <th class="tar" id="cabezaIndemnizaciones">Indemnizaciones</th>
+                                        <th class="tar" id="cabezaDevengado">Devengado</th>
+
+                                        <th class="tar" id="cabezaSalud">Salud</th>
+                                        <th class="tar" id="cabezaPension">Pension</th>
+                                        <th class="tar" id="cabezaSolidaridad">Solidaridad</th>
+                                        <th class="tar" id="cabezaSubsistencia">Subsistencia</th>
+                                        <th class="tar" id="cabezaSindicatos">Sindicatos</th>
+                                        <th class="tar" id="cabezaSanciones">Sanciones</th>
+                                        <th class="tar" id="cabezaLibranzas">Libranzas</th>
+                                        <th class="tar" id="cabezaTerceros">Terceros</th>
+                                        <th class="tar" id="cabezaAnticipos">Anticipos</th>
+                                        <th class="tar" id="cabezaOtras">Otras</th>
+                                        <th class="tar" id="cabezaRetencion">Retencion</th>
+                                        <th class="tar" id="cabezaAfc">Afc</th>
+                                        <th class="tar" id="cabezaEmbargos">Embargos</th>
+                                        <th class="tar" id="cabezaEducacion">Educacion</th>
+                                        <th class="tar" id="cabezaDeuda">Deuda</th>
+                                        <th class="tar" id="cabezaDeducciones">Deducciones</th>
+                                        <th class="tar" id="cabezaNeto">Neto</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+<!--                            </div>-->
+                            <br>
+                               <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a href="/NominaLista"
+                                       class="btn btn-outline-dark waves-effect
+                                       btn-md float-right">Cancelar </a>
+                                    <button type="button"
+                                            onclick="guardardoc('Actualizar')"
+                                            class="btn btn-outline-success
+                                             waves-effect btn-md float-right">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="LineaActual"
+       type="hidden"/>
+<!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="CuentaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="EmpleadoNuevo"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/cuentadecobro.js"></script>
+
+<!--   INICIA TEMPLATE-->
+    {{template "nominascript" }}
+<!--   MODAL VACACIONES COMPENSADAS-->
+    {{template "modalColumna" }}
+    {{template "autocompletaCentro" }}
+    {{template "autocompletaEmpleado"}}
+
+<script>
+// INICIA CREAR DUPLICADO CON F2
+$(document).on('keyup', '#Prefijo', function (e) {
+    //   e.preventDefault();
+    var code = e.keyCode || e.which;
+
+    if (e.which == 113) {
+        // alert("F2");
+
+        document.location.href = '/NominaNuevo/'+$("#Numero").val();
+    }
+});
+
+
+
+    function columnas(opcion,columna)
+    {
+        if($(opcion).is(':checked')) {
+            $('#tabla td:nth-child('+columna+')').show();
+            $('#tabla th:nth-child('+columna+')').show();
+
+        } else {
+            $('#tabla td:nth-child('+columna+')').hide();
+            $('#tabla th:nth-child('+columna+')').hide();
+        }
+    }
+
+    $(document).ready(function () {
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicial").val(m);
+        $("#FechaFinal").val(m);
+
+        //INICIA FOCUS
+        $('#Prefijo').focus();
+
+        listadevengado=[];
+        listadevengado.push("trabajado");
+        listadevengado.push("transporte");
+        listadevengado.push("cesantias");
+        listadevengado.push("intereses");
+        listadevengado.push("prima");
+        listadevengado.push("vacaciones");
+        listadevengado.push("viaticos");
+        listadevengado.push("horasextras");
+        listadevengado.push("incapacidades");
+        listadevengado.push("licencias");
+        listadevengado.push("bonificaciones");
+        listadevengado.push("auxilios");
+        listadevengado.push("huelgas");
+        listadevengado.push("conceptos");
+        listadevengado.push("compensaciones");
+        listadevengado.push("bonos");
+        listadevengado.push("comisiones");
+        listadevengado.push("dotaciones");
+        listadevengado.push("sostenimiento");
+        listadevengado.push("teletrabajo");
+        listadevengado.push("indemnizaciones");
+
+        listadeducciones=[];
+
+        listadeducciones.push("salud");
+        listadeducciones.push("pension");
+        listadeducciones.push("solidaridad");
+        listadeducciones.push("subsistencia");
+        listadeducciones.push("sindicatos");
+        listadeducciones.push("sanciones");
+        listadeducciones.push("libranzas");
+        listadeducciones.push("terceros");
+        listadeducciones.push("anticipos");
+        listadeducciones.push("otras");
+        listadeducciones.push("retencion");
+        listadeducciones.push("afc");
+        listadeducciones.push("embargos");
+        listadeducciones.push("educacion");
+        listadeducciones.push("deuda");
+
+        // inicia fechas
+        // fin calcula dias
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicialVacacionesComunes").val(m);
+        $("#FechaFinalVacacionesComunes").val(m);
+        $("#FechaInicialVacacionesCompensadas").val(m);
+        $("#FechaFinalVacacionesCompensadas").val(m);
+        $('#NuevaColumna').materialSelect({});
+        $('#cabezatabla').click(function() {
+        $('#modalColumna').modal('show');
+        });
+
+        $("th").click(function(){
+            var theLink = $(this).text();
+            //alert(theLink);
+           // alert($(this).attr('id'));
+        });
+
+        $('#cabeceraTitulo').click(function() {
+            $('#modalColumna').modal('show');
+        });
+
+        crearTotales();
+        // llenar detalle
+
+        // TRAE DATOS DE EDITAR
+
+        $('#Numero').val('{{ .nomina.Numero }}');
+        $('#Prefijo').val('{{ .nomina.Prefijo }}');
+        $("#FechaInicial").val('{{ .nomina.Fechainicial.Format "2006-01-02"}}');
+        $("#FechaFinal").val('{{ .nomina.Fechafinal.Format "2006-01-02"}}');
+            cont = 1;
+            {{range.detalle }}
+            agregar();
+            $('#codigo' + cont).val('{{ .Codigo }}');
+            $('#nombre' + cont).val('{{ .Empleadonombre }}');
+            $('#centro' + cont).val('{{ .Centro }}');
+            $('#dias' + cont).val('{{ .Dias }}');
+            $('#sueldo' + cont).val(moneda(Number({{ .Sueldo }}),0));
+            $('#trabajado' + cont).val(moneda(Number({{ .Trabajado }}),0));
+            $('#transporte' + cont).val(moneda(Number({{ .Transporte }}),0));
+            $('#cesantias' + cont).val(moneda(Number({{ .Cesantias }}),0));
+            $('#intereses' + cont).val(moneda(Number({{ .Intereses }}),0));
+            $('#prima' + cont).val(moneda(Number({{ .Prima }}),0));
+            $('#vacaciones' + cont).val(moneda(Number({{ .Vacaciones }}),0));
+            $('#viaticos' + cont).val(moneda(Number({{ .Viaticos }}),0));
+            $('#horasextras' + cont).val(moneda(Number({{ .Horasextras }}),0));
+            $('#incapacidades' + cont).val(moneda(Number({{ .Incapacidades }}),0));
+            $('#licencias' + cont).val(moneda(Number({{ .Licencias }}),0));
+            $('#bonificaciones' + cont).val(moneda(Number({{ .Bonificaciones }}),0));
+            $('#auxilios' + cont).val(moneda(Number({{ .Auxilios }}),0));
+            $('#huelgas' + cont).val(moneda(Number({{ .Huelgas }}),0));
+            $('#conceptos' + cont).val(moneda(Number({{ .Conceptos }}),0));
+            $('#compensaciones' + cont).val(moneda(Number({{ .Compensaciones }}),0));
+            $('#bonos' + cont).val(moneda(Number({{ .Bonos }}),0));
+            $('#comisiones' + cont).val(moneda(Number({{ .Comisiones }}),0));
+            $('#dotaciones' + cont).val(moneda(Number({{ .Dotaciones }}),0));
+            $('#sostenimiento' + cont).val(moneda(Number({{ .Sostenimiento }}),0));
+            $('#teletrabajo' + cont).val(moneda(Number({{ .Teletrabajo }}),0));
+            $('#indemnizaciones' + cont).val(moneda(Number({{ .Indemnizaciones }}),0));
+            $('#salud' + cont).val(moneda(Number({{ .Salud }}),0));
+            $('#pension' + cont).val(moneda(Number({{ .Pension }}),0));
+            $('#solidaridad' + cont).val(moneda(Number({{ .Solidaridad }}),0));
+            $('#subsistencia' + cont).val(moneda(Number({{ .Subsistencia }}),0));
+            $('#sindicatos' + cont).val(moneda(Number({{ .Sindicatos }}),0));
+            $('#sanciones' + cont).val(moneda(Number({{ .Sanciones }}),0));
+            $('#libranzas' + cont).val(moneda(Number({{ .Libranzas }}),0));
+            $('#terceros' + cont).val(moneda(Number({{ .Terceros }}),0));
+            $('#anticipos' + cont).val(moneda(Number({{ .Anticipos }}),0));
+            $('#otras' + cont).val(moneda(Number({{ .Otras }}),0));
+            $('#retencion' + cont).val(moneda(Number({{ .Retencion }}),0));
+            $('#afc' + cont).val(moneda(Number({{ .Afc }}),0));
+            $('#embargos' + cont).val(moneda(Number({{ .Embargos }}),0));
+            $('#educacion' + cont).val(moneda(Number({{ .Educacion }}),0));
+            $('#deuda' + cont).val(moneda(Number({{ .Deuda }}),0));
+            $('#deducciones' + cont).val(moneda(Number({{ .Deducciones }}),0));
+            $('#neto' + cont).val(moneda(Number({{ .Neto }}),0));
+            totalfila(cont+'');
+
+            cont++;
+            {{end}}
+
+            totales();
+
+    // oculta columnas cero
+        $.each(listadevengado, function( key, value ) {
+            if (totalcolumnavacia(value)==0)
+            {
+                ocultar("cabeza"+titulo(value));
+            }
+        });
+
+        //totalcolumna("devengado");
+
+        $.each(listadeducciones, function( key, value ) {
+            if (totalcolumnavacia(value)==0)
+            {
+                ocultar("cabeza"+titulo(value));
+            }
+        });
+
+
+
+        //oculta columna devengados
+        //ocultar("cabezaCesantias");
+        //ocultar("cabezaIntereses");
+        // ocultar("cabezaPrima");
+        // ocultar("cabezaVacaciones");
+        // ocultar("cabezaViaticos");
+        // ocultar("cabezaHorasextras");
+        // ocultar("cabezaIncapacidades");
+        // ocultar("cabezaLicencias");
+        // ocultar("cabezaBonificaciones");
+        // ocultar("cabezaAuxilios");
+        // ocultar("cabezaHuelgas");
+        // ocultar("cabezaConceptos");
+        // ocultar("cabezaCompensaciones");
+        // ocultar("cabezaBonos");
+        // ocultar("cabezaComisiones");
+        // ocultar("cabezaDotaciones");
+        // ocultar("cabezaSostenimiento");
+        // ocultar("cabezaTeletrabajo");
+        // ocultar("cabezaIndemnizaciones");
+
+       // oculta columna deducciones
+       //  ocultar("cabezaSolidaridad");
+       //  ocultar("cabezaSubsistencia");
+       //  ocultar("cabezaSindicatos");
+       //  ocultar("cabezaSanciones");
+       //  ocultar("cabezaLibranzas");
+       //  ocultar("cabezaTerceros");
+       //  ocultar("cabezaAnticipos");
+       //  ocultar("cabezaOtras");
+       //  ocultar("cabezaRetencion");
+       //  ocultar("cabezaAfc");
+       //  ocultar("cabezaEmbargos");
+       //  ocultar("cabezaEducacion");
+       //  ocultar("cabezaDeuda");
+
+    });
+    function moneda(n, dp){
+        var w = n.toFixed(dp), k = w|0, b = n < 0 ? 1 : 0,
+            u = Math.abs(w-k), d = (''+u.toFixed(dp)).substr(2, dp),
+            s = ''+k, i = s.length, r = '';
+        while ( (i-=3) > b ) { r = ',' + s.substr(i, 3) + r; }
+        return s.substr(0, i + 3) + r + (d ? '.'+d: '');
+    };
+</script>
+{{end}}
+

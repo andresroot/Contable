@@ -1,0 +1,47 @@
+table.dataTable tbody td.select-checkbox:after, table.dataTable tbody td.select-checkbox:before, table.dataTable tbody th.select-checkbox:after, table.dataTable tbody th.select-checkbox:before {
+
+     top: 0.6em !important;
+
+}
+.md-form input:not([type]):focus:not([readonly]),
+.md-form input[type="text"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="password"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="email"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="url"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="time"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="date"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+.md-form
+	input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="tel"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="number"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search"]:not(.browser-default):focus:not([readonly]),
+.md-form input[type="search-md"]:focus:not([readonly]),
+.md-form textarea.md-textarea:focus:not([readonly]) {
+	border-bottom: 0px solid #21b799 !important;
+	box-shadow: 0 0px 0 0 #3893ea !important;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+     color:  #495057 !important;
+}
+
+.pagination .page-item.active .page-link {
+    color: #fff !important;
+    background-color: #21B799 !important;
+
+}
+
+.pagination .page-item.active .page-link:hover{
+   background-color: #21B799 !important;
+
+
+}
+.select-wrapper input.select-dropdown {
+
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    height: 20px !important;
+    margin-top: 10px  !important;
+    border-bottom: 0px solid #ced4da !important;
+}

@@ -1,0 +1,376 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <section>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row mb-4 mt-0 pl-3">
+                        <h3 class="tp">Conciliacion Bancaria</h3>
+                        <div class="col-sm-2"></div>
+                        <div id="areaBuscar"></div>
+                        <label class="col-sm-1 col-form-label miBusquedalabel">Buscar</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Buscar"
+                                       id="Buscar"
+                                       class="form-control miBusqueda" required/>
+                            </div>
+                        </div>
+                        <button id="ConciliacionTodosPdf"
+                                class="btn btn-outline-danger waves-effect btn-md float-right mdbs">PDF
+                        </button>
+                        <button id="ConciliacionExcel"
+                                class="btn btn-outline-info waves-effect btn-md float-right mdbs">
+                            EXCEL
+                        </button>
+                        <button type="button" id="actualizar"
+                                class="btn btn-outline-success mdbs">ACEPTAR</button>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0 pl-3">
+                                <label class="col-sm-1 col-form-label">Cuenta</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Cuenta"
+                                               name="Cuenta"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <!--                    <label class="col-sm-1 col-form-label">Nombre</label>-->
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Cuentanombre"
+                                               name="Cuentanombre"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label" >Inicial Libros </label>
+                                <div class="col-sm-2" >
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               value="0.00"
+                                               id="Iniciallibro"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Inicial Banco</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Inicialbanco"
+                                               value="0.00"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="form-group row mb-0 pl-3">
+                                <label class="col-sm-1 col-form-label">Mes</label>
+                                <div class="col-sm-2">
+                                    <select name="Mes"
+                                            id="Mes"
+                                            class=" mdb-select md-form-control"
+                                            searchable="Buscar...">
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Pendientes</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               value="0.00"
+                                               id="TotalPendiente"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Final Libros </label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               value="0.00"
+                                               id="FinalLibros"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Final Banco</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Diferencia"
+                                               value="0.00"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                                   <table id="dt-all-checkbox"
+                                   class="table table-sm" cellspacing="0" width="100%">
+                                <thead class="miCabeceraTabla">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Fecha</th>
+                                    <th>Mc</th>
+                                    <th>Documento</th>
+                                    <th>Numero</th>
+                                    <th>Fila</th>
+                                    <th>Concepto</th>
+                                    <th>Debito</th>
+                                    <th>Credito</th>
+                                    <th>Banco</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+    </section>
+</div>
+<input id="LibroMes"
+       type="hidden"/>
+
+        {{template "conciliacionscript" }}
+        {{ template "autocompletaPlandecuentaempresa" }}
+<script>
+    numeroPanel = 1;
+    $(document).ready(function () {
+
+        autocompletaPlandecuentaempresa("#Cuenta", "#Cuentanombre");
+
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#FechaInicial").val(m);
+        $("#FechaFinal").val(m);
+
+        // boton pdf
+        $( "#ConciliacionTodosPdf" ).click(function() {
+            //alert( "actualizar" );
+            Cuenta=$("#Cuenta").val();
+            Mes=$("#Mes").val();
+            accion='ConciliacionTodosPdf/'+Cuenta+"/"+Mes;
+            window.open(accion,"_blank");
+        });
+
+        // boton pdf
+        $( "#ConciliacionExcel" ).click(function() {
+            //alert( "actualizar" );
+            Cuenta=$("#Cuenta").val();
+            Mes=$("#Mes").val();
+            accion='ConciliacionTodosExcel/'+Cuenta+"/"+Mes;
+            window.open(accion,"_blank");
+        });
+
+        $( "#actualizar" ).click(function() {
+            Cuenta=$("#Cuenta").val();
+            Mes=$("#Mes").val();
+            accion='ConciliacionDatos/'+Cuenta+"/"+Mes;
+            $.ajax({
+                url: accion,
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    $("#tabla > tbody").empty();
+                    $("#Inicialbanco").val(response.Inicialbanco);
+
+                    $("#Iniciallibro").val(response.Iniciallibro);
+                    $("#LibroMes").val(response.Libromes);
+                    datos(response.Detalle);
+                    totales();
+                    console.log(JSON.stringify(response));
+                    //datos(response);
+                }
+            })
+        });
+
+        $('.mdb-select').materialSelect({});
+    });
+
+    function datos(datosAjax) {
+
+        $('#dt-all-checkbox').dataTable().fnDestroy();
+        var datatable1 = $('#dt-all-checkbox').dataTable({
+            "dom": 'lrtip',
+            "scrollY": "350px",
+            "scrollCollapse": true,
+            "scrollXInner": true,
+            "paging": false,
+            "aaData": datosAjax,
+            columns:
+                [{"data": "Filas"},
+                    {"data": "Fecha" },
+                    {"data": "Mc"},
+                    {"data": "Documento"},
+                    {"data": "Numero"},
+                    {"data": "Fila"},
+                    {"data": "Concepto"},
+                    {"data": "Debito", render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},
+                    {"data": "Credito", render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},
+                    {"data": "Banco", render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            "ordering" : false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+        });
+
+        oTable = $('#dt-all-checkbox').DataTable();
+        $('#Buscar').keyup(function () {
+            oTable.search($(this).val()).draw();
+        })
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+
+        jQuery('#dt-all-checkbox tr').click(function(){
+            var valueid=$(this).closest('tr').children('td:first').text();
+            //alert(valueid);
+            var listado = [];
+            var table = $('#dt-all-checkbox').DataTable();
+            table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+                var data = this.data();
+                if (data.Filas==valueid)
+                {
+                    mes= $("#Mes").val();
+                    if (data.Banco==0 )
+                    {
+                        if (Number(data.Mc)<=Number(mes)){
+                            if (data.Debito==0){
+                                table.cell(rowIdx, 9).data(Number(data.Credito)).draw();
+                            }else{
+                                table.cell(rowIdx, 9).data(Number(data.Debito)).draw();
+                            }
+                            table.cell(rowIdx, 2).data(mes).draw();
+                        }
+                    }
+                    else
+                    {
+                        table.cell(rowIdx, 9).data(0).draw();
+                        table.cell(rowIdx, 2).data('').draw();
+                    }
+                    //alert("Dato cambiado");
+                   // alert(data.Banco);
+                    listado.push({
+                        "Fila": data.Fila,
+                        "Documento": data.Documento,
+                        "Numero": data.Numero,
+                        "Debito": data.Debito,
+                        "Credito": data.Credito,
+                        "Banco": (data.Banco),
+                        "MesConciliacion": data.Mc,
+                    });
+                    guardar(listado);
+                }
+            } );
+            // gaurdar
+            actualizatotal();
+        });
+
+        var table = $('#dt-all-checkbox').DataTable();
+        table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+            var data = this.data();
+              mes= $("#Mes").val();
+            if (data.Banco==0 || Number(data.Mc)>Number(mes))
+            {
+
+            } else {
+                this.select();
+            }
+
+        // actualiza campo banco
+                if ((data.Mc)==""){
+                    table.cell(rowIdx, 9).data(0).draw();
+                } else {
+                    if (data.Debito==0){
+                        table.cell(rowIdx, 9).data(Number(data.Credito)).draw();
+                    } else {
+                        table.cell(rowIdx, 9).data(Number(data.Debito)).draw();
+                    }
+            }
+        } );
+        actualizatotal();
+    }
+
+    function actualizatotal() {
+        var totaldebito = 0;
+        var totalcredito = 0;
+        var totaldebitopendiente = 0;
+        var totalcreditopendiente = 0;
+        saldosiniciales = limpiarformato($("#Iniciallibro").val());
+        Libromes = limpiarformato($("#LibroMes").val());
+
+        var table = $('#dt-all-checkbox').DataTable();
+        mes= $("#Mes").val();
+
+        table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+            var data = this.data();
+                    totaldebito += limpiarformato(data.Debito);
+                    totalcredito += limpiarformato(data.Credito);
+            if (data.Mc=="" || Number(data.Mc)>Number(mes)){
+                totaldebitopendiente += limpiarformato(data.Debito);
+                totalcreditopendiente += limpiarformato(data.Credito);
+            }
+        } );
+        saldosfinales = saldosiniciales +Libromes;
+        $("#FinalLibros").val(formatoFloat(saldosfinales));
+        $("#TotalPendiente").val(formatoFloat((totaldebitopendiente - totalcreditopendiente)));
+        $("#Diferencia").val(formatoFloat(saldosfinales - (totaldebitopendiente - totalcreditopendiente)));
+    }
+</script>
+
+{{end}}

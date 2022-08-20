@@ -1,0 +1,1038 @@
+{{define "nominascript" }}
+<script>
+    var numeroPanel = 1;
+
+
+    function ocultar(columna)
+    {
+        var i = 1;
+        //  var t = document.getElementById('flex1');
+
+        $("#tabla th").each(function() {
+
+            if(this.id==columna)
+            {
+                micolumna=i+""
+            }
+            i++;
+        });
+        $('#tabla td:nth-child('+micolumna+')').hide();
+        $('#tabla th:nth-child('+micolumna+')').hide();
+
+        $('#tabla td:nth-child(1)').hide();
+        $('#tabla th:nth-child(1)').hide();
+
+    }
+
+    function mostrar(columna)
+    {
+
+        var i = 0;
+        //  var t = document.getElementById('flex1');
+
+        $("#tabla th").each(function() {
+
+            if(this.id==columna)
+            {
+                i++;
+                micolumna=i+""
+            }
+            i++;
+        });
+
+        $('#tabla td:nth-child('+micolumna+')').show();
+        $('#tabla th:nth-child('+micolumna+')').show();
+        $('#tabla td:nth-child('+micolumna+')').addClass("cabezanueva");
+        $('#tabla th:nth-child('+micolumna+')').addClass("cabezanueva");
+    }
+
+
+    $(document.body).on('focusout', '#PorcentajeRetencionFuente', function (e) {
+        totales();
+    });
+
+    $(document.body).on('focusout', '#PorcentajeRetencionIca', function (e) {
+        totales();
+    });
+
+    // llena los datos del producto
+    function llenarFila(numeroFila) {
+        elemento = '#seleccion_producto' + numeroFila;
+        productoCodigo = $(elemento).val();
+        unidad = '#unidad' + cont;
+        impuesto = '#iva' + cont;
+        nombre = '#nombre' + cont;
+
+        var datosEnviar = {
+            "productoCodigo": productoCodigo
+        };
+        accion = "/ProductoActual/" + productoCodigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    $(unidad).html('');
+                    $(impuesto).html('');
+                    $(nombre).html('');
+
+                } else {
+                    $.each(response, function (i, item) {
+                        $(unidad).html(item.Unidad);
+                        $(impuesto).html(item.Iva);
+                        $(nombre).html(item.Nombre);
+                    });
+                }
+            }
+        });
+    }
+
+    // FUNCION TOTALES
+
+
+
+    var cont = 0
+    var id_fila_selected;
+
+    //Agregar Linea
+    function filas()
+    {
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        return cont-1;
+
+    }
+    ///
+    function asignar(elemento,colactual,colsuperior,borrar=false)
+    {
+       if (borrar==false)
+       {
+           $("#"+elemento+colactual).val($("#"+elemento+colsuperior).val());
+       }
+        else
+       {
+           $("#"+elemento+colactual).val("");
+       }
+
+    }
+    function insertar(id_fila) {
+        agregar();
+
+        filaActual=id_fila.replace("fila","");
+        NumeroActual=parseInt(filaActual);
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        for (var j = cont-1; j >=filaActual ; j--) {
+            cadenaActual=""+j;
+            lineaSuperior=j-1;
+            cadenaSuperior=lineaSuperior+"";
+
+           // $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+
+            asignar("codigo",cadenaActual,cadenaSuperior)
+            asignar("nombre",cadenaActual,cadenaSuperior)
+            asignar("centro",cadenaActual,cadenaSuperior)
+            asignar("sueldo",cadenaActual,cadenaSuperior)
+            asignar("dias",cadenaActual,cadenaSuperior)
+
+            /// devengos
+            asignar("trabajado",cadenaActual,cadenaSuperior)
+            asignar("transporte",cadenaActual,cadenaSuperior)
+            asignar("cesantias",cadenaActual,cadenaSuperior)
+            asignar("intereses",cadenaActual,cadenaSuperior)
+            asignar("prima",cadenaActual,cadenaSuperior)
+            asignar("vacaciones",cadenaActual,cadenaSuperior)
+            asignar("viaticos",cadenaActual,cadenaSuperior)
+            asignar("horasextras",cadenaActual,cadenaSuperior)
+            asignar("incapacidades",cadenaActual,cadenaSuperior)
+            asignar("licencias",cadenaActual,cadenaSuperior)
+            asignar("bonificaciones",cadenaActual,cadenaSuperior)
+            asignar("auxilios",cadenaActual,cadenaSuperior)
+            asignar("huelgas",cadenaActual,cadenaSuperior)
+            asignar("conceptos",cadenaActual,cadenaSuperior)
+            asignar("compensaciones",cadenaActual,cadenaSuperior)
+            asignar("bonos",cadenaActual,cadenaSuperior)
+            asignar("comisiones",cadenaActual,cadenaSuperior)
+            asignar("dotaciones",cadenaActual,cadenaSuperior)
+            asignar("sostenimiento",cadenaActual,cadenaSuperior)
+            asignar("teletrabajo",cadenaActual,cadenaSuperior)
+            asignar("indemnizaciones",cadenaActual,cadenaSuperior)
+            asignar("devengado",cadenaActual,cadenaSuperior)
+
+            asignar("salud",cadenaActual,cadenaSuperior)
+            asignar("pension",cadenaActual,cadenaSuperior)
+            asignar("solidaridad",cadenaActual,cadenaSuperior)
+            asignar("sanciones",cadenaActual,cadenaSuperior)
+            asignar("libranzas",cadenaActual,cadenaSuperior)
+            asignar("terceros",cadenaActual,cadenaSuperior)
+            asignar("anticipos",cadenaActual,cadenaSuperior)
+            asignar("otras",cadenaActual,cadenaSuperior)
+            asignar("retencion",cadenaActual,cadenaSuperior)
+            asignar("afc",cadenaActual,cadenaSuperior)
+            asignar("embargos",cadenaActual,cadenaSuperior)
+            asignar("educacion",cadenaActual,cadenaSuperior)
+            asignar("deuda",cadenaActual,cadenaSuperior)
+            asignar("deducciones",cadenaActual,cadenaSuperior)
+            asignar("neto",cadenaActual,cadenaSuperior)
+    }
+        cadenaActual=filaActual;
+
+            asignar("codigo",cadenaActual,cadenaSuperior,true)
+            asignar("nombre",cadenaActual,cadenaSuperior,true)
+            asignar("centro",cadenaActual,cadenaSuperior,true)
+            asignar("sueldo",cadenaActual,cadenaSuperior,true)
+            asignar("dias",cadenaActual,cadenaSuperior,true)
+
+            /// devengos
+            asignar("trabajado",cadenaActual,cadenaSuperior,true)
+            asignar("transporte",cadenaActual,cadenaSuperior,true)
+            asignar("cesantias",cadenaActual,cadenaSuperior,true)
+            asignar("intereses",cadenaActual,cadenaSuperior,true)
+            asignar("prima",cadenaActual,cadenaSuperior,true)
+            asignar("vacaciones",cadenaActual,cadenaSuperior,true)
+            asignar("viaticos",cadenaActual,cadenaSuperior,true)
+            asignar("horasextras",cadenaActual,cadenaSuperior,true)
+            asignar("incapacidades",cadenaActual,cadenaSuperior,true)
+            asignar("licencias",cadenaActual,cadenaSuperior,true)
+            asignar("bonificaciones",cadenaActual,cadenaSuperior,true)
+            asignar("auxilios",cadenaActual,cadenaSuperior,true)
+            asignar("huelgas",cadenaActual,cadenaSuperior,true)
+            asignar("conceptos",cadenaActual,cadenaSuperior,true)
+            asignar("compensaciones",cadenaActual,cadenaSuperior,true)
+            asignar("bonos",cadenaActual,cadenaSuperior,true)
+            asignar("comisiones",cadenaActual,cadenaSuperior,true)
+            asignar("dotaciones",cadenaActual,cadenaSuperior,true)
+            asignar("sostenimiento",cadenaActual,cadenaSuperior,true)
+            asignar("teletrabajo",cadenaActual,cadenaSuperior,true)
+            asignar("indemnizaciones",cadenaActual,cadenaSuperior,true)
+            asignar("devengado",cadenaActual,cadenaSuperior,true)
+
+            asignar("salud",cadenaActual,cadenaSuperior,true)
+            asignar("pension",cadenaActual,cadenaSuperior,true)
+            asignar("solidaridad",cadenaActual,cadenaSuperior,true)
+            asignar("sanciones",cadenaActual,cadenaSuperior,true)
+            asignar("libranzas",cadenaActual,cadenaSuperior,true)
+            asignar("terceros",cadenaActual,cadenaSuperior,true)
+            asignar("anticipos",cadenaActual,cadenaSuperior,true)
+            asignar("otras",cadenaActual,cadenaSuperior,true)
+            asignar("retencion",cadenaActual,cadenaSuperior,true)
+            asignar("afc",cadenaActual,cadenaSuperior,true)
+            asignar("embargos",cadenaActual,cadenaSuperior,true)
+            asignar("educacion",cadenaActual,cadenaSuperior,true)
+            asignar("deuda",cadenaActual,cadenaSuperior,true)
+            asignar("deducciones",cadenaActual,cadenaSuperior,true)
+            asignar("neto",cadenaActual,cadenaSuperior,true)
+
+
+        totales();
+        reordenar();
+    }
+
+    function eliminar(id_fila) {
+        //agregar();
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        if ((cont-1)>1)
+        {
+            filaActual=id_fila.replace("fila","");
+            NumeroActual=parseInt(filaActual);
+
+
+            lineaSuperior=0;
+
+            for (var j = filaActual; j <cont-1 ; j++) {
+                cadenaActual=""+j;
+
+                lineaSuperior=parseInt(j)+1;
+                cadenaSuperior=lineaSuperior+"";
+
+                asignar("codigo",cadenaActual,cadenaSuperior)
+                asignar("nombre",cadenaActual,cadenaSuperior)
+                asignar("centro",cadenaActual,cadenaSuperior)
+                asignar("sueldo",cadenaActual,cadenaSuperior)
+                asignar("dias",cadenaActual,cadenaSuperior)
+
+                /// devengos
+                asignar("trabajado",cadenaActual,cadenaSuperior)
+                asignar("transporte",cadenaActual,cadenaSuperior)
+                asignar("cesantias",cadenaActual,cadenaSuperior)
+                asignar("intereses",cadenaActual,cadenaSuperior)
+                asignar("prima",cadenaActual,cadenaSuperior)
+                asignar("vacaciones",cadenaActual,cadenaSuperior)
+                asignar("viaticos",cadenaActual,cadenaSuperior)
+                asignar("horasextras",cadenaActual,cadenaSuperior)
+                asignar("incapacidades",cadenaActual,cadenaSuperior)
+                asignar("licencias",cadenaActual,cadenaSuperior)
+                asignar("bonificaciones",cadenaActual,cadenaSuperior)
+                asignar("auxilios",cadenaActual,cadenaSuperior)
+                asignar("huelgas",cadenaActual,cadenaSuperior)
+                asignar("conceptos",cadenaActual,cadenaSuperior)
+                asignar("compensaciones",cadenaActual,cadenaSuperior)
+                asignar("bonos",cadenaActual,cadenaSuperior)
+                asignar("comisiones",cadenaActual,cadenaSuperior)
+                asignar("dotaciones",cadenaActual,cadenaSuperior)
+                asignar("sostenimiento",cadenaActual,cadenaSuperior)
+                asignar("teletrabajo",cadenaActual,cadenaSuperior)
+                asignar("indemnizaciones",cadenaActual,cadenaSuperior)
+                asignar("devengado",cadenaActual,cadenaSuperior)
+
+                asignar("salud",cadenaActual,cadenaSuperior)
+                asignar("pension",cadenaActual,cadenaSuperior)
+                asignar("solidaridad",cadenaActual,cadenaSuperior)
+                asignar("sanciones",cadenaActual,cadenaSuperior)
+                asignar("libranzas",cadenaActual,cadenaSuperior)
+                asignar("terceros",cadenaActual,cadenaSuperior)
+                asignar("anticipos",cadenaActual,cadenaSuperior)
+                asignar("otras",cadenaActual,cadenaSuperior)
+                asignar("retencion",cadenaActual,cadenaSuperior)
+                asignar("afc",cadenaActual,cadenaSuperior)
+                asignar("embargos",cadenaActual,cadenaSuperior)
+                asignar("educacion",cadenaActual,cadenaSuperior)
+                asignar("deuda",cadenaActual,cadenaSuperior)
+                asignar("deducciones",cadenaActual,cadenaSuperior)
+                asignar("neto",cadenaActual,cadenaSuperior)
+
+                // $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+                // $("#seleccion_tercero"+cadenaActual).val($("#seleccion_tercero"+cadenaSuperior).val());
+                // $("#seleccion_centro"+cadenaActual).val($("#seleccion_centro"+cadenaSuperior).val());
+                // $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+                // $("#factura"+cadenaActual).val($("#factura"+cadenaSuperior).val());
+                // $("#Debito"+cadenaActual).val($("#Debito"+cadenaSuperior).val());
+                // $("#Credito"+cadenaActual).val($("#Credito"+cadenaSuperior).val());
+                //
+
+            }
+            var fila=cont-1;
+            $('#fila' +fila ).remove();
+
+        }
+
+        totales();
+    }
+
+
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+
+
+    function formatoGeneral(elemento,sisuma=false )
+    {
+        var cleave = new Cleave(elemento, {
+        numeral: true,
+        numeralDecimalMark: '.',
+        delimiter: ',',
+        numeralDecimalScale: 0
+         });
+
+        if (sisuma==true)
+
+        {
+
+            $(elemento).on('focusout', function (event) {
+                var patt1 = /[0-9]/g;
+                var filaActual = elemento.match(patt1);
+                totalfila(filaActual)
+            });
+
+
+        }
+    }
+    function formatoPorcentaje()
+    {
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralDecimalMark: '.',
+            delimiter: ',',
+            numeralDecimalScale: 2
+        });
+
+    }
+
+
+function totalcolumna(columna)
+{
+    filatotal=1;
+    var totalcolumna=0;
+    $('#tabla tbody tr').each(function () {
+        mifila=filatotal+"";
+        valor=limpiarformato($('#'+columna + mifila).val());
+        totalcolumna+=valor;
+        filatotal++;
+    });
+    $('#' +columna).val(moneda(totalcolumna));
+
+}
+    function titulo(word) {
+        return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+    function totalcolumnavacia(columna)
+    {
+        filatotal=1;
+        var totalcolumna=0;
+        $('#tabla tbody tr').each(function () {
+            mifila=filatotal+"";
+            valor=limpiarformato($('#'+(columna) + mifila).val());
+            totalcolumna+=valor;
+            filatotal++;
+        });
+       // $('#' +columna).val(moneda(totalcolumna));
+return totalcolumna;
+    }
+function totales()
+{
+    totalcolumna("sueldo");
+    // suma columnas
+    $.each(listadevengado, function( key, value ) {
+        totalcolumna(value);
+    });
+
+    totalcolumna("devengado");
+
+    $.each(listadeducciones, function( key, value ) {
+        totalcolumna(value);
+    });
+
+    totalcolumna("deducciones");
+
+    totalcolumna("neto");
+
+    // suma filas
+
+
+    filatotal=1;
+    $('#tabla tbody tr').each(function () {
+        mifila=filatotal+"";
+       totalfilaSola(mifila);
+        filatotal++;
+    });
+
+
+}
+    function totalfilaSola(mifila){
+        devengado=0;
+        $.each(listadevengado, function( key, value ) {
+            // alert( key + ": " + value );
+            valor=limpiarformato($('#'+value + mifila).val());
+            devengado+=valor;
+
+        });
+        $('#devengado' + mifila).val(moneda(devengado));
+        deducciones=0;
+        $.each(listadeducciones, function( key, value ) {
+            valor=limpiarformato($('#'+value + mifila).val());
+            deducciones+=valor;
+        });
+        $('#deducciones' + mifila).val(moneda(deducciones));
+        // neto
+        neto=devengado-deducciones;
+        $('#neto' + mifila).val(moneda(neto));
+      //  totales();
+    }
+
+    function totalfila(mifila){
+        devengado=0;
+        $.each(listadevengado, function( key, value ) {
+           // alert( key + ": " + value );
+            valor=limpiarformato($('#'+value + mifila).val());
+            devengado+=valor;
+
+        });
+       $('#devengado' + mifila).val(moneda(devengado));
+       deducciones=0;
+        $.each(listadeducciones, function( key, value ) {
+            valor=limpiarformato($('#'+value + mifila).val());
+            deducciones+=valor;
+        });
+        $('#deducciones' + mifila).val(moneda(deducciones));
+           // neto
+        neto=devengado-deducciones;
+        $('#neto' + mifila).val(moneda(neto));
+        totales();
+    }
+
+    function borrarcolumna(columna){
+        var filatotal=1;
+        $('#tabla tbody tr').each(function () {
+            mifila=filatotal+"";
+            $('#'+ columna+mifila).val("0");
+            filatotal++;
+        });
+
+        $('#'+ columna).val("0");
+        totales();
+    }
+
+    function crearTotales(){
+       var  cont="ZZZ";
+
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td style=\"width: 20px\"></td>";
+        fila = fila + "<td style=\"width: 50px\"></td>";
+        fila = fila + "<td style=\"width: 120px\"></td>";
+        fila = fila + "<td style=\"width: 250px\"></td>";
+        fila = fila + "<div>TOTALES</div>";
+        fila = fila + "<td style=\"width: 50px\"></td>";
+
+        fila+=columnaDevengadoTotal("90","sueldo")
+        fila+=columnaDevengadoTotal("50","dias")
+
+        /// devengos
+        fila+=columnaDevengadoTotal("90","trabajado")
+        fila+=columnaDevengadoTotal("90","transporte")
+        fila+=columnaDevengadoTotal("90","cesantias")
+        fila+=columnaDevengadoTotal("90","intereses")
+        fila+=columnaDevengadoTotal("90","prima")
+        fila+=columnaDevengadoTotal("90","vacaciones")
+        fila+=columnaDevengadoTotal("90","viaticos")
+        fila+=columnaDevengadoTotal("90","horasextras")
+        fila+=columnaDevengadoTotal("90","incapacidades")
+        fila+=columnaDevengadoTotal("90","licencias")
+        fila+=columnaDevengadoTotal("90","bonificaciones")
+        fila+=columnaDevengadoTotal("90","auxilios")
+        fila+=columnaDevengadoTotal("90","huelgas")
+        fila+=columnaDevengadoTotal("90","conceptos")
+        fila+=columnaDevengadoTotal("90","compensaciones")
+        fila+=columnaDevengadoTotal("90","bonos")
+        fila+=columnaDevengadoTotal("90","comisiones")
+        fila+=columnaDevengadoTotal("90","dotaciones")
+        fila+=columnaDevengadoTotal("90","sostenimiento")
+        fila+=columnaDevengadoTotal("90","teletrabajo")
+        fila+=columnaDevengadoTotal("90","indemnizaciones")
+        fila+=columnaDevengadoTotal("100","devengado")
+
+        fila+=columnaDeduccionesTotal("90","salud")
+        fila+=columnaDeduccionesTotal("90","pension")
+        fila+=columnaDeduccionesTotal("90","solidaridad")
+        fila+=columnaDeduccionesTotal("90","subsistencia")
+        fila+=columnaDeduccionesTotal("90","sindicatos")
+        fila+=columnaDeduccionesTotal("90","sanciones")
+        fila+=columnaDeduccionesTotal("90","libranzas")
+        fila+=columnaDeduccionesTotal("90","terceros")
+        fila+=columnaDeduccionesTotal("90","anticipos")
+        fila+=columnaDeduccionesTotal("90","otras")
+        fila+=columnaDeduccionesTotal("90","retencion")
+        fila+=columnaDeduccionesTotal("90","afc")
+        fila+=columnaDeduccionesTotal("90","embargos")
+        fila+=columnaDeduccionesTotal("90","educacion")
+        fila+=columnaDeduccionesTotal("90","deuda")
+        fila+=columnaDeduccionesTotal("100","deducciones")
+        fila+=columnaDeduccionesTotal("100","neto")
+        fila = fila + "<td style=\"width: 20px\"></td>";
+
+        fila = fila + '</tr>';
+        $('#tabla tfoot').append(fila);
+    }
+    function agregar() {
+        // cont++;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        //cont=cont+1;
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td  style=\"width:20px\"  class=\"celdaAccion\"><a onclick=\"insertar('fila" + cont + "')\" ><i class=\"fas fa-plus-circle mt-0 color\" style=\"color:#21B799\"></i></a></td>";
+
+        fila = fila + "<td><div style=\"width: 50px\" class=\"celdaFilaComprobante\" id=\"Fila" + cont + '\">' + cont + '</div>';
+        fila = fila + "</td>";
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 120px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"codigo" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 250px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"nombre" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input style=\"width: 50px\"  type=\"text\" value=\"\" id=\"centro" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila+=columnaDevengado("90","sueldo"+ cont+"")
+        fila+=columnaDevengado("50","dias"+ cont+"")
+
+        /// devengos
+        fila+=columnaDevengado("90","trabajado"+ cont+"")
+        fila+=columnaDevengado("90","transporte"+ cont+"")
+        fila+=columnaDevengado("90","cesantias"+ cont+"")
+        fila+=columnaDevengado("90","intereses"+ cont+"")
+        fila+=columnaDevengado("90","prima"+ cont+"")
+        fila+=columnaDevengado("90","vacaciones"+ cont+"")
+        fila+=columnaDevengado("90","viaticos"+ cont+"")
+        fila+=columnaDevengado("90","horasextras"+ cont+"")
+        fila+=columnaDevengado("90","incapacidades"+ cont+"")
+        fila+=columnaDevengado("90","licencias"+ cont+"")
+        fila+=columnaDevengado("90","bonificaciones"+ cont+"")
+        fila+=columnaDevengado("90","auxilios"+ cont+"")
+        fila+=columnaDevengado("90","huelgas"+ cont+"")
+        fila+=columnaDevengado("90","conceptos"+ cont+"")
+        fila+=columnaDevengado("90","compensaciones"+ cont+"")
+        fila+=columnaDevengado("90","bonos"+ cont+"")
+        fila+=columnaDevengado("90","comisiones"+ cont+"")
+        fila+=columnaDevengado("90","dotaciones"+ cont+"")
+        fila+=columnaDevengado("90","sostenimiento"+ cont+"")
+        fila+=columnaDevengado("90","teletrabajo"+ cont+"")
+        fila+=columnaDevengado("90","indemnizaciones"+ cont+"")
+        fila+=columnaDevengado("100","devengado"+ cont+"")
+
+        fila+=columnaDeducciones("90","salud"+ cont+"")
+        fila+=columnaDeducciones("90","pension"+ cont+"")
+        fila+=columnaDeducciones("90","solidaridad"+ cont+"")
+        fila+=columnaDeducciones("90","subsistencia"+ cont+"")
+        fila+=columnaDeducciones("90","sindicatos"+ cont+"")
+        fila+=columnaDeducciones("90","sanciones"+ cont+"")
+        fila+=columnaDeducciones("90","libranzas"+ cont+"")
+        fila+=columnaDeducciones("90","terceros"+ cont+"")
+        fila+=columnaDeducciones("90","anticipos"+ cont+"")
+        fila+=columnaDeducciones("90","otras"+ cont+"")
+        fila+=columnaDeducciones("90","retencion"+ cont+"")
+        fila+=columnaDeducciones("90","afc"+ cont+"")
+        fila+=columnaDeducciones("90","embargos"+ cont+"")
+        fila+=columnaDeducciones("90","educacion"+ cont+"")
+        fila+=columnaDeducciones("90","deuda"+ cont+"")
+        fila+=columnaDeducciones("100","deducciones"+ cont+"")
+        fila+=columnaDeducciones("100","neto"+ cont+"")
+        fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminar('fila" + cont + "')\" ><i class=\"fas fa-trash-alt mt-0\" style=\"color:#E74C3C\"></i></a></td>";
+
+        fila = fila + '</tr>';
+
+        $('#tabla tbody').append(fila);
+
+        // devengados
+        formatoGeneral('#sueldo' + cont+"");
+        formatoGeneral('#dias' + cont+"");
+        formatoGeneral('#trabajado' + cont+"",true);
+        formatoGeneral('#transporte' + cont+"",true);
+        formatoGeneral('#cesantias' + cont+"",true);
+        formatoGeneral('#intereses' + cont+"",true);
+        formatoGeneral('#prima' + cont+"",true);
+        formatoGeneral('#vacaciones' + cont+"",true);
+        formatoGeneral('#viaticos' + cont+"",true);
+        formatoGeneral('#horasextras' + cont+"",true);
+        formatoGeneral('#incapacidades' + cont+"",true);
+        formatoGeneral('#licencias' + cont+"",true);
+        formatoGeneral('#bonificaciones' + cont+"",true);
+        formatoGeneral('#auxilios' + cont+"",true);
+        formatoGeneral('#huelgas' + cont+"",true);
+        formatoGeneral('#conceptos' + cont+"",true);
+        formatoGeneral('#compensaciones' + cont+"",true);
+        formatoGeneral('#bonos' + cont+"",true);
+        formatoGeneral('#comisiones' + cont+"",true);
+        formatoGeneral('#dotaciones' + cont+"",true);
+        formatoGeneral('#sostenimiento' + cont+"",true);
+        formatoGeneral('#teletrabajo' + cont+"",true);
+        formatoGeneral('#indemnizaciones' + cont+"",true);
+        formatoGeneral('#devengado' + cont+"");
+
+        // deducciones
+        formatoGeneral('#salud' + cont+"",true);
+        formatoGeneral('#pension' + cont+"",true);
+        formatoGeneral('#solidaridad' + cont+"",true);
+        formatoGeneral('#subsistencia' + cont+"",true);
+        formatoGeneral('#sindicatos' + cont+"",true);
+        formatoGeneral('#sanciones' + cont+"",true);
+        formatoGeneral('#libranzas' + cont+"",true);
+        formatoGeneral('#terceros' + cont+"",true);
+        formatoGeneral('#anticipos' + cont+"",true);
+        formatoGeneral('#otras' + cont+"",true);
+        formatoGeneral('#retencion' + cont+"",true);
+        formatoGeneral('#afc' + cont+"",true);
+        formatoGeneral('#embargos' + cont+"",true);
+        formatoGeneral('#educacion' + cont+"",true);
+        formatoGeneral('#deuda' + cont+"",true);
+        formatoGeneral('#deducciones' + cont);
+        formatoGeneral('#neto' + cont);
+
+        autocompletaCentro("#centro" + cont, "#Centro");
+        autocompletaEmpleado('#codigo' + cont+"",'#nombre' + cont+"",'#sueldo' + cont+"",'#transporte' + cont+"");
+        $("#seleccion_centro" + cont).addClass("Micentro");
+
+        $('#dias'+ cont).on('focusout', function (event) {
+            filaActual = this.id.replace('dias', '');
+            sueldo=limpiarformato($('#sueldo' + filaActual).val());
+            sueldodiario =   (sueldo/30);
+            dias =    limpiarformato($('#dias' + filaActual).val());
+            trabajado = sueldodiario * dias;
+            $('#trabajado' + filaActual).val(moneda(trabajado));
+            totalfila(filaActual)
+        });
+
+
+        // calcula si cambia de valor
+        $('#vacaciones'+ cont).on('focusout', function (event) {
+            filaActual = this.id.replace('vacaciones', '');
+            totalfila(filaActual)
+        });
+
+
+    }
+    function guardardoc(accion) {
+        // if(validaDatos()==false)
+        // {
+        //     return;
+        // }
+
+        // valores cabecera
+        Numero = $('#Numero').val();
+        Prefijo = $('#Prefijo').val();
+        Fecha1 = $('#FechaInicial').val();
+        Vence1 = $('#FechaFinal').val();
+        Devengado=$('#devengado').val();
+        Deducciones=$('#deducciones').val();
+        Neto=$('#neto').val();
+
+       Fechainicial = moment(Fecha1).format("YYYY-MM-DDTHH:mm:ssZ");
+       Fechafinal = moment(Vence1).format("YYYY-MM-DDTHH:mm:ssZ");
+
+        // DATOS ENVIAR
+        var datosEnviar = {
+            "Accion": accion,
+            "Detalle": [],
+            "Numero": Numero,
+            "Prefijo": Prefijo,
+            "Fechainicial": Fechainicial,
+            "Fechafinal": Fechafinal,
+            "Devengado": Devengado,
+            "Deducciones": Deducciones,
+            "Neto": Neto,
+        };
+
+        var MovimientoValido = true;
+        // valida r movimiento
+        // ultimo = Items;
+        var cont = 1;
+        var filavalida = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+                codigo = $("#codigo" + cont).val();
+                centro= $("#centro" + cont).val();
+                sueldo = $("#sueldo" + cont).val();
+                dias = $("#dias" + cont).val();
+                trabajado = $("#trabajado" + cont).val();
+                transporte = $("#transporte" + cont).val();
+                cesantias = $("#cesantias" + cont).val();
+                intereses = $("#intereses" + cont).val();
+                prima = $("#prima" + cont).val();
+                vacaciones = $("#vacaciones" + cont).val();
+                viaticos= $("#viaticos" + cont).val();
+                horasextras= $("#horasextras" + cont).val();
+                incapacidades = $("#incapacidades" + cont).val();
+                licencias = $("#licencias" + cont).val();
+                bonificaciones = $("#bonificaciones" + cont).val();
+                auxilios = $("#auxilios" + cont).val();
+                huelgas = $("#huelgas" + cont).val();
+                conceptos = $("#conceptos" + cont).val();
+                compensaciones = $("#compensaciones" + cont).val();
+                bonos = $("#bonos" + cont).val();
+                comisiones= $("#comisiones" + cont).val();
+                dotaciones= $("#dotaciones" + cont).val();
+                sostenimiento = $("#sostenimiento" + cont).val();
+                teletrabajo = $("#teletrabajo" + cont).val();
+                indemnizaciones = $("#indemnizaciones" + cont).val();
+                devengado = $("#devengado" + cont).val();
+                salud = $("#salud" + cont).val();
+                pension = $("#pension" + cont).val();
+                solidaridad = $("#solidaridad" + cont).val();
+                subsistencia = $("#subsistencia" + cont).val();
+                sindicatos = $("#sindicatos" + cont).val();
+                sanciones = $("#sanciones" + cont).val();
+                libranzas = $("#libranzas" + cont).val();
+                terceros = $("#terceros" + cont).val();
+                anticipos = $("#anticipos" + cont).val();
+                otras = $("#otras" + cont).val();
+                retencion = $("#retencion" + cont).val();
+                afc= $("#afc" + cont).val();
+                embargos= $("#embargos" + cont).val();
+                educacion = $("#educacion" + cont).val();
+                deuda = $("#deuda" + cont).val();
+                deducciones = $("#deducciones" + cont).val();
+                neto = $("#neto" + cont).val();
+
+                // DATOS ENVIAR DETALLE
+                datosEnviar.Detalle.push({
+                    "Numero": Numero,
+                    "Prefijo": Prefijo,
+                    "Fechainicial": Fechainicial,
+                    "Fechafinal": Fechafinal,
+                    "Codigo": codigo,
+                    "Centro": centro,
+                    "Sueldo": sueldo,
+                    "Dias": dias,
+                    "Trabajado": trabajado,
+                    "Transporte": transporte,
+                    "Cesantias": cesantias,
+                    "Intereses": intereses,
+                    "Prima": prima,
+                    "Vacaciones": vacaciones,
+                    "Viaticos": viaticos,
+                    "Horasextras": horasextras,
+                    "Incapacidades": incapacidades,
+                    "Licencias": licencias,
+                    "Bonificaciones": bonificaciones,
+                    "Auxilios": auxilios,
+                    "Huelgas": huelgas,
+                    "Conceptos": conceptos,
+                    "Compensaciones": compensaciones,
+                    "Bonos": bonos,
+                    "Comisiones": comisiones,
+                    "Dotaciones": dotaciones,
+                    "Sostenimiento": sostenimiento,
+                    "Teletrabajo": teletrabajo,
+                    "Indemnizaciones": indemnizaciones,
+                    "Devengado": devengado,
+                    "Salud": salud,
+                    "Pension": pension,
+                    "Solidaridad": solidaridad,
+                    "Subsistencia": subsistencia,
+                    "Sindicatos": sindicatos,
+                    "Sanciones": sanciones,
+                    "Libranzas": libranzas,
+                    "Terceros": terceros,
+                    "Anticipos": anticipos,
+                    "Otras": otras,
+                    "Retencion": retencion,
+                    "Afc": afc,
+                    "Embargos": embargos,
+                    "Educacion": educacion,
+                    "Deuda": deuda,
+                    "Deducciones": deducciones,
+                    "Neto": neto,
+                });
+                filavalida++;
+           // }
+            cont++;
+        });
+
+        // JSON.stringify(datosEnviar)
+        console.log(JSON.stringify(datosEnviar));
+        var siEnvio = true;
+
+        if (siEnvio == true) {
+
+            // enviar
+            accion = "/NominaAgregar";
+            $.ajax({
+                url: accion,
+                type: "POST",
+                async: false,
+                data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        alert("Documento Guardado Correctamente");
+                        document.location.href = '/NominaLista';
+                    } else {
+                        alert("Ocurrio Un Error Al Guardar");
+                    }
+                },
+            });
+        }
+    }
+
+    // agregar  devengos
+
+    function columnaDevengado(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function columnaDevengadoTotal(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+
+    function columnaDeducciones(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre + '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function columnaDeduccionesTotal(ancho,nombre)
+    {
+        mifila =  "<td>";
+        mifila = mifila + "<input class=\"inputNumero\" style=\"width: "+ancho+"px\" type=\"text\" value=\"\" id=\""+nombre +  '"\  \>';
+        mifila = mifila + '</td>';
+        return mifila;
+    }
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+    // cierra panel
+    window.document.addEventListener('myEvent', handleEvent, false)
+    window.document.addEventListener('myEvent1', handleEvent1, false)
+    function handleEvent1(e) {
+
+        panelNuevo.close();
+
+    }
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+
+            if (e.detail.elementoPanel == "terceroCodigo") {
+                valor = e.detail.codigoElemento.replace('.', '');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    // niombre cuenta
+
+
+
+    function limpiarformato(cnumero) {
+        cnumero = cnumero.replace("$", "");
+        cnumero = cnumero.replace(/,/g, '');
+        return Number(cnumero)
+    }
+
+    // nombre centro
+    function validaDatos()
+    {
+        tercero_valido = true;
+        numero_valido = true;
+        ultimo = filas()+"";
+        // borra ultimo
+
+        textovalidar="";
+        cabeceravalida=true;
+        fechavalida=true;
+        vencevalida=true;
+
+        // fecha valida
+        if (moment($('#Fecha').val()).isValid()==false )
+        {
+            textovalidar+='\n Fecha Factura No Valida';
+            cabeceravalida=false;
+            fechavalida=false;
+        }
+
+        if ( moment($('#Vence').val()).isValid()==false)
+        {
+            textovalidar+='\n Fecha Vence No Valida';
+            cabeceravalida=false;
+            vencevalida=false;
+        }
+
+        if (vencevalida==true && vencevalida==true)
+        {
+            if(moment($('#Vence').val()).isBefore(moment($('#Fecha').val())))
+            {
+                textovalidar+='\n Fecha Vence Debe ser igual o Mayor que Fecha';
+                cabeceravalida=false;
+            }
+        }
+
+
+
+
+        if ($("#Mediodepago").val() == '') {
+            textovalidar+='\n Por Favor Digite Un Medio De Pago';
+            cabeceravalida=false;
+        }
+
+
+
+
+        // cabeceravalida=true;
+
+        if ( cabeceravalida==false)
+        {
+            alert(textovalidar);
+        }
+
+        var cont = 1;
+        Mensaje = "";
+        MovimientoValido = true;
+
+        validaMovimiento="";
+
+
+        if(cabeceravalida==true && MovimientoValido == true)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+{{end}}

@@ -1,0 +1,35 @@
+.img-invoice {
+    width: 50px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.head {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#invoice thead tr th {
+    text-align: left;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    padding-top: 4px;
+}
+
+#invoice thead tr {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#invoice tbody tr {
+    padding: 0;
+}
+
+.titulo {
+    font: Roboto !important;
+    font-weight: 300 !important;
+}
+
+

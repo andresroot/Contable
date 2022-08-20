@@ -1,0 +1,26 @@
+
+.table-sm tbody tr:first-child td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.table-sm tbody tr td {
+    background-color: white !important;
+    margin-bottom: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+div.scrollable-table-wrapper {
+    height: 200px;
+    overflow: auto;
+}
+
+div.scrollable-table-wrapper thead tr th {
+    position: sticky;
+    background-color: white !important;
+    top: 0;
+    margin-top: 0px !important;
+    z-index: 9999 !important;
+}

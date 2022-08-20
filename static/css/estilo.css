@@ -1,0 +1,79 @@
+body {
+    font-weight: 400 !important;
+    background: #ffffff;
+}
+
+.sn-bg-4 {
+    background-image: none !important;
+    background: #A1FFCE;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FAFFD1, #A1FFCE);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FAFFD1, #A1FFCE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.white-skin .side-nav .collapsible li .collapsible-header.active {
+     color: #21b799!important;
+    background-color: transparent!important;
+}
+
+.single-page {
+    background-color: #ffffff !important;
+}
+
+.card, .navbar, .pagination .page-item.active .page-link .page-link {
+    box-shadow: none !important;
+        font-weight: 400 !important;
+}
+
+.navbar .dropdown-menu a {
+  font-weight: 400 !important;
+}
+
+.card {
+   background-color: transparent !important;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.card .card-body h1, .card .card-body h2, .card .card-body h3, .card .card-body h4, .card .card-body h5, .card .card-body h6 {
+     font-weight: 400 !important;
+}
+
+.btn-outline-dark {
+    color: #21B799!important;
+    background-color: white!important;
+    border: 2px solid white!important;
+    border-radius: 0px;
+}
+
+.btn-outline-success {
+    color: white!important;
+    background-color: #21B799 !important;
+    border: 2px solid  #21B799 !important;
+    border-radius: 5px;
+    border-color: #21B799 !important;
+}
+
+.md-form input[type=text]:not(.browser-default){
+   border-bottom: 1px solid #ced4da!important;
+}
+.labelBusqueda {
+    height: 20px;
+    padding-top: 10px;
+}
+
+.btn-outline-success.active, .btn-outline-success:active, .btn-outline-success:active:focus, .btn-outline-success:focus, .btn-outline-success:hover {
+    color: #21B799!important;
+    background-color: transparent !important;
+    border-color:#21B799!important
+}
+
+.btn-outline-success:not([disabled]):not(.disabled).active, .btn-outline-success:not([disabled]):not(.disabled):active, .show > .btn-outline-success.dropdown-toggle {
+    background-color: transparent !important;
+    border-color: #21B799 !important
+}

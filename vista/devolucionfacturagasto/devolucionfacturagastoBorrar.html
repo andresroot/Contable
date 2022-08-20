@@ -1,0 +1,408 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/servicio.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Borrar Devolucion Gasto</h3>
+                </div>
+                        <form id="formulario" method="POST"
+                              action="/DevolucionfacturagastoEliminar/{{ .devolucionfacturagasto.Codigo }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Devolucion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Proveedor</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroCodigo"
+                                               class="form-control text-left" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroNombre"
+                                               class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroDireccion"
+                                               class="form-control"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Factura No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Facturagasto"
+                                               id="Facturagasto"
+                                               class="form-control"
+                                               readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha
+                                    Vence</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               name="Vence"
+                                               id="Vence"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Forma Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="FormadepagoNombre"
+                                               id="FormadepagoNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Formadepago"
+                                               id="Formadepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuenta0"
+                                               name="Facturagastocuenta0"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastonombre0"
+                                               name="Facturagastonombre0"
+                                               class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ret. Ica. %</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionIca"
+                                               id="PorcentajeRetencionIca"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Medio Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="MediodepagoNombre"
+                                               id="MediodepagoNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Mediodepago"
+                                               id="Mediodepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Ret Fte</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuentaretfte"
+                                               name="Facturagastocuentaretfte"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastonombreretfte"
+                                               name="Facturagastonombreretfte"
+                                               class="form-control"
+                                               disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Porcentaje</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionFuente"
+                                               id="PorcentajeRetencionFuente"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Almacenista</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="AlmacenistaNombre"
+                                               id="AlmacenistaNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Almacenista"
+                                               id="Almacenista"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Iva.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Facturagastocuentaiva"
+                                               name="Facturagastocuentaiva"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Facturagastonombreiva"
+                                               id="Facturagastonombreiva"
+                                               class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">porcentaje Iva</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <select name="Facturagastoporcentajeiva"
+                                                id="Facturagastoporcentajeiva"
+                                                class=" mdb-select md-form-control"
+                                                editable="true">
+                                            <option value="0">0%</option>
+                                            <option value="5">5%</option>
+                                            <option value="19">19%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="CentroNombre"
+                                               id="CentroNombre"
+                                               class="form-control" disabled/>
+                                        <input type="hidden"
+                                               name="Centro"
+                                               id="Centro"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm" cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>No</th>
+                                        <th style="padding-left: 5px">Codigo</th>
+                                        <th style="padding-left: 5px">Descripcion</th>
+                                        <th style="padding-left: 5px">Unidad</th>
+                                        <th style="padding-left: 65px">Cantidad</th>
+                                        <th style="padding-left: 55px">Vr. Unitario</th>
+                                        <th style="padding-left: 120px">Total</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input type="hidden" id="Subtotal19"/>
+                            <input type="hidden" id="Subtotal5"/>
+                            <input type="hidden" id="Subtotal0"/>
+                            <input type="hidden" id="SubtotalDescuento19"/>
+                            <input type="hidden" id="SubtotalDescuento5"/>
+                            <input type="hidden" id="SubtotalDescuento0"/>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Subtotal</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Subtotal"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Total Iva</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalIva"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                              <label class="col-sm-1 col-form-label">Ret. Fte.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionFuente"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                               <label class="col-sm-1 col-form-label">Ret. Ica</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdst">
+                                        <input type="text"
+                                               id="TotalRetencionIca"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Total
+                                    Neto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Neto"
+                                               class="form-control text-right" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a onclick="window.history.go(-1); return false;"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="submit"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--    INICIA NUEVO TERCERO-->
+<input id="terceroNuevo"
+       type="hidden"/>
+<input id="productoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/pedidofacturagasto.js"></script>
+
+        {{template "devolucionfacturagastoscript" }}
+
+<script>
+    $(document).ready(function () {
+        // INICIA SELECT
+        $('#Facturagastoporcentajeiva').materialSelect({});
+
+        // llenar valores
+        $("#Codigo").val('{{ .devolucionfacturagasto.Codigo }}');
+        $("#Fecha").val('{{ .devolucionfacturagasto.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .devolucionfacturagasto.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .devolucionfacturagasto.Tercero }}');
+        $("#terceroDv").val('{{ .devolucionfacturagasto.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .devolucionfacturagasto.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .devolucionfacturagasto.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .devolucionfacturagasto.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .devolucionfacturagasto.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .devolucionfacturagasto.Subtotal }}');
+        $('#SubtotalBase19').val('{{ .devolucionfacturagasto.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .devolucionfacturagasto.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .devolucionfacturagasto.Subtotalbase0 }}');
+        $('#Descuento').val('{{ .devolucionfacturagasto.Descuento}}');
+        $('#PorcentajeRetencionFuente').val('{{ .devolucionfacturagasto.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .devolucionfacturagasto.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .devolucionfacturagasto.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .devolucionfacturagasto.TotalRetencionIca }}');
+        $('#Neto').val('{{ .devolucionfacturagasto.Neto }}');
+        $('#FormaDePago').val('{{ .devolucionfacturagasto.Formadepago}}');
+        $('#MedioDePago').val('{{ .devolucionfacturagasto.Mediodepago}}');
+        $('#Almacenista').val('{{ .devolucionfacturagasto.Almacenista}}');
+        $('#Facturagasto').val('{{ .devolucionfacturagasto.Facturagasto}}');
+        $('#Centro').val('{{ .devolucionfacturagasto.Centro}}');
+        $('#Facturagastocuenta0').val('{{ .devolucionfacturagasto.Facturagastocuenta0}}');
+        $('#Facturagastonombre0').val('{{ .devolucionfacturagasto.Facturagastonombre0}}');
+        $('#Facturagastocuentaretfte').val('{{ .devolucionfacturagasto.Facturagastocuentaretfte}}');
+        $('#Facturagastonombreretfte').val('{{ .devolucionfacturagasto.Facturagastonombreretfte}}');
+        $('#Facturagastocuentaiva').val('{{ .devolucionfacturagasto.Facturagastocuentaiva}}');
+        $('#Facturagastonombreiva').val('{{ .devolucionfacturagasto.Facturagastonombreiva}}');
+        $('#Facturagastoporcentajeiva').val('{{ .devolucionfacturagasto.Facturagastoporcentajeiva}}');
+
+        $('#CentroNombre').val('{{ .devolucionfacturagasto.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .devolucionfacturagasto.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .devolucionfacturagasto.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .devolucionfacturagasto.AlmacenistaDetalle.Nombre}}');
+        cont = 1;
+
+        {{ range.detalle }}
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Codigoservicio }}');
+        $('#seleccion_producto' + cont).attr('disabled', 'disabled');
+        $('#nombre' + cont).val('{{ .Nombreservicio }}');
+        $('#nombre' + cont).attr('disabled', 'disabled');
+        $('#unidad' + cont).val('{{ .Unidadservicio }}');
+        $('#unidad' + cont).attr('disabled', 'disabled');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#cantidad' + cont).attr('disabled', 'disabled');
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        $('#valor' + cont).attr('disabled', 'disabled');
+        cont++;
+
+        {{ end }}
+        totales();
+
+    });
+
+</script>
+{{end}}

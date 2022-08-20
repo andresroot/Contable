@@ -1,0 +1,647 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="tp">Borrar Empleado</h3>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home"
+                     role="tabpanel" aria-labelledby="home-tab">
+                    <form id="formulario" method="POST"
+                          action="/EmpleadoEliminar/{{ .emp.Codigo }}">
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Documento</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Codigo"
+                                           id="Codigo"
+                                           class="form-control"/>
+                                    <input type="hidden" name="Nombre"
+                                           id="Nombre"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tipo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="TipoDocumento" id="TipoDocumento"
+                                            class="mdb-select md-form-control tipodocumento"
+                                            editable="true">
+                                        {{ range .documentoidentificacion}}
+                                        <option value="{{ .Codigo }}">{{ .Nombre}}
+                                        </option>
+                                        {{ end }}
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Expedicion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fechaexpedicion"
+                                           id="Fechaexpedicion"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Ciudad</label>
+                            <div class="col-sm-2">
+                                <select name="Ciudadexpedicion"
+                                        id="Ciudadexpedicion"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Nacimiento</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fechanacimiento"
+                                           id="Fechanacimiento"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Ciudad</label>
+                            <div class="col-sm-2">
+                                <select name="Ciudadnacimiento"
+                                        id="Ciudadnacimiento"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Telefono</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Text" name="Telefono1"
+                                           id="Telefono1"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">E-mail</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="email" name="Email1"
+                                           id="Email1"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">1er
+                                Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="PrimerNombre"
+                                           id="PrimerNombre"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">2do
+                                Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="SegundoNombre"
+                                           id="SegundoNombre"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">1er
+                                Apellido</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="PrimerApellido"
+                                           id="PrimerApellido"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">2do
+                                Apellido</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="SegundoApellido"
+                                           id="SegundoApellido"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Direccion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text" name="Direccion"
+                                           id="Direccion"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Barrio</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text" name="Barrio"
+                                           id="Barrio"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Ciudad</label>
+                            <div class="col-sm-2">
+                                <select name="Ciudad"
+                                        id="Ciudad"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Contacto</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text" name="Contacto"
+                                           id="Contacto"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Tel: Contacto</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Text" name="Telefonocontacto"
+                                           id="Telefonocontacto"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">Direccio Laboral</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text" name="Direccionlaboral"
+                                           id="Direccionlaboral"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">Ciudad laboral</label>
+                            <div class="col-sm-2">
+                                <select name="Ciudadlaboral"
+                                        id="Ciudadlaboral"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">TipoTrabajador</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Tipotrabajador"
+                                            id="Tipotrabajador"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="1">Dependiente</option>
+                                        <option value="2">Servicio domestico</option>
+                                        <option value="4">Madre comunitaria</option>
+                                        <option value="12">Aprendices del Sena en etapa lectiva</option>
+                                        <option value="18">Funcionarios públicos sin tope máximo de ibc</option>
+                                        <option value="19">Aprendices del SENA en etapa productiva</option>
+                                        <option value="21">Estudiantes de postgrado en salud</option>
+                                        <option value="22">Profesor de establecimiento particular</option>
+                                        <option value="23">Estudiantes aportes solo riesgos laborales</option>
+                                        <option value="30">Dependiente entidades o universidades públicas con régimen especial en salud</option>
+                                        <option value="31">Cooperados o pre cooperativas de trabajo asociado</option>
+                                        <option value="47">Trabajador dependiente de entidad beneficiaria del sistema general de participaciones - aportes patronales</option>
+                                        <option value="51">Trabajador de tiempo parcial</option>
+                                        <option value="54">Pre pensionado de entidad en liquidación.</option>
+                                        <option value="56">Pre pensionado con aporte voluntario a salud</option>
+                                        <option value="58">Estudiantes de prácticas laborales en el sector público</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Subtipo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Subtipotrabajador"
+                                            id="Subtipotrabajador"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="00">No Aplica</option>
+                                        <option value="01">Dependiente pensionado por vejez activo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tipo Contrato</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Tipocontrato"
+                                            id="Tipocontrato"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="1">Termino Fijo</option>
+                                        <option value="2">Término Indefinido</option>
+                                        <option value="3">Obra o Labor</option>
+                                        <option value="4">Aprendizaje</option>
+                                        <option value="5">Prácticas o Pasantías</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tipo Pago</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Tipopago"
+                                            id="Tipopago"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="1">Semanal</option>
+                                        <option value="2">Decenal</option>
+                                        <option value="3">Catorcenal</option>
+                                        <option value="4">Quincenal</option>
+                                        <option value="5">Mensual</option>
+                                        <option value="6">Otro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Cargo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Cargo"
+                                           id="Cargo"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Sueldo</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Sueldo"
+                                           id="Sueldo"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Transporte</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="transporte"
+                                           id="Transporte"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Dotacion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Dotacion"
+                                           id="Dotacion"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Salud EPS</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Saludnombre"
+                                           id="Saludnombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Salud"
+                                           id="Salud"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Fondo Pension</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Pensionnombre"
+                                           id="Pensionnombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Pension"
+                                           id="Pension"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">P. Voluntaria</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Pensionvoluntarianombre"
+                                           id="Pensionvoluntarianombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Pensionvoluntaria"
+                                           id="Pensionvoluntaria"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Riesgos L.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Riesgosnombre"
+                                           id="Riesgosnombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Riesgos"
+                                           id="Riesgos"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Caja de C.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Cajanombre"
+                                           id="Cajanombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Caja"
+                                           id="Caja"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">I. c. b. f.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Icbfnombre"
+                                           id="Icbfnombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Icbf"
+                                           id="Icbf"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">S. e. n. a.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Senanombre"
+                                           id="Senanombre"
+                                           class="form-control" />
+                                    <input type="hidden"
+                                           name="Sena"
+                                           id="Sena"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Fecha Ingreso</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fechaingreso"
+                                           id="Fechaingreso"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Fecha Retiro</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fecharetiro"
+                                           id="Fecharetiro"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">T. laborado</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Tiempolaborado"
+                                           id="Tiempolaborado"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">S. Integral</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Salariointegral"
+                                            id="Salariointegral"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Alto Riesgo P.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Altoriesgopension"
+                                            id="Altoriesgopension"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Forma Pago</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <select name="Formadepago"
+                                            id="Formadepago"
+                                            class="mdb-select md-form"
+                                            editable="true">
+                                        <option value="1">Contado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Metodo Pago</label>
+                            <div class="col-sm-2">
+                                <select name="Metododepago"
+                                        id="Metododepago"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .mediodepago}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Banco</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Banco"
+                                           id="Banco"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Tipo Cuenta</label>
+                            <div class="col-sm-2">
+                                <select name="Tipocuenta"
+                                        id="Tipocuenta"
+                                        class="mdb-select md-form"
+                                        editable="true">
+                                    <option value="1">Cuenta de Ahorros</option>
+                                    <option value="2">Cuenta Corriente</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Numero Cuenta</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Numerocuenta"
+                                           id="Numerocuenta"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">F. Inici Liquid.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fechaliquidacioninicio"
+                                           id="Fechaliquidacioninicio"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">F. Final Liquid.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fechaliquidacionfinal"
+                                           id="Fechaliquidacionfinal"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a onclick="window.history.go(-1); return false;"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                <button type="submit" id="guardar"
+                                        class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="EmpleadoNuevo"
+       type="hidden"/>
+
+
+
+<script>
+$(document).ready(function () {
+    //INICIA SELECT
+    $('.mdb-select').materialSelect({});
+
+    //INICIA DATOS INICIALES
+    $('#Codigo').val(Coma("{{ .emp.Codigo}}"));
+    $('#Tipodocumento').val("{{ .emp.Tipodocumento }}");
+    $('#Fechaexpedicion').val("{{ .emp.Fechaexpedicion.Format "2006-01-02" }}");
+    $('#PrimerNombre').val("{{ .emp.PrimerNombre }}")
+    $('#SegundoNombre').val("{{ .emp.SegundoNombre }}")
+    $('#PrimerApellido').val("{{ .emp.PrimerApellido }}")
+    $('#SegundoApellido').val("{{ .emp.SegundoApellido }}")
+    $('#Nombre').val("{{ .emp.Nombre }}")
+    $('#Direccion').val("{{ .emp.Direccion }}")
+    $('#Barrio').val("{{ .emp.Barrio }}")
+    $('#Telefono1').val("{{ .emp.Telefono1 }}")
+    $('#Email1').val("{{ .emp.Email1 }}")
+    $('#Contacto').val("{{ .emp.Contacto }}")
+    $('#Tipotrabajador').val("{{ .emp.Tipotrabajador }}")
+    $('#Cargo').val("{{ .emp.Cargo }}")
+    $('#Sueldo').val("{{ .emp.Sueldo }}")
+    $('#Transporte').val("{{ .emp.Transporte }}")
+    $('#Subtipotrabajador').val("{{ .emp.Subtipotrabajador }}")
+    $('#Fechaingreso').val("{{ .emp.Fechaingreso.Format "2006-01-02" }}")
+    $('#Fecharetiro').val("{{ .emp.Fecharetiro.Format "2006-01-02" }}")
+    $('#Tiempolaborado').val("{{ .emp.Tiempolaborado }}")
+    $('#Salariointegral').val("{{ .emp.Salariointegral }}")
+    $('#Altoriesgopension').val("{{ .emp.Altoriesgopension }}")
+    $('#Tipocontrato').val("{{ .emp.Tipocontrato }}")
+    $('#Formadepago').val("{{ .emp.Formadepago }}")
+    $('#Metododepago').val("{{ .emp.Metododepago }}")
+    $('#Banco').val("{{ .emp.Banco }}")
+    $('#Tipocuenta').val("{{ .emp.Tipocuenta }}")
+    $('#Numerocuenta').val("{{ .emp.Numerocuenta }}")
+    $('#Fechaliquidacioninicio').val("{{ .emp.Fechaliquidacioninicio.Format "2006-01-02" }}")
+    $('#Fechaliquidacionfinal').val("{{ .emp.Fechaliquidacionfinal.Format "2006-01-02" }}")
+    $('#Ciudad').val("{{ .emp.Ciudad }}")
+    $('#Ciudadexpedicion').val("{{ .emp.Ciudadexpedicion }}")
+    $('#Fechanacimiento').val("{{ .emp.Fechanacimiento.Format "2006-01-02" }}")
+    $('#Ciudadnacimiento').val("{{ .emp.Ciudadnacimiento }}")
+    $('#Tipopago').val("{{ .emp.Tipopago }}")
+    $('#Dotacion').val("{{ .emp.Dotacion }}")
+    $('#Salud').val("{{ .emp.Salud }}")
+    $('#Saludnombre').val("{{ .emp.Saludnombre }}")
+    $('#Pension').val("{{ .emp.Pension }}")
+    $('#Pensionnombre').val("{{ .emp.Pensionnombre }}")
+    $('#Riesgos').val("{{ .emp.Riesgos }}")
+    $('#Riesgosnombre').val("{{ .emp.Riesgosnombre }}")
+    $('#Icbf').val("{{ .emp.Icbf }}")
+    $('#Icbfnombre').val("{{ .emp.Icbfnombre }}")
+    $('#Sena').val("{{ .emp.Sena }}")
+    $('#Senanombre').val("{{ .emp.Senanombre }}")
+    $('#Caja').val("{{ .emp.Caja }}")
+    $('#Cajanombre').val("{{ .emp.Cajanombre }}")
+    $('#Telefonocontacto').val("{{ .emp.Telefonocontacto }}")
+    $('#Direccionlaboral').val("{{ .emp.Direccionlaboral }}")
+    $('#Ciudadlaboral').val("{{ .emp.Ciudadlaboral }}")
+    $('#Pensionvoluntaria').val("{{ .emp.Pensionvoluntaria }}")
+    $('#Pensionvoluntarianombre').val("{{ .emp.Pensionvoluntarianombre }}")
+
+    //INICIA MASCARAS
+    $("#Transporte").mask('000,000,000', {reverse: true});
+    $("#Codigo").mask('000,000,000,000', {reverse: true});
+    $("#Sueldo").mask('000,000,000', {reverse: true});
+    $("#Dotacion").mask('000,000,000', {reverse: true});
+    $("#Tiempolaborado").mask('000,000,000', {reverse: true});
+    $("#Telefono1").mask('(000) 000-0000');
+    $("#Dotacion").mask('000,000,000', {reverse: true});
+    $("#Telefonocontacto").mask('(000) 000-0000');
+});
+</script>
+        {{ end }}

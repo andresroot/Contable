@@ -1,0 +1,380 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript"
+        src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Editar Tercero</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/TerceroActualizar/{{ .emp.Codigo }}">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Nit. No.</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Codigo"
+                                       id="Codigo"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <!--                        <label for="campo2" class="col-sm-1 col-form-label">Dv</label>-->
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Dv"
+                                       id="Dv" class="form-control"
+                                       readonly/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Tipo Persona</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <select name="Tipo" id="Tipo"
+                                        class="mdb-select md-form-control"
+                                        editable="true">
+                                    {{ range .tipoorganizacion}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre}}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Empresa</label>
+                        <div class="col-sm-4">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Juridica"
+                                       id="Juridica"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">1er
+                            Nombre</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="PrimerNombre"
+                                       id="PrimerNombre"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">2do
+                            Nombre</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="SegundoNombre"
+                                       id="SegundoNombre"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">1er
+                            Apellido</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="PrimerApellido"
+                                       id="PrimerApellido"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">2do
+                            Apellido</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="SegundoApellido"
+                                       id="SegundoApellido"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Telefono</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Telefono1"
+                                       id="Telefono1"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Telefono</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Telefono2"
+                                       id="Telefono2"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ret.
+                            Ica %</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <div class="md-form mt-0">
+                                    <input type="text" name="Ica"
+                                           id="Ica"
+                                           minlength="4"
+                                           maxlength="4"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Copia
+                            Rut</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <select name="Rut" id="Rut"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    <option value="NO">NO</option>
+                                    <option value="SI">SI</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Direccion</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Direccion"
+                                       id="Direccion"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Barrio</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Barrio"
+                                       id="Barrio"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ciudad</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                            <select name="Ciudad"
+                                    id="Ciudad"
+                                    class="mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                {{ range .ciudad}}
+                                <option value="{{ .Codigo }}">{{ .Nombre }}
+                                </option>
+                                {{ end }}
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">E-mail</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email" name="Email1"
+                                       id="Email1"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">E-mail</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email" name="Email2"
+                                       id="Email2"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Contacto</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Contacto"
+                                       id="Contacto"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Documento</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Documento"
+                                        id="Documento"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    {{ range .documentoidentificacion}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Regimen</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Regimen"
+                                        id="Regimen"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    {{ range .regimenfiscal}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre}}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Fiscal</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Fiscal"
+                                        id="Fiscal"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    {{ range .responsabilidadfiscal}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a onclick="window.history.go(-1); return false;"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                            <button type="submit" id="guardar"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<input id="TerceroNuevo"
+       type="hidden"/>
+
+        {{template "autocompletaTerceroph" }}
+<script>
+    $(document).ready(function () {
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#PrimerNombre', function (e) {
+            var code = e.keyCode || e.which;
+
+            if (e.which == 113) {
+                document.location.href = '/TerceroNuevoCopia/'+ $("#Codigo").val();
+            }
+        });
+        // TERMINA CREAR DUPLICADO CON F2
+
+        //INICIA MASCARAS
+        $("#Codigo").mask('000,000,000,000', {reverse: true});
+        $("#Dv").mask('0', {reverse: true});
+        $("#Telefono1").mask('(000) 000-0000');
+        $("#Telefono2").mask('(000) 000-0000');
+        $("#Ica").mask('##.00', {reverse: true});
+        //TERMINA MASCARAS
+
+        //INICIA FOCUS
+        $('#PrimerNombre').focus();
+        //TERMINA FOCUS
+
+        //INICIA SELECT
+        $('.mdb-select').materialSelect({});
+        //TERMINA SELECT
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val(Coma("{{ .emp.Codigo}}"));
+        $('#Dv').val("{{ .emp.Dv }}");
+        $('#Contacto').val("{{ .emp.Contacto }}");
+        $('#Rut').val("{{ .emp.Rut }}");
+        $('#Tipo').val("{{ .emp.Tipo }}");
+        $('#Documento').val("{{ .emp.Documento }}");
+        $('#Regimen').val("{{ .emp.Regimen }}");
+        $('#Fiscal').val("{{ .emp.Fiscal }}");
+        $('#Ciudad').val("{{ .emp.Ciudad }}")
+        $('#Juridica').val("{{ .emp.Juridica }}")
+        $('#PrimerNombre').val("{{ .emp.PrimerNombre }}")
+        $('#SegundoNombre').val("{{ .emp.SegundoNombre }}")
+        $('#PrimerApellido').val("{{ .emp.PrimerApellido }}")
+        $('#SegundoApellido').val("{{ .emp.SegundoApellido }}")
+        $('#Telefono1').val("{{ .emp.Telefono1 }}")
+        $('#Telefono2').val("{{ .emp.Telefono2 }}")
+        $('#Ica').val("{{ .emp.Ica }}")
+        $('#Direccion').val("{{ .emp.Direccion }}")
+        $('#Barrio').val("{{ .emp.Barrio }}")
+        $('#Email1').val("{{ .emp.Email1 }}")
+        $('#Email2').val("{{ .emp.Email2 }}")
+
+        //TERMINA DATOS INICIALES
+
+        //INICIA AUTOCOMPLETADO
+        autocompletaTerceroph('#PhCodigo', '#PhDv', '#PhNombre');
+
+        //ALERT($('#Tipo').val());
+        if (   $('#Tipo').val() == "2") {
+            $("#Juridica").prop("readonly", true);
+
+            $("#PrimerNombre").prop("readonly", false);
+            $("#SegundoNombre").prop("readonly", false);
+            $("#PrimerApellido").prop("readonly", false);
+            $("#SegundoApellido").prop("readonly", false);
+        //    $("#PrimerNombre").val("");
+          //  $("#SegundoNombre").val("");
+          //  $("#PrimerApellido").val("");
+           // $("#SegundoApellido").val("");
+          //  $('#PrimerNombre').focus();
+        } else {
+            $("#Juridica").prop("readonly", false);
+            $("#PrimerNombre").prop("readonly", true);
+            $("#SegundoNombre").prop("readonly", true);
+            $("#PrimerApellido").prop("readonly", true);
+            $("#SegundoApellido").prop("readonly", true);
+            //$("#Juridica").val("");
+          //  $('#Juridica').focus();
+        }
+
+    });
+
+    //INICIA ELECCION TIPO
+    $('#Tipo').on('change', function () {
+        if (this.value == "2") {
+            $("#Juridica").prop("readonly", true);
+
+            $("#PrimerNombre").prop("readonly", false);
+            $("#SegundoNombre").prop("readonly", false);
+            $("#PrimerApellido").prop("readonly", false);
+            $("#SegundoApellido").prop("readonly", false);
+            $("#PrimerNombre").val("");
+            $("#SegundoNombre").val("");
+            $("#PrimerApellido").val("");
+            $("#SegundoApellido").val("");
+            $('#PrimerNombre').focus();
+        } else {
+            $("#Juridica").prop("readonly", false);
+            $("#PrimerNombre").prop("readonly", true);
+            $("#SegundoNombre").prop("readonly", true);
+            $("#PrimerApellido").prop("readonly", true);
+            $("#SegundoApellido").prop("readonly", true);
+            $("#Juridica").val("");
+            $('#Juridica').focus();
+        }
+
+
+
+    });
+    //TERMINA ELECCION TIPO
+
+
+</script>
+
+{{template "autocompletaTercero" }}
+{{end}}

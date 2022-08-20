@@ -1,0 +1,417 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/servicio.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="tp">Editar Soporte Servicios</h3>
+                </div>
+                        <form id="formulario" method="POST"
+                              action="SoporteservicioActualizar/{{ .emp.Codigo }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Resolucion</label>
+                                <div class="col-sm-5">
+                                    <div class="md-form mt-0">
+                                        <select name="Resolucionsoporte"
+                                                id="Resolucionsoporte"
+                                                class=" mdb-select md-form-control"
+                                                editable="true">
+                                            {{ range .resolucionsoporte }}
+                                            <option value="{{ .Codigo }}">{{ .Numero }}-{{ .Prefijo }}-{{ .Tipo }}-{{ .Local }}
+                                            </option>
+                                            {{ end }}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Documento</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Proveedor</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroCodigo"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroNombre"
+                                               class="form-control" disabled/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="terceroDireccion"
+                                               class="form-control"
+                                               disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Pedido No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Pedidosoporteservicio"
+                                               id="Pedidosoporteservicio"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fecha"
+                                               id="Fecha"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Fecha
+                                    Vence</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               name="Vence"
+                                               id="Vence"
+                                               class="form-control" required/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Forma Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="FormadepagoNombre"
+                                               id="FormadepagoNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Formadepago"
+                                               id="Formadepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Medio Pago</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="MediodepagoNombre"
+                                               id="MediodepagoNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Mediodepago"
+                                               id="Mediodepago"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Almacenista</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="AlmacenistaNombre"
+                                               id="AlmacenistaNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Almacenista"
+                                               id="Almacenista"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Centro</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="CentroNombre"
+                                               id="CentroNombre"
+                                               class="form-control" required/>
+                                        <input type="hidden"
+                                               name="Centro"
+                                               id="Centro"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                           </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Gasto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Soporteserviciocuenta0"
+                                               name="Soporteserviciocuenta0"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Soporteservicionombre0"
+                                               name="Soporteservicionombre0"
+                                               class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ret. Ica. %</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionIca"
+                                               id="PorcentajeRetencionIca"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Cuenta Ret Fte</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Soporteserviciocuentaretfte"
+                                               name="Soporteserviciocuentaretfte"
+                                               class="form-control text-left"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               id="Soporteservicionombreretfte"
+                                               name="Soporteservicionombreretfte"
+                                               class="form-control"
+                                               disabled>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Porcentaje</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PorcentajeRetencionFuente"
+                                               id="PorcentajeRetencionFuente"
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <table id="tabla"
+                                       class="table table-sm" cellspacing="0" width="100%">
+                                    <thead class="miCabeceraTabla">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>No</th>
+                                        <th style="padding-left: 5px">Codigo</th>
+                                        <th style="padding-left: 5px">Descripcion</th>
+                                        <th style="padding-left: 5px">Unidad</th>
+                                        <th style="padding-left: 65px">Cantidad</th>
+                                        <th style="padding-left: 55px">Vr. Unitario</th>
+                                        <th style="padding-left: 120px">Total</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                               </table>
+                            </div>
+                            <input type="hidden" id="Subtotal19"/>
+                            <input type="hidden" id="Subtotal5"/>
+                            <input type="hidden" id="Subtotal0"/>
+                            <input type="hidden" id="SubtotalDescuento19"/>
+                            <input type="hidden" id="SubtotalDescuento5"/>
+                            <input type="hidden" id="SubtotalDescuento0"/>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Subtotal</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Subtotal"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Ret. Fte.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionFuente"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9"></div>
+                                <label class="col-sm-1 col-form-label">Ret. Ica</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="TotalRetencionIca"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-9">
+                                </div>
+                                <label class="col-sm-1 col-form-label">Total
+                                    Neto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0 mdt">
+                                        <input type="text"
+                                               id="Neto"
+                                               class="form-control text-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-0">
+                                <div class="col-sm-12">
+                                    <a href="/SoporteservicioLista"
+                                       class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                    <button type="button" id="guardar" onclick="guardardoc('Actualizar')"
+                                            class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--   INICIA NUEVO TERCERO-->
+<input id="terceroNuevo"
+       type="hidden"/>
+<input id="PlandecuentaempresaNuevo"
+       type="hidden"/>
+<input id="FormadepagoNuevo"
+       type="hidden"/>
+<input id="MediodepagoNuevo"
+       type="hidden"/>
+<input id="AlmacenistaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="productoNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+<input id="miperiodo" value="{{ .miperiodo }}"
+       type="hidden"/>
+<script src="{{ .hosting }}static/js/Soporteservicio.js"></script>
+
+        {{template "soporteservicioscript" }}
+        {{ template "autocompletaPlandecuentaempresa" }}
+        {{template "autocompletaFormadepago" }}
+        {{template "autocompletaMediodepago" }}
+        {{template "autocompletaAlmacenista" }}
+        {{template "autocompletaCentro" }}
+<script>
+    $(document).ready(function () {
+        // INICIA MASCARA
+        $("#PorcentajeRetencionFuente").mask('##.00', {reverse: true});
+
+        // INICIA FECHA
+        var m = moment().format("YYYY-MM-DD");
+        $("#Fecha").val(m);
+        $("#Vence").val(m);
+
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Fecha', function (e) {
+            var code = e.keyCode || e.which;
+            if (e.which == 113) {
+                document.location.href = '/SoporteservicioNuevo/'+ $("#Codigo").val();
+            }
+        });
+
+        // INICIA AUTOCOMPLETADO
+        autocompletaTercero('#terceroCodigo');
+        autocompletaPlandecuentaempresa("#Soporteserviciocuenta0", "#Soporteservicionombre0");
+        autocompletaPlandecuentaempresa("#Soporteserviciocuentaretfte", "#Soporteservicionombreretfte");
+        autocompletaFormadepago('#FormadepagoNombre','#Formadepago');
+        autocompletaMediodepago('#MediodepagoNombre','#Mediodepago');
+        autocompletaAlmacenista('#AlmacenistaNombre','#Almacenista');
+        autocompletaCentro('#CentroNombre','#Centro');
+
+        // INICIA FOCUS
+        $('#Fecha').focus();
+
+        $('#Resolucionsoporte').materialSelect({});
+
+        // llenar valores
+        $("#Codigo").val('{{ .soporteservicio.Codigo }}');
+        $("#Resolucionsoporte").val('{{ .soporteservicio.Resolucionsoporte }}');
+        $("#Fecha").val('{{ .soporteservicio.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .soporteservicio.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .soporteservicio.Tercero }}');
+        $("#terceroDv").val('{{ .soporteservicio.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .soporteservicio.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .soporteservicio.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .soporteservicio.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .soporteservicio.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .soporteservicio.Subtotal }}');
+        $('#SubtotalBase19').val('{{ .soporteservicio.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .soporteservicio.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .soporteservicio.Subtotalbase0 }}');
+        $('#Descuento').val('{{ .soporteservicio.Descuento}}');
+        $('#PorcentajeRetencionFuente').val('{{ .soporteservicio.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .soporteservicio.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .soporteservicio.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .soporteservicio.TotalRetencionIca }}');
+        $('#Neto').val('{{ .soporteservicio.Neto }}');
+        $('#Formadepago').val('{{ .soporteservicio.Formadepago}}');
+        $('#Mediodepago').val('{{ .soporteservicio.Mediodepago}}');
+        $('#Almacenista').val('{{ .soporteservicio.Almacenista}}');
+        $('#Pedidosoporteservicio').val('{{ .soporteservicio.Pedidosoporteservicio}}');
+        $('#Centro').val('{{ .soporteservicio.Centro}}');
+        $('#Soporteserviciocuenta0').val('{{ .soporteservicio.Soporteserviciocuenta0}}');
+        $('#Soporteservicionombre0').val('{{ .soporteservicio.Soporteservicionombre0}}');
+        $('#Soporteserviciocuentaretfte').val('{{ .soporteservicio.Soporteserviciocuentaretfte}}');
+        $('#Soporteservicionombreretfte').val('{{ .soporteservicio.Soporteservicionombreretfte}}');
+
+        $('#CentroNombre').val('{{ .soporteservicio.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .soporteservicio.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .soporteservicio.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .soporteservicio.AlmacenistaDetalle.Nombre}}');
+        cont = 1;
+
+        {{ range.detalle }}
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Codigoservicio }}');
+        $('#nombre' + cont).val('{{ .Nombreservicio }}');
+        $('#unidad' + cont).val('{{ .Unidadservicio }}');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        cont++;
+
+        {{ end }}
+        totales();
+
+    });
+
+</script>
+{{end}}

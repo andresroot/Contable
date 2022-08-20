@@ -1,0 +1,31 @@
+{{define "autocompletaDocumentocrear" }}
+<script>
+
+    var numeroPanel = 1;
+    function autocompletaDocumentocrear(obj, elementoNombre) {
+        $(obj).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/DocumentoBuscar/"+request.term,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+            },
+            select: function (event, ui) {
+            }
+        });
+    }
+
+</script>
+        {{end}}

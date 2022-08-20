@@ -1,0 +1,31 @@
+{{define "autocompletaMediodepagocrear" }}
+<script>
+
+    var numeroPanel = 1;
+    function autocompletaMediodepagocrear(obj, elementoNombre) {
+        $(obj).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MediodepagoBuscarCrear/"+request.term,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+            },
+            select: function (event, ui) {
+            }
+        });
+    }
+
+</script>
+        {{end}}

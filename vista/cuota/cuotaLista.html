@@ -1,0 +1,270 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<div class="container-fluid">
+    <section>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row mb-4 mt-0 pl-3">
+                        <h3 class="tpl">Calcular Cuota</h3>
+                        <div class="col-sm-2"></div>
+                        <div id="areaBuscar"></div>
+                        <label class="col-sm-1 col-form-label miBusquedalabel">Buscar</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Buscar"
+                                       id="Buscar"
+                                       class="form-control miBusqueda" required/>
+                            </div>
+                        </div>
+                        <input type="button" id="pdf" value="pdf"
+                           class="btn btn-outline-danger waves-effect btn-md float-right mdbs"/>
+                        <button  id="excel"
+                           class="btn btn-outline-info waves-effect btn-md float-right mdbs ">
+                            EXCEL
+                        </button>
+                        <button id="actualizar"
+                                class="btn btn-outline-success waves-effect btn-md float-right mdbs">
+                            ACEPTAR
+                        </button>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0 pl-3">
+                        <label class="col-sm-1 col-form-label">Monto</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Monto"
+                                       id="Monto"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Plazo</label>
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Plazo"
+                                       id="Plazo"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">intereses</label>
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Intereses"
+                                       id="Intereses"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Inicial</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="Date"
+                                       placeholder="DD/mm/YYYY"
+                                       name="FechaInicial"
+                                       id="FechaInicial"
+                                       class="form-control"
+                                       required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Cuota</label>
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Cuota"
+                                       id="Cuota"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="dt-all-checkbox"
+                           class="table table-sm" cellspacing="0" width="100%">
+                        <thead class="miCabeceraTabla">
+                        <tr>
+                            <th>No.</th>
+                            <th>Fecha</th>
+                            <th>Inicial</th>
+                            <th>Intereses</th>
+                            <th>Capital</th>
+                            <th>Final</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</section>
+</div>
+
+<script>
+
+    // Funcion Numero
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+    numeroPanel = 1;
+    $(document).ready(function () {
+        // INICIA MASCARA
+        $("#Monto").mask('000,000,000,000', {reverse: true});
+        $("#Cuota").mask('000,000,000,000', {reverse: true});
+        $("#Intereses").mask('##.00', {reverse: true});
+
+        // INICIA FECHA
+
+
+        if ("{{ .prestamo.Monto}}"=="")
+        {
+            var m = moment().format("YYYY-MM-DD");
+            $("#FechaInicial").val(m);
+
+
+        }else
+        {
+            $('#Monto').val("{{ .prestamo.Monto}}");
+            $('#Plazo').val("{{ .prestamo.Plazo}}");
+            $('#Intereses').val("{{ .prestamo.Interes}}");
+            $("#FechaInicial").val("{{ .prestamo.Fecha}}");
+
+        }
+
+
+        //INICIA FOCUS
+        $('#Monto').focus();
+        $("#excel").click(function () {
+            //alert( "actualizar" );
+            Monto = $("#Monto").val();
+            Plazo = $("#Plazo").val();
+            Intereses = $("#Intereses").val();
+            FechaInicial = $("#FechaInicial").val();
+            var accion = "";
+            accion = 'CuotaExcel/' + Monto + "/" + Plazo + "/" + Intereses + "/" + FechaInicial;
+            window.open(accion, "_blank");
+
+        });
+        $("#pdf").click(function () {
+            //alert( "actualizar" );
+            Monto = $("#Monto").val();
+            Plazo = $("#Plazo").val();
+            Intereses = $("#Intereses").val();
+            FechaInicial = $("#FechaInicial").val();
+            var accion = "";
+            accion = 'CuotaTodosPdf/' + Monto + "/" + Plazo + "/" + Intereses + "/" + FechaInicial;
+            window.open(accion, "_blank");
+
+        });
+        $("#actualizar").click(function () {
+            //alert( "actualizar" );
+            Monto = $("#Monto").val();
+            Plazo = $("#Plazo").val();
+            Intereses = $("#Intereses").val();
+            FechaInicial = $("#FechaInicial").val();
+
+
+            var accion = "";
+            accion = 'CuotaDatos/' + Monto + "/" + Plazo + "/" + Intereses + "/" + FechaInicial;
+
+            $.ajax({
+                url: accion,
+                dataType: "json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    // BindDataTable(response);
+                    console.log(JSON.stringify(response));
+                    micuota = 0;
+                    $.each(response, function (i, item) {
+                        micuota = item.Cuota;
+                    });
+                    $("#Cuota").val(formatNumber(micuota.toString()));
+                    datos(response);
+                }
+            })
+        });
+
+        $('.mdb-select').materialSelect({});
+    });
+
+    function datos(datosAjax) {
+
+        $('#dt-all-checkbox').dataTable().fnDestroy();
+        var datatable = $('#dt-all-checkbox').dataTable({
+            "dom": 'lrtip',
+            "scrollY": "350px",
+            "scrollCollapse": true,
+            "scrollXInner": true,
+            "paging": false,
+            "aaData": datosAjax,
+            columns:
+                [{"data": "Filas"},
+                    {"data": "Fecha"},
+                    {"data": "Inicial",
+                        render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},
+                    {"data": "Intereses",
+                        render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},
+                    {"data": "Capital",
+                        render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},
+                    {"data": "Final",
+                        render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                        className: "text-right"},],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox select-checkbox-all',
+                targets: 0
+            }],
+            "ordering" : false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },
+        });
+
+        oTable = $('#dt-all-checkbox').DataTable();
+        $('#Buscar').keyup(function () {
+            oTable.search($(this).val()).draw();
+        })
+        $('#dt-all-checkbox').DataTable();
+        $('#dt-all-checkbox_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Buscar");
+            $this.removeClass('form-control-sm');
+        });
+        $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+        $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+        $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+        $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+    }
+
+</script>
+
+{{end}}

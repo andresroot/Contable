@@ -1,0 +1,226 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <br>
+                <h3 class="tp">Editar Producto</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/ProductoActualizar/{{ .emp.Codigo }}">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Codigo</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       value="{{ .emp.Codigo }}"
+                                       name="Codigo"
+                                       id="Codigo"
+                                       class="form-control"
+                                       required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Nombre</label>
+                        <div class="col-sm-5">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       value="{{ .emp.Nombre }}"
+                                       name="Nombre"
+                                       id="Nombre"
+                                       class="form-control"
+                                       required/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Iva
+                            %</label>
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                            <select name="Iva"
+                                    id="Iva"
+                                    class=" mdb-select md-form-control"
+                                    searchable="Buscar">
+                                <option value="19">19</option>
+                                <option value="5">5</option>
+                                <option value="0">0</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Unidad</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Unidad"
+                                        id="Unidad"
+                                        class=" mdb-select md-form-control"
+                                        searchable="Buscar y Agregar">
+                                    {{ range .unidaddemedida }}
+                                    <option value="{{ .Codigo }}">{{.Codigo }}-{{.Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">SubGrupo</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="SubgrupoNombre"
+                                       id="SubgrupoNombre"
+                                       class="form-control" required/>
+                                <input type="hidden"
+                                       name="Subgrupo"
+                                       id="Subgrupo"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Tipo
+                            Producto</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <select name="Tipo"
+                                        id="Tipo"
+                                        class=" mdb-select md-form-control"
+                                        editable="true">
+                                    <option value="Producto">
+                                        Producto
+                                    </option>
+                                    <option value="Kit">
+                                        Kit
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Precio
+                            Venta</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Precio"
+                                       id="Precio"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Costo
+                            Venta</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Costo"
+                                       id="Costo"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Cantidad</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Cantidad"
+                                       id="Cantidad"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Total</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Total"
+                                       id="Total"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Utilidad</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Utilidad"
+                                       id="Utilidad"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a onclick="window.history.go(-1); return false;"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                            <button type="submit" id="guardar"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        {{template "autocompletaSubgrupo" }}
+<!--INICIA CREAR NUEVO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<!--TERMINA CREAR NUEVO -->
+
+<script>
+    $(document).ready(function () {
+
+        //jhkjk
+        autocompletaSubgrupo('#SubgrupoNombre' ,'#Subgrupo');
+        // INICIA CREAR DUPLICADO CON F2
+        $(document).on('keyup', '#Nombre', function (e) {
+            //   e.preventDefault();
+            var code = e.keyCode || e.which;
+
+            if (e.which == 113) {
+                // alert("F2");
+
+                document.location.href = '/ProductoNuevoCopiar/'+ $("#Codigo").val();
+            }
+        });
+        // TERMINA CREAR DUPLICADO CON F2
+
+        //INICIA MASCARAS
+        $("#Codigo").mask('000000000000000');
+        $("#Precio").mask('000,000,000,000', {reverse: true});
+        $("#Costo").mask('000,000,000,000', {reverse: true});
+        $("#Cantidad").mask('000,000,000,000', {reverse: true});
+        $("#Total").mask('000,000,000,000', {reverse: true});
+        //TERMINA MASCARAS
+
+        //INICIA FOCUS
+        $('#Nombre').focus();
+        //TERMINA FOCUS
+
+        //INICIA SELECT
+       $('.mdb-select').materialSelect({});
+        //TERMINA SELECT
+
+        //INICIA DATOS INICIALES
+        $('#Tipo').val("{{ .emp.Tipo }}");
+        $('#Unidad').val("{{ .emp.Unidad }}");
+        $('#Subgrupo').val("{{ .emp.Subgrupo }}");
+        $('#SubgrupoNombre').val("{{ .emp.SubgrupoNombre }}");
+
+        $('#Precio').val(formatomoneda("{{ .emp.Precio }}"));
+        $('#Costo').val(formatomoneda("{{ .emp.Costo }}"));
+        $('#Cantidad').val(formatomoneda("{{ .emp.Cantidad }}"));
+        $('#Total').val(formatomoneda("{{ .emp.Total }}"));
+        $('#Utilidad').val(formatomoneda("{{ .emp.Utilidad }}"));
+
+        //TERMINA DATOS INICIALES
+    });
+
+</script>
+
+{{end}}

@@ -1,0 +1,119 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto";
+    -webkit-background-size: cover;
+    background-size: cover ;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 50vh;
+}
+
+a
+{
+    font-size: 15px;
+    text-transform: capitalize;
+}
+
+.nav-area
+{
+    height: 35px;
+    background: #21B799;
+}
+
+.nav-area:after
+{
+    content: ' ';
+    clear: both;
+    display: block;
+}
+
+.nav-area ul
+{
+    list-style: none;
+    margin: 0;
+}
+
+.nav-area > ul > li
+{
+    float: left;
+    position: relative;
+}
+
+.nav-area ul li a
+{
+    text-decoration: none;
+    color: #fff;
+    padding-top: 5px !important;
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+    padding-bottom: 5px !important;
+    display: block;
+}
+
+.nav-area ul li:hover a
+{
+    background: #262626;
+}
+
+.nav-area ul ul
+{
+    position: absolute;
+    padding: 0;
+    min-width: 190px;
+    display: none;
+    top: 100%;
+    left: 0;
+}
+
+.nav-area ul li:hover > ul
+{
+    display: block;
+    background: #262626;
+}
+
+.nav-area ul ul li:hover a
+{
+    background:  #21B799;
+}
+
+.nav-area ul ul li
+{
+    position: relative;
+}
+
+.nav-area ul ul ul
+{
+    top: 0;
+    left: 100%;
+    background: #ffffff;
+}
+.menuizquierda{
+
+    left: -100%!important;
+}
+.nav-area ul ul ul li:hover a
+{
+    background: #262626;
+}
+
+.nav-area ul ul ul ul li:hover a
+{
+    background: #21B799;
+}
+
+
+.titulomenu{
+    color:white !important;
+    background: #262626 !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+}
+.barramenu{
+    height: 35px;
+    color:white !important;
+    background: #262626 !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+}

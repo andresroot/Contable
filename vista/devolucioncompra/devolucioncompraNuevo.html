@@ -1,0 +1,562 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/inventario.css"/>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/cleave.js"></script>
+<div class="container-fluid">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <h3 class="tp">Devolucion Compra</h3>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div id="aviso"
+                         class="alert text-center alert-success alert-dismissible"
+                         role="alert" style="width: 302px; height: 40px; padding-top: 7px">
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p id="textoaviso">Cargando...</p>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+            <br>
+                    <form id="formulario" method="POST"
+                          action="/DevolucioncompraAgregar/False">
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Devolucion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Codigo"
+                                           id="Codigo"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Proveedor</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="terceroCodigo"
+                                           class="form-control text-left"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Nombre</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="terceroNombre"
+                                           class="form-control" disabled>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Direccion</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           id="terceroDireccion"
+                                           class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Factura No.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="Compra"
+                                           id="Compra"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Fecha</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           placeholder="DD/mm/YYYY"
+                                           name="Fecha"
+                                           id="Fecha"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Fecha
+                                Vence</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="Date"
+                                           name="Vence"
+                                           id="Vence"
+                                           class="form-control" required/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Forma Pago</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="FormadepagoNombre"
+                                           id="FormadepagoNombre"
+                                           class="form-control" required/>
+                                    <input type="hidden"
+                                           name="Formadepago"
+                                           id="Formadepago"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Medio Pago</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="MediodepagoNombre"
+                                           id="MediodepagoNombre"
+                                           class="form-control" required/>
+                                    <input type="hidden"
+                                           name="Mediodepago"
+                                           id="Mediodepago"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Almacenista</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="AlmacenistaNombre"
+                                           id="AlmacenistaNombre"
+                                           class="form-control" required/>
+                                    <input type="hidden"
+                                           name="Almacenista"
+                                           id="Almacenista"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Centro</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0">
+                                    <input type="text"
+                                           name="CentroNombre"
+                                           id="CentroNombre"
+                                           class="form-control" required/>
+                                    <input type="hidden"
+                                           name="Centro"
+                                           id="Centro"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <table id="tabla"
+                                   class="table table-sm" cellspacing="0" width="100%">
+                                <thead class="miCabeceraTabla">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>No</th>
+                                    <th style="padding-left: 6px">Codigo</th>
+                                    <th style="padding-left: 5px">Nombre Producto</th>
+                                    <th style="padding-left: 5px">Unidad</th>
+                                    <th style="padding-left: 15px">Iva</th>
+                                    <th style="padding-left: 6px">Bodega</th>
+                                    <th style="padding-left: 65px">Cantidad</th>
+                                    <th style="padding-left: 50px">Vr. Unitario</th>
+                                    <th style="padding-left: 100px">Total</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" id="Subtotal19"/>
+                        <input type="hidden" id="Subtotal5"/>
+                        <input type="hidden" id="Subtotal0"/>
+                        <input type="hidden" id="SubtotalDescuento19"/>
+                        <input type="hidden" id="SubtotalDescuento5"/>
+                        <input type="hidden" id="SubtotalDescuento0"/>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Base
+                                19%</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="SubtotalBase19"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Base
+                                5%</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="SubtotalBase5"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Base 0%</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="SubtotalBase0"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label tl">Subtotal</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 ml-4 mdt">
+                                    <input type="text"
+                                           id="Subtotal"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-1 col-form-label">Iva
+                                19%</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="SubtotalIva19"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Iva
+                                5%</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="SubtotalIva5"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label">Total Items</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="Items"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label tl">Total Iva</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 ml-4 mdt">
+                                    <input type="text"
+                                           id="TotalIva"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-6"></div>
+                            <label class="col-sm-1 col-form-label">Porcentaje</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="PorcentajeRetencionFuente"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label tl">Ret. Fte.</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 ml-4 mdt">
+                                    <input type="text"
+                                           id="TotalRetencionFuente"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-6"></div>
+                            <label class="col-sm-1 col-form-label">Porcentaje</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 mdo">
+                                    <input type="text"
+                                           id="PorcentajeRetencionIca"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                            <label class="col-sm-1 col-form-label tl">Ret. Ica</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 ml-4 mdt">
+                                    <input type="text"
+                                           id="TotalRetencionIca"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-9">
+                            </div>
+                            <label class="col-sm-1 col-form-label tl">Total Neto</label>
+                            <div class="col-sm-2">
+                                <div class="md-form mt-0 ml-4 mdt">
+                                    <input type="text"
+                                           id="Neto"
+                                           class="form-control text-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-12">
+                                <a href="/DevolucioncompraLista"
+                                   class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                                <button type="button" id="guardar"
+                                        onclick="guardardoc('Nuevo')"
+                                        class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--   INICIA NUEVO TERCERO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<input id="FormadepagoNuevo"
+       type="hidden"/>
+<input id="MediodepagoNuevo"
+       type="hidden"/>
+<input id="AlmacenistaNuevo"
+       type="hidden"/>
+<input id="CentroNuevo"
+       type="hidden"/>
+<input id="ProductoNuevo"
+       type="hidden"/>
+<input id="BodegaNuevo"
+       type="hidden"/>
+<input id="Total"
+       type="hidden"/>
+<input id="retfte" value="{{ .retfte }}"
+       type="hidden"/>
+<input id="miperiodo" value="{{ .miperiodo }}"
+       type="hidden"/>
+
+<script src="{{ .hosting }}static/js/devolucioncompra.js"></script>
+
+        {{template "devolucioncomprascript" }}
+        {{template "autocompletaFormadepago" }}
+        {{template "autocompletaMediodepago" }}
+        {{template "autocompletaAlmacenista" }}
+        {{template "autocompletaCentro" }}
+        {{template "autocompletaBodega" }}
+        {{template "autocompletaTercero" }}
+<script>
+$(document).ready(function () {
+
+   // INICIA FECHA
+    var m = moment().set('year', $('#miperiodo').val()).format("YYYY-MM-DD");
+    $("#Fecha").val(m);
+    $("#Vence").val(m);
+
+    // INICIA CODIGO  YA EXISTE
+    $("#Codigo").focus();
+    $("#aviso").hide();
+    $("#guardar").prop("disabled", true);
+    $("#Codigo").focusout(function () {
+        codigo = $("#Codigo").val().replace(" ", "_").toUpperCase();
+        $("#Codigo").val(codigo);
+        if ($("#Codigo").val().length > 0) {
+            console.log("Handler for .keyup() called." + $("#Codigo").val());
+            $.ajax({
+                url: "/DevolucioncompraExiste/" + $("#Codigo").val(),
+                type: "GET",
+                dataType: "json",
+                async: false,
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        console.log(respuesta.result);
+                        $("#Codigo").val("");
+                        $("#textoaviso").html("El Numero Ya Existe");
+                        $("#aviso").show();
+                        $("#guardar").prop("disabled", true);
+                    } else {
+                        console.log(respuesta.result);
+                        $("#aviso").hide();
+                        $("#guardar").prop("disabled", false);
+                    }
+                },
+            });
+        }
+    });
+
+    // INICIA AUTOCOMPLETADO
+    autocompletaTercero('#terceroCodigo');
+    autocompletaFormadepago('#FormadepagoNombre', '#Formadepago');
+    autocompletaMediodepago('#MediodepagoNombre', '#Mediodepago');
+    autocompletaAlmacenista('#AlmacenistaNombre', '#Almacenista');
+    autocompletaCentro('#CentroNombre', '#Centro');
+
+    // INICIA FOCUS
+    $('#Codigo').focus();
+
+    // DATOS INICIALES
+    $("#PorcentajeRetencionFuente").val($("#retfte").val());
+    $("#PorcentajeRetencionIca").val("0.00");
+    $('#Formadepago').val("2");
+    $('#FormadepagoNombre').val("Credito");
+    $('#Mediodepago').val("46");
+    $('#MediodepagoNombre').val("Transferencia Debito");
+    $('#Centro').val("1");
+    $('#CentroNombre').val("Almacen Principal");
+    $("#Almacenista").val('{{ .almacenista.Codigo }}');
+    $("#AlmacenistaNombre").val('{{ .almacenista.Nombre }}');
+
+
+    // TRAE DATOS DE EDITAR
+    if ("{{ .codigo }}" == "False") {
+        agregar();
+    } else {
+        // llenar valores
+        $("#Fecha").val('{{ .devolucioncompra.Fecha.Format "2006-01-02"}}');
+        $("#Vence").val('{{ .devolucioncompra.Vence.Format "2006-01-02"}}');
+        $("#Plazo").val('');
+
+        $("#terceroCodigo").val('{{ .devolucioncompra.Tercero }}');
+        $("#terceroDv").val('{{ .devolucioncompra.TerceroDetalle.Dv }}');
+        $("#terceroNombre").val('{{ .devolucioncompra.TerceroDetalle.Nombre }}');
+        $("#terceroDireccion").val('{{ .devolucioncompra.TerceroDetalle.Direccion }}');
+        $("#terceroTelefono1").val('{{ .devolucioncompra.TerceroDetalle.Telefono1 }}');
+        $("#terceroEmail1").val('{{ .devolucioncompra.TerceroDetalle.Email1 }}');
+
+        $('#Subtotal').val('{{ .devolucioncompra.Subtotal }}');
+        $('#Descuento').val('{{ .devolucioncompra.Descuento}}');
+        $('#SubtotalIva19').val('{{ .devolucioncompra.Subtotaliva19 }}');
+        $('#SubtotalIva5').val('{{ .devolucioncompra.Subtotaliva5 }}');
+        $('#SubtotalBase19').val('{{ .devolucioncompra.Subtotalbase19 }}');
+        $('#SubtotalBase5').val('{{ .devolucioncompra.Subtotalbase5 }}');
+        $('#SubtotalBase0').val('{{ .devolucioncompra.Subtotalbase0 }}');
+        $('#Total').val('{{.devolucioncompra.Total }}');
+        $('#PorcentajeRetencionFuente').val('{{ .devolucioncompra.PorcentajeRetencionFuente }}');
+        $('#TotalRetencionFuente').val('{{ .devolucioncompra.TotalRetencionFuente }}');
+        $('#PorcentajeRetencionIca').val('{{ .devolucioncompra.PorcentajeRetencionIca }}');
+        $('#TotalRetencionIca').val('{{ .devolucioncompra.TotalRetencionIca }}');
+        $('#Neto').val('{{ .devolucioncompra.Neto }}');
+
+        $('#Compra').val('');
+
+        $('#Formadepago').val('{{ .devolucioncompra.Formadepago}}');
+        $('#Mediodepago').val('{{ .devolucioncompra.Mediodepago}}');
+        $('#Almacenista').val('{{ .devolucioncompra.Almacenista}}');
+        $('#Centro').val('{{ .devolucioncompra.Centro}}');
+        $("#PorcentajeRetencionFuente").val($("#retfte").val());
+
+        $('#CentroNombre').val('{{ .devolucioncompra.CentroDetalle.Nombre}}');
+        $('#FormadepagoNombre').val('{{ .devolucioncompra.FormadepagoDetalle.Nombre}}');
+        $('#MediodepagoNombre').val('{{ .devolucioncompra.MediodepagoDetalle.Nombre}}');
+        $('#AlmacenistaNombre').val('{{ .devolucioncompra.AlmacenistaDetalle.Nombre}}');
+        cont = 1;
+        {{ range.detalle }}
+        agregar();
+        $('#seleccion_producto' + cont).val('{{ .Producto }}');
+        $('#nombre' + cont).html('{{ .ProductoNombre }}');
+        $('#unidad' + cont).html('{{ .ProductoUnidad }}');
+        $('#iva' + cont).html('{{ .ProductoIva }}');
+        $('#seleccion_bodega' + cont).val('{{ .Bodega }}');
+        $('#seleccion_bodega_nombre' + cont).val('{{ .BodegaNombre }}');
+        $('#cantidad' + cont).val(formatomoneda('{{ .Cantidad }}'));
+        $('#valor' + cont).val(formatomoneda('{{ .Precio }}'));
+        cont++;
+
+        {{ end }}
+        totales();
+        $('#Codigo').focus();
+        // TERMINA TRAER DATOS DE EDITAR
+    }
+});
+
+// TRAER COMPRA
+$("#Compra").focusout(function () {
+    // valida que existan items
+    var cont = 1;
+    var valido = 0;
+
+    elemento = "#Compra";
+
+    codigo = $(elemento).val().replace(" ", "_").toUpperCase();
+    $(elemento).val(codigo);
+    if ($(elemento).val().length > 0) {
+        $.ajax({
+            url: "/DatosCompra/" + codigo+"/"+$("#terceroCodigo").val(),
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert('No Existe Compra para este Proveedor');
+                } else {
+                    var cont = 1;
+                    $('#tabla tbody tr').each(function () {
+                        var fila=cont;
+                        $('#fila' +fila ).remove();
+                        cont++;
+                    });
+                    $.each(response, function (i, miCompra) {
+                        const format2 = "YYYY-MM-DD"
+                        fecha1=moment(miCompra.Fecha).add(1, 'days');
+                        fecha1 = moment(fecha1).format(format2);
+                        vence1=moment(miCompra.Vence).add(1, 'days');
+                        vence1 = moment(vence1).format(format2);
+                        $("#Fecha").val(fecha1);
+                        $("#Vence").val(vence1);
+                        $("#Plazo").val('');
+                        $("#terceroCodigo").val(miCompra.Tercero);
+                        $('#Subtotal').val(miCompra.Subtotal);
+                        $('#Descuento').val(miCompra.Descuento);
+                        $('#SubtotalIva19').val(miCompra.Subtotaliva19);
+                        $('#SubtotalIva5').val(miCompra.Subtotaliva5);
+                        $('#SubtotalBase19').val(miCompra.Subtotalbase19);
+                        $('#SubtotalBase5').val(miCompra.Subtotalbase5);
+                        $('#SubtotalBase0').val(miCompra.Subtotalbase0);
+                        $('#Total').val(miCompra.Total);
+                        $('#PorcentajeRetencionFuente').val(miCompra.PorcentajeRetencionFuente);
+                        $('#TotalRetencionFuente').val(miCompra.TotalRetencionFuente);
+                        $('#PorcentajeRetencionIca').val(miCompra.PorcentajeRetencionIca);
+                        $('#TotalRetencionIca').val(miCompra.TotalRetencionIca);
+                        $('#Neto').val(miCompra.Neto);
+                        $('#Formadepago').val(miCompra.Formadepago);
+                        $('#Mediodepago').val(miCompra.Mediodepago);
+                        $('#Almacenista').val(miCompra.Almacenista);
+                        $('#Centro').val(miCompra.Centro);
+                        $("#terceroDv").val(miCompra.TerceroDetalle.Dv);
+                        $("#terceroNombre").val(miCompra.TerceroDetalle.Nombre);
+                        $("#terceroDireccion").val(miCompra.TerceroDetalle.Direccion);
+                        $("#terceroTelefono1").val(miCompra.TerceroDetalle.Telefono1);
+                        $("#terceroEmail1").val(miCompra.TerceroDetalle.Email1);
+                        $('#CentroNombre').val(miCompra.CentroDetalle.Nombre);
+                        $('#AlmacenistaNombre').val(miCompra.AlmacenistaDetalle.Nombre);
+                        $('#FormadepagoNombre').val(miCompra.FormadepagoDetalle.Nombre);
+                        $('#MediodepagoNombre').val(miCompra.MediodepagoDetalle.Nombre);
+                        // traer detalle
+                        cont = 1;
+                        $.each(miCompra.DetalleEditar, function (e, miDetalle) {
+                            agregar();
+                            $('#seleccion_producto' + cont).val(miDetalle.Producto);
+                            $('#nombre' + cont).html(miDetalle.ProductoNombre);
+                            $('#unidad' + cont).html(miDetalle.ProductoUnidad);
+                            $('#iva' + cont).html(miDetalle.ProductoIva);
+                            $('#seleccion_bodega' + cont).val(miDetalle.Bodega);
+                            $('#seleccion_bodega_nombre' + cont).val(miDetalle.BodegaNombre);
+                            $('#cantidad' + cont).val(formatomoneda(miDetalle.Cantidad));
+                            $('#valor' + cont).val(formatomoneda(miDetalle.Precio));
+                            cont++;
+                        });
+                        totales();
+                    });
+                }
+            },
+        });
+    }
+});
+
+</script>
+{{end}}

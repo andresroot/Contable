@@ -1,0 +1,31 @@
+{{define "autocompletaProductocrear" }}
+<script>
+
+    var numeroPanel = 1;
+    function autocompletaProductocrear(obj, elementoNombre) {
+        $(obj).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/ProductoBuscarCrear/"+request.term,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            messages: {
+                noResults: '',
+                results: function () {
+                }
+            },
+            maxShowItems: 5,
+            response: function (event, ui) {
+            },
+            select: function (event, ui) {
+            }
+        });
+    }
+
+</script>
+        {{end}}

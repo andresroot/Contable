@@ -1,0 +1,620 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3 class="tp">Nuevo Residente</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="aviso"
+                             class="alert text-center alert-success alert-dismissible"
+                             role="alert" style="width: 302px; height: 40px; padding-top: 7px">
+                            <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p id="textoaviso">Cargando...</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/ResidenteInsertar">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Codigo</label>
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Codigo"
+                                       id="Codigo"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Nit. No.</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Nit"
+                                       id="Nit"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+<!--                        <label class="col-sm-1 col-form-label">Dv</label>-->
+                        <div class="col-sm-1">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Dv"
+                                       id="Dv"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Empresa</label>
+                        <div class="col-sm-5">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Juridica"
+                                       id="Juridica"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">1er
+                            Nombre</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="PrimerNombre"
+                                       id="PrimerNombre"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">2do
+                            Nombre</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="SegundoNombre"
+                                       id="SegundoNombre"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">1er
+                            Apellido</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="PrimerApellido"
+                                       id="PrimerApellido"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">2do
+                            Apellido</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="SegundoApellido"
+                                       id="SegundoApellido"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Expedicion</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="Date"
+                                       placeholder="DD/mm/YYYY"
+                                       name="Fechaexpedicion"
+                                       id="Fechaexpedicion"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ciudad</label>
+                        <div class="col-sm-2">
+                            <select name="Ciudadexpedicion"
+                                    id="Ciudadexpedicion"
+                                    class="mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                {{ range .ciudad}}
+                                <option value="{{ .Codigo }}">{{ .Nombre }}
+                                </option>
+                                {{ end }}
+                            </select>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Nacimiento</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="Date"
+                                       placeholder="DD/mm/YYYY"
+                                       name="Fechanacimiento"
+                                       id="Fechanacimiento"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ciudad</label>
+                        <div class="col-sm-2">
+                            <select name="Ciudadnacimiento"
+                                    id="Ciudadnacimiento"
+                                    class="mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                {{ range .ciudad}}
+                                <option value="{{ .Codigo }}">{{ .Nombre }}
+                                </option>
+                                {{ end }}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Telefono</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Telefono1"
+                                       id="Telefono1"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Telefono</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Telefono2"
+                                       id="Telefono2"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Ciudad</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <select name="Ciudad"
+                                        id="Ciudad"
+                                        class="mdb-select md-form-control"
+                                        searchable="Buscar...">
+                                    {{ range .ciudad}}
+                                    <option value="{{ .Codigo }}">{{ .Nombre }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Contacto</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Contacto"
+                                       id="Contacto"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Matricula</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Matricula"
+                                       id="Matricula"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Catastral</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Catastral"
+                                       id="Catastral"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Area Mts.</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Area"
+                                       id="Area"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Coeficiente</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Coeficiente"
+                                       id="Coeficiente"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Direccion</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="text" name="Direccion"
+                                       id="Direccion"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">E-mail</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email" name="Email1"
+                                       id="Email1"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">E-mail</label>
+                        <div class="col-sm-3">
+                            <div class="md-form mt-0">
+                                <input type="email" name="Email2"
+                                       id="Email2"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a href="/ResidenteLista"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar</a>
+                            <button type="submit" id="guardar"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="TerceroNuevo"
+       type="hidden"/>
+
+        {{template "autocompletaTercero" }}
+
+<script>
+    // INICIA CERRAR PANEL
+    var numeroPanel = 1;
+
+    function cerrarventana() {
+        varPanel = "{{.Panel}}";
+        if (varPanel != "False") {
+            codigoElemento = $('#Codigo').val().replace('.', '');
+            elemento = '{{ .Elemento }}';
+            var myCustomData = {
+                valido: true,
+                codigoElemento: codigoElemento,
+                elementoPanel: elemento
+            }
+            var event = new CustomEvent('myEvent', {detail: myCustomData});
+            window.parent.document.dispatchEvent(event);
+        } else {
+            window.history.go(-1);
+        }
+
+    }
+
+    //TERMINA CERRAR PANEL
+
+    function isNumeric(n) {
+        n=n.replace(/,/g, "");
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    $(document).ready(function () {
+
+        var m = moment().format("YYYY-MM-DD");
+        $("#Fechanacimiento").val(m);
+
+        $("#Fechaexpedicion").val(m);
+
+        autocompletaTercero('#Nit');
+
+        // VALIDA FORMULARIO
+        varPanel = "{{.Panel}}";
+        if (varPanel == "False") {
+
+            $('#formulario').submit(function (event) {
+
+                event.preventDefault(); //this will prevent the default submit
+                if (validaDatos() == true) {
+                    $(this).unbind('submit').submit(); // continue the submit unbind preventDefault
+                }
+            })
+        }
+// FIN VALIDA FORMULARIO
+
+        //INICIA GUARDAR DATOS
+        function guardar() {
+            $("#formulario").submit();
+        }
+
+        varPanel = "{{.Panel}}";
+        if (varPanel != "False") {
+            mivalor="{{ .Codigo}}";
+            const  isdigit=(value)=>{
+                const val=Number(mivalor)?true:false
+                console.log(val);
+                return val
+            }
+            //alert(isNumeric(mivalor));
+
+
+            if (isNumeric(mivalor)==true)
+            {
+                $('#Codigo').val("{{ .Codigo}}");
+                $("#PrimerNombre").focus();
+                //$("#Dv").val(calcularDigitoVerificacion($("#Codigo").val()));
+            }
+            else
+            {
+                $('#PrimerNombre').val("{{ .Codigo}}");
+                $("#Codigo").focus();
+
+            }
+
+            $('#formulario').submit(function () { // catch the form's submit event
+
+
+                if (validaDatos() == true) {
+                $.ajax({ // create an AJAX call...
+                    data: $(this).serialize(), // get the form data
+                    type: $(this).attr('method'), // GET or POST
+                    url: $(this).attr('action'), // the file to call
+                    success: function (response) { // on success..
+                        cerrarventana();
+                    }
+                });
+                }
+                return false;
+
+            });
+        }
+        //TERMINA GUARDAR DATOS
+
+        //INICIA MASCARAS
+        $("#Descuento1").mask('000,000,000', {reverse: true});
+        $("#Descuento2").mask('000,000,000', {reverse: true});
+        $("#Cuotap").mask('000,000,000', {reverse: true});
+        $("#Cuota1").mask('000,000,000', {reverse: true});
+        $("#Cuota2").mask('000,000,000', {reverse: true});
+        $("#Telefono1").mask('(000) 000-0000');
+        $("#Telefono2").mask('(000) 000-0000');
+        $("#Coeficiente").mask('##.00', {reverse: true});
+        $("#Area").mask('###.00', {reverse: true});
+        //TERMINA MASCARAS
+
+        //INICIA AVISOS
+        $("#aviso").hide();
+        $("#guardar").prop("disabled", false);
+        $("#guardar").prop("disabled", true);
+        //TERMINA AVISOS
+
+        //INICIA FOCUS
+        $('#Codigo').focus();
+
+        //INICIA SELECT
+        $('.mdb-select').materialSelect({});
+
+        //INICIA DATOS INICIALES
+        $('#Ciudad').val("50001")
+
+
+        //DATOS TERCERO COPIAR
+        if ("{{ .copiar}}"=="True")
+        {
+            $("#Fecha").val('{{ .venta.Fecha.Format "2006-01-02"}}');
+            $("#Vence").val('{{ .venta.Vence.Format "2006-01-02"}}');
+            $('#Contacto').val("{{ .emp.Contacto }}");
+            $('#Dv').val("{{ .emp.Dv }}");
+            $('#Nit').val("{{ .emp.Nit }}");
+            $('#Juridica').val("{{ .emp.Juridica }}");
+            $('#PrimerNombre').val("{{ .emp.PrimerNombre }}")
+            $('#SegundoNombre').val("{{ .emp.SegundoNombre }}")
+            $('#PrimerApellido').val("{{ .emp.PrimerApellido }}")
+            $('#SegundoApellido').val("{{ .emp.SegundoApellido }}")
+            $('#Telefono1').val("{{ .emp.Telefono1 }}")
+            $('#Telefono2').val("{{ .emp.Telefono2 }}")
+            $('#Direccion').val("{{ .emp.Direccion }}")
+            $('#Email1').val("{{ .emp.Email1 }}")
+            $('#Email2').val("{{ .emp.Email2 }}")
+            $('#Contacto').val("{{ .emp.Contacto }}")
+            $('#Matricula').val("{{ .emp.Matricula }}")
+            $('#Catastral').val("{{ .emp.Catastral }}")
+            $('#Area').val("{{ .emp.Area }}")
+            $('#Coeficiente').val("{{ .emp.Coeficiente }}")
+            $('#Ciudad').val("{{ .emp.Ciudad }}")
+            $('#Ciudadexpedicion').val("{{ .emp.Ciudadexpedicion }}")
+            $("#Fechaexpedicion").val('{{ .emp.Fechaexpedicion.Format "2006-01-02"}}');
+            $("#Fechanacimiento").val('{{ .emp.Fechanacimiento.Format "2006-01-02"}}');
+            $('#Ciudadnacimiento').val("{{ .emp.Ciudadnacimiento }}")
+        }
+    });
+
+    //INICIA EXISTE TERCERO
+    $('#Codigo').on('focusout', function (event) {
+        if ($("#Codigo, #Nombre").val().length > 0) {
+            $("#Dv").val(calcularDigitoVerificacion($("#Codigo").val()));
+            console.log("Handler for .keyup() called." + $("#Codigo").val());
+            valor = $("#Codigo").val().replace(/\./g, '');
+            valor = valor.replace(/,/g, '');;
+      //  alert(valor);
+            $.ajax({
+                url: "/ResidenteExiste/" + valor,
+                type: "GET",
+                dataType: "json",
+                async: false,
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        console.log(respuesta.result);
+                        $("#textoaviso").html("El codigo Ya Existe");
+                        $("#aviso").show();
+                        $("#Codigo").val("");
+                        $("#guardar").prop("disabled", true);
+                    } else {
+                        console.log(respuesta.result);
+                        $("#aviso").hide();
+                        $("#guardar").prop("disabled", false);
+                    }
+                },
+            });
+        }
+    });
+
+    //INICIA ELECCION TIPO
+    $('#Tipo').on('change', function () {
+        if (this.value == "2") {
+            $("#Juridica").prop("readonly", true);
+
+            $("#PrimerNombre").prop("readonly", false);
+            $("#SegundoNombre").prop("readonly", false);
+            $("#PrimerApellido").prop("readonly", false);
+            $("#SegundoApellido").prop("readonly", false);
+            $("#PrimerNombre").val("");
+            $("#SegundoNombre").val("");
+            $("#PrimerApellido").val("");
+            $("#SegundoApellido").val("");
+            $('#PrimerNombre').focus();
+        } else {
+            $("#Juridica").prop("readonly", false);
+            $("#PrimerNombre").prop("readonly", true);
+            $("#SegundoNombre").prop("readonly", true);
+            $("#PrimerApellido").prop("readonly", true);
+            $("#SegundoApellido").prop("readonly", true);
+            $("#Juridica").val("");
+            $('#Juridica').focus();
+        }
+    });
+    //TERMINA ELECCION TIPO
+
+    //INICIA DIGITO DE VERIFICACION
+    function calcularDigitoVerificacion(myNit) {
+        var vpri,
+            x,
+            y,
+            z;
+        // LIMPIA EL NIT
+        myNit = myNit.replace(/\s/g, ""); // Espacios
+        myNit = myNit.replace(/,/g, ""); // Comas
+        myNit = myNit.replace(/\./g, ""); // Puntos
+        myNit = myNit.replace(/-/g, ""); // Guiones
+        // VALIDA NIT
+        if (isNaN(myNit)) {
+            console.log("El nit/cédula '" + myNit + "' no es válido(a).");
+            return "";
+        }
+        // PROCEDIMIENTO
+        vpri = new Array(16);
+        z = myNit.length;
+        vpri[1] = 3;
+        vpri[2] = 7;
+        vpri[3] = 13;
+        vpri[4] = 17;
+        vpri[5] = 19;
+        vpri[6] = 23;
+        vpri[7] = 29;
+        vpri[8] = 37;
+        vpri[9] = 41;
+        vpri[10] = 43;
+        vpri[11] = 47;
+        vpri[12] = 53;
+        vpri[13] = 59;
+        vpri[14] = 67;
+        vpri[15] = 71;
+        x = 0;
+        y = 0;
+        for (var i = 0; i < z; i++) {
+            y = (myNit.substr(i, 1));
+            // console.log ( y + "x" + vpri[z-i] + ":" ) ;
+            x += (y * vpri [z - i]);
+            // console.log ( x ) ;
+        }
+        y = x % 11;
+        // console.log ( y ) ;
+        return (y > 1) ? 11 - y : y;
+    }
+
+    // CALCULAR
+    function calcular() {
+        // VERIFICAR QUE HAYA NUMERO
+        let nit = document.getElementById("nit").value;
+        let isNitValid = nit >>> 0 === parseFloat(nit) ? true : false; // Validate a positive integer
+        // SI ES UN NUMERO SE CALCULA EL DIGITO DE VERIFICACION
+        if (isNitValid) {
+            let inputDigVerificacion = document.getElementById("digitoVerificacion");
+            inputDigVerificacion.value = calcularDigitoVerificacion(nit);
+        }
+    }
+    function validaDatos() {
+        cabeceravalida = true;
+        textovalidar="";
+        // if ($("#Tipo").val() == "2") {
+        //     if ($("#PrimerNombre").val() == '') {
+        //         textovalidar += '\n Por Favor Digite Primer Nombre';
+        //         cabeceravalida = false;
+        //     }
+        //
+        //     if ($("#PrimerApellido").val() == '') {
+        //         textovalidar += '\n Por Favor Digite Primer Apellido';
+        //         cabeceravalida = false;
+        //     }
+        // }
+        // else {
+        //     if ($("#Juridica").val() == '') {
+        //         textovalidar += '\n Por Favor Digite Empresa';
+        //         cabeceravalida = false;
+        //     }
+        // }
+
+
+        if ($("#Codigo").val() == '') {
+            textovalidar += '\n Por Favor Digite Un Codigo';
+            cabeceravalida = false;
+        }
+
+        if ($("#Direccion").val() == '') {
+            textovalidar += '\n Por Favor Digite Una Direccion';
+            cabeceravalida = false;
+        }
+
+        if ($("#Barrio").val() == '') {
+            textovalidar += '\n Por Favor Digite Un Barrio';
+            cabeceravalida = false;
+        }
+
+        if ($("#Telefono1").val() == '') {
+            textovalidar += '\n Por Favor Digite Un Telefono';
+            cabeceravalida = false;
+        }
+
+        if ($("#Email1").val() == '') {
+            textovalidar += '\n Por Favor Digite Un E-mail';
+            cabeceravalida = false;
+        }
+
+        if ($("#Contacto").val() == '') {
+            textovalidar += '\n Por Favor Digite Un Contacto';
+            cabeceravalida = false;
+        }
+
+        // cabeceravalida=true;
+
+        if (cabeceravalida == false) {
+            alert(textovalidar);
+        }
+
+        if (cabeceravalida == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+{{template "autocompletaTercero" }}
+{{ end }}

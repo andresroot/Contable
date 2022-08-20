@@ -1,0 +1,87 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Borrar Almacenista</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                <form id="formulario" method="POST"
+                      action="/VendedorEliminar/{{ .emp.Codigo }}">
+                    <div class="form-group row mb-0">
+                        <label class="col-sm-1 col-form-label">Codigo</label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Codigo"
+                                       id="Codigo"
+                                       class="form-control" readonly/>
+
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Nombre</label>
+                        <div class="col-sm-5">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Nombre"
+                                       id="Nombre"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <label class="col-sm-1 col-form-label">Comision %
+                        </label>
+                        <div class="col-sm-2">
+                            <div class="md-form mt-0">
+                                <input type="text"
+                                       name="Comision"
+                                       id="Comision"
+                                       class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row mb-0">
+                        <div class="col-sm-12">
+                            <a onclick="window.history.go(-1); return false;"
+                               class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar </a>
+                            <button type="submit"
+                                    class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<!--INICIA CREAR NUEVO-->
+<input id="TerceroNuevo"
+       type="hidden"/>
+<!--TERMINA CREAR NUEVO -->
+
+<script>
+
+    $(document).ready(function () {
+        //INICIA MASCARAS
+
+        $("#Comision").mask('##.00', {reverse: true});
+
+        //INICIA SELECT
+        $('.mdb-select').materialSelect({});
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val("{{ .emp.Codigo}}");
+        $('#Nombre').val("{{ .emp.Nombre}}");
+        $('#Comision').val("{{ .emp.Comision }}");
+
+    });
+</script>
+{{end}}

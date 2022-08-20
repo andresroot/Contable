@@ -1,0 +1,795 @@
+{{define "exogenascript" }}
+<script>
+    var numeroPanel = 1;
+
+    $(document.body).on('focusout', '#PorcentajeRetencionFuente', function (e) {
+        totales();
+    });
+
+    $(document.body).on('focusout', '#PorcentajeRetencionIca', function (e) {
+        totales();
+    });
+
+    // llena los datos del producto
+    function llenarFila(numeroFila) {
+        elemento = '#seleccion_producto' + numeroFila;
+        productoCodigo = $(elemento).val();
+        unidad = '#unidad' + cont;
+        impuesto = '#iva' + cont;
+        nombre = '#nombre' + cont;
+
+        var datosEnviar = {
+            "productoCodigo": productoCodigo
+        };
+        accion = "/ProductoActual/" + productoCodigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+
+                    $(unidad).html('');
+                    $(impuesto).html('');
+                    $(nombre).html('');
+
+                } else {
+                    $.each(response, function (i, item) {
+                        $(unidad).html(item.Unidad);
+                        $(impuesto).html(item.Iva);
+                        $(nombre).html(item.Nombre);
+                    });
+                }
+            }
+        });
+    }
+
+    // FUNCION TOTALES
+    function totales() {
+        var totalAnterior=0;
+        var totalActual=0;
+        var total=0;
+    var totalLinea=0;
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            anterior= limpiarformato($("#anterior" + cont).val());
+            actual= limpiarformato($("#actual" + cont).val());
+            totalAnterior+=anterior;
+            totalActual+=actual;
+
+            totalLinea=anterior+actual;
+            total+=totalLinea;
+            textoSubtotal = '' + totalLinea;
+
+            $("#total" + cont).val(formatomoneda(textoSubtotal));
+
+
+            cont++;
+        });
+
+        // oultar diferencia
+
+
+        $("#Totalanterior").val(formatomoneda(totalAnterior.toFixed(0)));
+        $("#Totalactual").val(formatomoneda(totalActual.toFixed(0)));
+        $("#Total").val(formatomoneda(total.toFixed(0)));
+
+
+
+        $("#Items").val(cont-1);
+
+    }
+
+    function guardar(accion) {
+
+        Codigo = $('#Codigo').val();
+
+        // cuenta filas
+        var filas = 0;
+        $('#tabla tbody tr').each(function () {
+            filas++;
+        });
+
+        Items = filas + " ";
+
+        // DATOS ENVIAR
+        // DATOS ENVIAR
+        var datosEnviar = {
+            "Detalle": [],
+            "Codigo": Codigo,
+
+        };
+
+
+     //   var datosEnviar=[] ;
+
+        var MovimientoValido = true;
+        // valida r movimiento
+        ultimo = Items;
+        // alert(ultimo);
+
+        // borra ultimo
+        if ($("#formato" + ultimo).val() == '' )
+        {
+            eliminar(ultimo);
+            // alert("Borrar Ultimo");
+        }
+
+        // revisa que todos esten completos
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            // fila = cont;
+            if ($("#formato" + cont).val().length ==0   ) {
+                MovimientoValido = false;
+            }
+            cont++;
+        });
+
+        if (MovimientoValido = false) {
+            siEnvio = false;
+            alert("Completar La Información De Filas");
+            return true;
+        }
+
+        var cont = 1;
+        var filavalida = 0;
+        $('#tabla tbody tr').each(function () {
+
+                Formato = $("#formato" + cont).val();
+                Concepto= $("#concepto" + cont).val();
+                Valor = $("#valor" + cont).val();
+                Columna = $("#columna" + cont).val();
+
+                // DATOS ENVIAR DETALLE
+                datosEnviar.Detalle.push({
+                    "Cuenta": Codigo,
+                    "Formato":Formato ,
+                    "Concepto": Concepto,
+                    "Valor": Valor,
+                    "Columna": Columna,
+                });
+                filavalida++;
+            cont++;
+        });
+
+        // JSON.stringify(datosEnviar)
+        console.log(JSON.stringify(datosEnviar));
+
+            // enviar
+            accion = "/ExogenaAgregar";
+            $.ajax({
+                url: accion,
+                type: "POST",
+                async: false,
+                data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        alert("Documento Guardado Correctamente");
+                        document.location.href = '/ExogenaLista/False/False/False';
+                    } else {
+                        alert("Ocurrio Un Error Al Guardar");
+                    }
+                },
+            });
+
+    }
+
+    var cont = 0
+    var id_fila_selected;
+
+    //Agregar Linea
+    function filas()
+    {
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        return cont-1;
+
+    }
+
+    function agregar() {
+        // cont++;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        //cont=cont+1;
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td  style=\"width:10px\"  class=\"celdaAccion\"><a onclick=\"insertar('fila" + cont + "')\" ><i class=\"fas fa-plus-circle mt-2 color\" style=\"color:#21B799\"></i></a><td>";
+
+        fila = fila + "<td><div style=\"width: 50px\" class=\"celdaFila\" id=\"Fila" + cont + '\">' + cont + '</div></td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<select  class=\"mdb-select md-form-control\" searchable=\"Buscar...\" style=\"width: 250px\"  id=\"formato" + cont + '"\  \>';
+
+        //fila = fila + "<input  style=\"width:350px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"formatonombre" + cont + '"\  \>';
+       // fila = fila + "<input  style=\"width: 100px\" class=\"celdaConcepto\" type=\"hidden\" value=\"\" id=\"formato" + cont + '"\  \>';
+
+        fila = fila + '</td>';
+
+
+        // fila = fila + "<td>";
+        // fila = fila + "<input  style=\"width: 100px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"formato" + cont + '"\  \>';
+        // fila = fila + '</td>';
+
+        // fila = fila + "<td>";
+        // fila = fila + "<input  style=\"width: 100px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"concepto" + cont + '"\  \>';
+        // fila = fila + '</td>';
+
+        fila = fila + "<td>";
+       // fila = fila + "<select  style=\"width: 250px\" class=\"celdaConcepto\" id=\"concepto" + cont + '"\  \>';
+       // fila = fila + "<input  style=\"width:350px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"conceptonombre" + cont + '"\  \>';
+      //  fila = fila + "<input  style=\"width: 100px\" class=\"celdaConcepto\" type=\"hidden\" value=\"\" id=\"concepto" + cont + '"\  \>';
+        fila = fila + "<select  class=\"mdb-select md-form-control\" searchable=\"Buscar...\" style=\"width: 250px\"  id=\"concepto" + cont + '"\  \>';
+
+        fila = fila + '</td>';
+
+
+        fila = fila + "<td>";
+
+         //     fila = fila + "<input  style=\"width:250px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"columnanombre" + cont + '"\  \>';
+       // fila = fila + "<input  style=\"width: 100px\" class=\"celdaConcepto\" type=\"hidden\" value=\"\" id=\"columna" + cont + '"\  \>';
+        fila = fila + "<select  class=\"mdb-select md-form-control\" searchable=\"Buscar...\" style=\"width: 350px\"   id=\"columna" + cont + '"\  \>';
+
+        //        fila = fila + "<select  style=\"width: 150px\" class=\"celdaConcepto\" id=\"columna" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+
+        fila = fila + "<td>";
+        fila = fila + "<select  class=\"mdb-select md-form-control\" searchable=\"Buscar...\"   style=\"width: 80px\"   id=\"valor" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+
+        fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminar('fila" + cont + "')\" ><i class=\"fas fa-trash-alt mt-2\" style=\"color:#E74C3C\"></i></a><td>";
+
+        fila = fila + '</tr>';
+
+        $('#tabla tbody').append(fila);
+
+        llenarFormato('#formato'+ cont)
+        $('#formato'+ cont).materialSelect({});
+        $('#concepto'+ cont).materialSelect({});
+        $('#columna'+ cont).materialSelect({});
+        $('#valor'+ cont).materialSelect({});
+        $('#select-options-valor'+ cont).addClass("miValor");
+
+        //autocompletaFormato('#formatonombre'+ cont, '#formato'+ cont);
+
+        //autocompletaConcepto('#conceptonombre'+ cont, '#concepto'+ cont);
+
+
+       // autocompletaColumna('#columnanombre'+ cont, '#columna'+ cont);
+
+
+
+
+        // var $el = $("#columna" + cont);
+        // $el.append($("<option></option>").attr("value", "COLUMNA1").text("COLUMNA1"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA2").text("COLUMNA2"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA3").text("COLUMNA3"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA4").text("COLUMNA4"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA5").text("COLUMNA5"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA6").text("COLUMNA6"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA7").text("COLUMNA7"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA8").text("COLUMNA8"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA9").text("COLUMNA9"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA10").text("COLUMNA10"));
+        // $el.append($("<option></option>").attr("value", "COLUMNA11").text("COLUMNA11"));
+
+
+        $("#formato" + cont).change(function(){
+            llenarConcepto('#formato'+ cont)
+
+
+
+        });
+
+
+
+
+        var $el = $("#valor" + cont);
+
+        $el.append($("<option></option>")
+            .attr("value", "DEBITO").text("DEBITO"));
+
+        $el.append($("<option></option>")
+            .attr("value", "CREDITO").text("CREDITO"));
+        // credito
+        $el.append($("<option></option>")
+            .attr("value", "SALDO").text("SALDO"));
+
+        // credito
+
+// credito
+        $el.append($("<option></option>")
+            .attr("value", "NETO").text("NETO"));
+
+
+
+
+    }
+
+    function sumasIguales()
+    {
+        var totalDebito=0;
+        var totalCredito=0;
+        var cont = 1;
+        var subtotalLineaTotal = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            debito= limpiarformato($("#Debito" + cont).val());
+            credito = limpiarformato($("#Credito" + cont).val());
+            totalDebito+=debito;
+            totalCredito+=credito;
+            cont++;
+        });
+
+        // alert(totalDebito);
+        // alert(totalCredito);
+        if(totalDebito==totalCredito)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+///
+    function insertar(id_fila) {
+        agregar();
+
+       //   filaActual=id_fila.replace("fila","");
+       //   NumeroActual=parseInt(filaActual);
+       //
+       //  var cont = 1;
+       //  $('#tabla tbody tr').each(function () {
+       //      cont++;
+       //  });
+       //
+       // for (var j = cont-1; j >=filaActual ; j--) {
+       //      cadenaActual=""+j;
+       //      lineaSuperior=j-1;
+       //      cadenaSuperior=lineaSuperior+"";
+       //      $("#formato"+cadenaActual).val($("#formato"+cadenaSuperior).val());
+       //     $("#formatonombre"+cadenaActual).val($("#formatonombre"+cadenaSuperior).val());
+       //     $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+       //     $("#conceptonombre"+cadenaActual).val($("#conceptonombre"+cadenaSuperior).val());
+       //      $("#columna"+cadenaActual).val($("#columna"+cadenaSuperior).val());
+       //      $("#valor"+cadenaActual).val($("#valor"+cadenaSuperior).val());
+       //
+       // }
+       //  cadenaActual=filaActual;
+       //  $("#formato"+cadenaActual).val("");
+       //  $("#concepto"+cadenaActual).val("");
+       //  $("#columna"+cadenaActual).val("");
+       //  $("#valor"+cadenaActual).val("");
+       //  $("#formatonombre"+cadenaActual).val("");
+       //  $("#conceptonombre"+cadenaActual).val("");
+    reordenar();
+    }
+
+    function eliminar(id_fila) {
+        //agregar();
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+       // if ((cont-1)>1)
+      //  {
+        filaActual=id_fila.replace("fila","");
+        NumeroActual=parseInt(filaActual);
+
+
+        lineaSuperior=0;
+
+
+        for (var j = filaActual; j <cont-1 ; j++) {
+             cadenaActual=""+j;
+
+            lineaSuperior=parseInt(j)+1;
+            cadenaSuperior=lineaSuperior+"";
+            $("#formato"+cadenaActual).val($("#formato"+cadenaSuperior).val());
+            $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+            $("#columna"+cadenaActual).val($("#columna"+cadenaSuperior).val());
+            $("#valor"+cadenaActual).val($("#valor"+cadenaSuperior).val());
+
+              }
+        var fila=cont-1;
+         $('#fila' +fila ).remove();
+
+        // }
+
+
+    }
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+    // cierra panel
+    window.document.addEventListener('myEvent', handleEvent, false)
+    window.document.addEventListener('myEvent1', handleEvent1, false)
+    function handleEvent1(e) {
+
+        panelNuevo.close();
+
+    }
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+
+            if (e.detail.elementoPanel == "terceroCodigo") {
+                valor = e.detail.codigoElemento.replace('.', '');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    // niombre cuenta
+    function nombreCuenta(codigo,elementoNombre)
+    {
+        accion = "/CuentaActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    // nombre tercero
+    function nombreTercero(codigo,elementoNombre)
+    {
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    function nombreTerceroSolo(codigo)
+    {
+       // alert("codigo "+codigo);
+        var nombre=""
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+               // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                   // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+    return nombre;
+    }
+
+    function conceptoSolo(codigo)
+    {
+        // alert("codigo "+codigo);
+        var nombre=""
+        accion = "/ConceptoActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+        return nombre;
+    }
+    // nombre centro
+    // nombre tercero
+    function nombreCentro(codigo,elementoNombre)
+    {
+        accion = "/CentroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+
+    function llenarConcepto(elementoCodigo){
+        cont1 = elementoCodigo.replace('#formato', '');
+
+        mivalor=$(elementoCodigo).val();
+        if (mivalor=="")
+        {
+
+        }else{
+
+        // concepto
+
+            var options = '';
+
+
+            var $el = $("#concepto" + cont1);
+            $el.empty();
+            $.each(miconcepto, function (i, item) {
+                if (item.Formato==mivalor)
+                {
+                    options += '<option value=\'' + item.Concepto + '\' >' + item.Concepto+"-"+item.Nombre + '</option>';
+                }
+            });
+            $("#concepto" + cont1).html(options);
+
+
+            var $el = $("#columna" + cont1);
+            $el.empty();
+            options =''
+            $.each(micolumna, function (i, item) {
+                if (item.Formato==mivalor)
+                {
+                    options += '<option value=\'' + item.Columna + '\' >' + item.Columna+"-"+item.Nombre + '</option>';
+                }
+            });
+            $("#columna" + cont1).html(options);
+        //  alert(mivalor);
+        // ruta = "/TraerConceptoExogena/"+mivalor;
+        // // llenar Bodega
+        // $.ajax
+        // ({
+        //     type: 'GET',
+        //     async: true,
+        //     url: ruta,
+        //     dataType: 'json',
+        //     success: function (data) {
+        //
+        //         if (jQuery.isEmptyObject(data)) {
+        //             var $el = $("#concepto" + cont1);
+        //             $el.empty();
+        //             $el.append($("<option></option>")
+        //                 .attr("value", "").text(""));
+        //
+        //         } else {
+        //             // var miCantidad=0;
+        //             var $el = $("#concepto" + cont1);
+        //             $el.empty();
+        //             $.each(data, function (i, item) {
+        //
+        //
+        //                 $el.append($("<option></option>")
+        //                     .attr("value", item.Concepto).text(item.Concepto+"-"+item.Nombre));
+        //
+        //                 //miCantidad=item.Cantidad;
+        //                 //   alert(item.Cantidad);
+        //             });
+        //         }
+        //
+        //
+        //     },
+        //
+        //     error: function (ex) {
+        //         //   var r = jQuery.parseJSON(response.responseText);
+        //         //     alert("Message: " + r.Message);
+        //     }
+        // })
+
+            // columna
+
+            // ruta = "/TraerColumnaExogena/"+mivalor;
+            // // llenar Bodega
+            // $.ajax
+            // ({
+            //     type: 'GET',
+            //     async:true,
+            //     url: ruta,
+            //     dataType: 'json',
+            //     success: function (data) {
+            //
+            //         if (jQuery.isEmptyObject(data)) {
+            //             var $el = $("#columna" + cont1);
+            //             $el.empty();
+            //             $el.append($("<option></option>")
+            //                 .attr("value", "").text(""));
+            //
+            //         } else {
+            //             // var miCantidad=0;
+            //             var $el = $("#columna" + cont1);
+            //             $el.empty();
+            //             $.each(data, function (i, item) {
+            //
+            //
+            //                 $el.append($("<option></option>")
+            //                     .attr("value", item.Codigo).text(item.Codigo+"-"+item.Nombre));
+            //
+            //                 //miCantidad=item.Cantidad;
+            //                 //   alert(item.Cantidad);
+            //             });
+            //         }
+            //
+            //
+            //     },
+            //
+            //     error: function (ex) {
+            //         //   var r = jQuery.parseJSON(response.responseText);
+            //         //     alert("Message: " + r.Message);
+            //     }
+            // })
+
+
+
+        }
+
+    }
+
+
+    function llenarFormato(elementoCodigo){
+       // cont1 = elementoCodigo.replace('#formato', '');
+
+        // mivalor=$(elementoCodigo).val();
+        // if (mivalor=="")
+        // {
+        //
+        // }else{
+
+
+            //  alert(mivalor);
+            ruta = "/TraerFormatoExogena";
+            // llenar Bodega
+            $.ajax
+            ({
+                type: 'GET',
+                async: false,
+                url: ruta,
+                dataType: 'json',
+                success: function (data) {
+                    // var miCantidad=0;
+                    var $el = $(elementoCodigo);
+                    $el.empty();
+                    $.each(data, function (i, item) {
+
+
+                        $el.append($("<option></option>")
+                            .attr("value", item.Codigo).text(item.Codigo+"-"+item.Nombre));
+
+                        //miCantidad=item.Cantidad;
+                        //   alert(item.Cantidad);
+                    });
+
+                },
+
+                error: function (ex) {
+                    //   var r = jQuery.parseJSON(response.responseText);
+                    //     alert("Message: " + r.Message);
+                }
+            })
+        }
+
+
+</script>
+{{end}}

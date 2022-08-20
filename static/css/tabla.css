@@ -1,0 +1,124 @@
+.dataTables_scrollBody thead tr {
+    visibility: collapse !important;
+}
+
+.dataTables_scrollBody {
+    margin-top: -18px !important;
+}
+
+/* MARGEN DERECHO BOTONES SUPERIORES*/
+.mdbs {
+    height: 40px !important;
+    text-align: center !important;
+    width: 100px !important;
+    margin-top: 0px !important;
+    padding: 10px !important;
+    margin-right: 15px !important;
+    font-size: 12px !important;
+    font-family: Roboto !important;
+}
+/* TITULO PAGINA*/
+.tp {
+    font-size: 26px !important;
+    font-family: Roboto !important;
+    color: white !important;
+    background-color: #21b799 !important;
+    width: 330px !important;
+    text-align: center !important;
+    height: 35px !important;
+}
+
+.miCabeceraTabla {
+    color: white !important;
+    background-color: #21b799 !important;
+    height: 35px !important;
+}
+
+.tpl {
+    color: white !important;
+    background-color: #21b799 !important;
+    width: 332px !important;
+    text-align: center !important;
+    height: 40px !important;
+    margin-left: 0px !important;
+}
+
+ table.table th {
+    padding-top: 5px !important;
+    padding-bottom: 8px !important;
+     font-size: 13px !important;
+     font-family: Roboto !important;
+}
+
+table.table td {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+}
+
+table.dataTable tbody td.select-checkbox::before, table.dataTable tbody th.select-checkbox::before {
+    /*//content: " " !important;*/
+    margin-top: 1px !important;
+    margin-left: -6px !important;
+    border: 0px solid rgb(0, 0, 0) !important;
+    border-radius: 3px !important;
+}
+
+/*!* FOCO DEL INPUT *!*/
+.md-form input[type="text"]:not(.browser-default):focus:not([readonly])
+{
+    border-bottom: 1px solid #21b799 !important;
+    box-shadow: 0 1px 0 0 #ffffff !important;
+}
+/* INPUT BUSCAR */
+.md-form .form-control {
+    font-family: Roboto;
+    font-size: 13 !important;
+    padding-bottom: 10px;
+}
+
+table.dataTable tbody td.select-checkbox::before, table.dataTable tbody th.select-checkbox::before {
+    content: " " !important;
+    margin-top: 1px !important;
+    margin-left: -6px !important;
+    border: 0px solid rgb(0, 0, 0) !important;
+    border-radius: 3px !important;
+}
+
+table.dataTable tr.selected td.select-checkbox::after, table.dataTable tr.selected th.select-checkbox::after {
+    content: "✔";
+    color: #21b799 !important;
+    top: 0px !important;
+    margin-top: 0px;
+    margin-left: -4px;
+    text-align: center;
+    text-shadow: none !important;
+}
+
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+    background-color: #ffffff !important;
+}
+
+
+.labelBusqueda {
+    height: 20px!important;
+    padding-top: 10px!important;
+}
+
+.miBusqueda {
+    padding-top: 10px !important;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+    display: block !important;
+    padding-top: 5px !important;
+    padding-bottom : 5px !important;
+    font-size: 13px !important;
+    color: black !important;
+
+}
+
+.dropdown-content li.active, .dropdown-content li:hover {
+    background-color: #d4edda !important;
+}

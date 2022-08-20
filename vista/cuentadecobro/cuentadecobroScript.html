@@ -1,0 +1,674 @@
+{{define "cuentadecobroscript" }}
+<script>
+    var numeroPanel = 1;
+
+    $(document.body).on('focusout', '#PorcentajeRetencionFuente', function (e) {
+        totales();
+    });
+
+    $(document.body).on('focusout', '#PorcentajeRetencionIca', function (e) {
+        totales();
+    });
+
+    // llena los datos del producto
+    function llenarFila(numeroFila) {
+        elemento = '#seleccion_producto' + numeroFila;
+        productoCodigo = $(elemento).val();
+        unidad = '#unidad' + cont;
+        impuesto = '#iva' + cont;
+        nombre = '#nombre' + cont;
+
+        var datosEnviar = {
+            "productoCodigo": productoCodigo
+        };
+        accion = "/ProductoActual/" + productoCodigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            data: JSON.stringify(datosEnviar),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+
+                    $(unidad).html('');
+                    $(impuesto).html('');
+                    $(nombre).html('');
+
+                } else {
+                    $.each(response, function (i, item) {
+                        $(unidad).html(item.Unidad);
+                        $(impuesto).html(item.Iva);
+                        $(nombre).html(item.Nombre);
+                    });
+                }
+            }
+        });
+    }
+
+    // FUNCION TOTALES
+    function totales() {
+        var totalAnterior=0;
+        var totalActual=0;
+        var total=0;
+    var totalLinea=0;
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            anterior= limpiarformato($("#anterior" + cont).val());
+            actual= limpiarformato($("#actual" + cont).val());
+            totalAnterior+=anterior;
+            totalActual+=actual;
+
+            totalLinea=anterior+actual;
+            total+=totalLinea;
+            textoSubtotal = '' + totalLinea;
+
+            $("#total" + cont).val(formatomoneda(textoSubtotal));
+
+
+            cont++;
+        });
+
+        // oultar diferencia
+
+
+        $("#Totalanterior").val(formatomoneda(totalAnterior.toFixed(0)));
+        $("#Totalactual").val(formatomoneda(totalActual.toFixed(0)));
+        $("#Total").val(formatomoneda(total.toFixed(0)));
+
+
+
+        $("#Items").val(cont-1);
+
+    }
+
+    function guardar(accion) {
+
+
+        tercero_valido = true;
+        numero_valido = true;
+        if ($("#Numero").val() == '') {
+            alert('Por Favor Digitar Un numero de Cuentadecobro');
+            numero_valido = false;
+            return true;
+        }
+
+        // valores cabecera
+        Numero = $('#Numero').val();
+        Panel = $('#Panel').val();
+
+        Fecha = $('#Fecha').val();
+        Fechaconsignacion = $('#Fechaconsignacion').val();
+        var Fecha = moment(Fecha).format("YYYY-MM-DDTHH:mm:ssZ");
+
+        Numero = $('#Numero').val();
+        Tercero = $('#Tercero').val();
+        Centro = $('#Centro').val();
+        Totalanterior = $('#Totalanterior').val();
+        Totalactual = $('#Totalactual').val();
+        Total = $('#Total').val();
+
+
+        // cuenta filas
+        var filas = 0;
+        $('#tabla tbody tr').each(function () {
+            filas++;
+        });
+
+        Items = filas + " ";
+
+        // DATOS ENVIAR
+        var datosEnviar = {
+            "Accion": accion,
+            "Detalle": [],
+            "Numero": Numero,
+            "Fecha": Fecha,
+            "Centro": Centro,
+            "Tercero": Tercero,
+            "Totalanterior": Totalanterior,
+            "Totalactual": Totalactual,
+            "Total": Total
+        };
+
+        var MovimientoValido = true;
+        // valida r movimiento
+        ultimo = Items;
+        // alert(ultimo);
+
+        // borra ultimo
+        if ($("#seleccion_cuenta" + ultimo).val() == '' )
+
+        {
+            eliminar(ultimo);
+            // alert("Borrar Ultimo");
+        }
+
+        // revisa que todos esten completos
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            // fila = cont;
+            if ($("#seleccion_cuenta" + cont).val().length >0 &&
+                $("#actual" + cont).val() == '' &&
+                $("#anterior" + cont).val() == ''
+                ) {
+                MovimientoValido = false;
+            }
+            cont++;
+        });
+
+        if (MovimientoValido = false) {
+            siEnvio = false;
+            alert("Completar La Información De Filas");
+            return true;
+        }
+
+        var cont = 1;
+        var filavalida = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            if ($("#anterior" + cont).val() == '' &&
+                $("#actual" + cont).val() == '') {
+
+            } else {
+
+                cuenta = $("#seleccion_cuenta" + cont).val();
+                anterior = $("#anterior" + cont).val();
+                actual = $("#actual" + cont).val();
+                total = $("#total" + cont).val();
+                fila = cont + " ";
+
+                // DATOS ENVIAR DETALLE
+                datosEnviar.Detalle.push({
+                    "Fila": fila,
+                    "Numero": Numero,
+                    "Cuenta": cuenta,
+                    "Anterior": anterior,
+                    "Actual": actual,
+                    "Total": total,
+                    "Fila": fila
+
+                });
+                filavalida++;
+            }
+            cont++;
+        });
+
+        // JSON.stringify(datosEnviar)
+        console.log(JSON.stringify(datosEnviar));
+        var siEnvio = true;
+
+        if (numero_valido == false) {
+            alert("Llenar Numero")
+            siEnvio = false;
+            return true;
+        }
+
+        // comprueba fila valida
+        if (filavalida == 0) {
+            //   //  alert("Llenar Items")
+            siEnvio = false;
+            alert("Completar la información detalle");
+            return true;
+        }
+
+        // envia Pedido
+        if (siEnvio == true) {
+
+            // enviar
+            accion = "/CuentadecobroAgregar";
+            $.ajax({
+                url: accion,
+                type: "POST",
+                async: false,
+                data: JSON.stringify(datosEnviar),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    if (respuesta.result == true) {
+                        alert("Documento Guardado Correctamente");
+                        document.location.href = '/CuentadecobroLista/'+Panel;
+                    } else {
+                        alert("Ocurrio Un Error Al Guardar");
+                    }
+                },
+            });
+        }
+    }
+
+    var cont = 0
+    var id_fila_selected;
+
+    //Agregar Linea
+    function filas()
+    {
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        return cont-1;
+
+    }
+
+    function agregar() {
+        // cont++;
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        //cont=cont+1;
+        var fila = '<tr  id = \"fila' + cont + '\">';
+
+        fila = fila + "<td  style=\"width:10px\"  class=\"celdaAccion\"><a onclick=\"insertar('fila" + cont + "')\" ><i class=\"fas fa-plus-circle mt-2 color\" style=\"color:#21B799\"></i></a><td>";
+
+        fila = fila + "<td><div style=\"width: 50px\" class=\"celdaFila\" id=\"Fila" + cont + '\">' + cont + '</div></td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 120px\" type=\"text\" value=\"\" id=\"seleccion_cuenta" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        fila = fila + "<td>";
+        fila = fila + "<input  style=\"width: 400px\" class=\"celdaConcepto\" type=\"text\" value=\"\" id=\"detalle" + cont + '"\  \>';
+        fila = fila + '</td>';
+
+        //fila = fila + "<td><input style=\"width: 150px\"  pattern=\"^\\$\\d{1,3}(,\\d{3})*(\\.\\d{2})?$\" data-type=\"currency\" class=\"inputNumero\" type=\"text\" value=\"\" id=\"anterior" + cont + '"\ /></td>';
+        fila = fila + "<td><input style=\"width: 150px\"  class=\"inputNumero\" type=\"text\" value=\"\" id=\"anterior" + cont + '"\ /></td>';
+
+        //fila = fila + "<td><input  style=\"width: 150px\" pattern=\"^\\$\\d{1,3}(,\\d{3})*(\\.\\d+)?$\" data-type=\"currency\" class=\"inputNumero\" type=\"text\" value=\"\" id=\"actual" + cont + '"\ /></td>';
+        fila = fila + "<td><input  style=\"width: 150px\"  class=\"inputNumero\" type=\"text\" value=\"\" id=\"actual" + cont + '"\ /></td>';
+
+        fila = fila + "<td><input  style=\"width: 150px\" pattern=\"^\\$\\d{1,3}(,\\d{3})*(\\.\\d+)?$\" data-type=\"currency\" class=\"inputNumero\" type=\"text\" value=\"\" id=\"total" + cont + '"\ readonly/></td>';
+
+        fila = fila + "<td  style=\"width: 20px\"  class=\"celdaAccion\"><a onclick=\"eliminar('fila" + cont + "')\" ><i class=\"fas fa-trash-alt mt-2\" style=\"color:#E74C3C\"></i></a><td>";
+
+        fila = fila + '</tr>';
+
+        $('#tabla tbody').append(fila);
+        //reordenar();
+        autocompletaPlandecuentaempresa("#seleccion_cuenta" + cont, "#detalle"+cont);
+
+        elemento = '#anterior' + cont;
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralDecimalScale: 0
+        });
+
+        $(document.body).on('focusout', elemento, function (e) {
+            //alert("Sale focues");
+           // formatCurrency($(this),"blur");
+            //totales();
+        });
+
+        elemento = '#actual' + cont;
+        var cleave = new Cleave(elemento, {
+            numeral: true,
+            numeralDecimalScale: 0
+        });
+
+        $(document).on('keydown', elemento, function (e) {
+
+            var code = e.keyCode || e.which;
+            valor=  $( elemento).val();
+            filaActual = this.id.replace('actual', '');
+            filaSiguiente = parseInt(filaActual) + 1;
+            console.log(typeof valor);
+
+            if (code === 9) {
+                e.preventDefault();
+
+                valor=  $("#actual"+filaActual).val();
+
+                if(valor.length==0 )
+                {
+                    // $("#Debito"+filaActual).val('');
+                    // credito = 'Credito' + filaActual;
+                    //
+                    // $('#' + credito).focus();
+                    // $('#' + credito).focusin();
+                }
+                else
+                {
+                    // limpia credito actual
+                    credito = 'actual' + filaActual;
+                    //$('#' + credito).val('');
+                    totales();
+                    if (filaActual== $("#Items").val())
+                    {
+                        agregar();
+                        // asigna cuenta
+                        // $("#seleccion_cuenta"+filaSiguiente).val($("#seleccion_cuenta"+filaActual).val());
+                        // $("#seleccion_tercero"+filaSiguiente).val($("#seleccion_tercero"+filaActual).val());
+                        // $("#seleccion_centro"+filaSiguiente).val($("#seleccion_centro"+filaActual).val());
+                        // $("#concepto"+filaSiguiente).val($("#concepto"+filaActual).val());
+                    }
+
+                    linea = 'seleccion_cuenta' + filaSiguiente;
+                    //alert(producto);
+                    $('#' + linea).focus();
+                    $('#' + linea).focusin();
+
+                }
+            }
+        });
+        // credito
+
+
+
+
+
+
+
+    }
+
+    function sumasIguales()
+    {
+        var totalDebito=0;
+        var totalCredito=0;
+        var cont = 1;
+        var subtotalLineaTotal = 0;
+        $('#tabla tbody tr').each(function () {
+            fila = cont;
+            debito= limpiarformato($("#Debito" + cont).val());
+            credito = limpiarformato($("#Credito" + cont).val());
+            totalDebito+=debito;
+            totalCredito+=credito;
+            cont++;
+        });
+
+        // alert(totalDebito);
+        // alert(totalCredito);
+        if(totalDebito==totalCredito)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+///
+    function insertar(id_fila) {
+        agregar();
+
+         filaActual=id_fila.replace("fila","");
+         NumeroActual=parseInt(filaActual);
+
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+       for (var j = cont-1; j >=filaActual ; j--) {
+            cadenaActual=""+j;
+            lineaSuperior=j-1;
+            cadenaSuperior=lineaSuperior+"";
+            $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+            $("#detalle"+cadenaActual).val($("#detalle"+cadenaSuperior).val());
+            $("#anterior"+cadenaActual).val($("#anterior"+cadenaSuperior).val());
+            $("#actual"+cadenaActual).val($("#actual"+cadenaSuperior).val());
+            $("#total"+cadenaActual).val($("#total"+cadenaSuperior).val());
+
+       }
+        cadenaActual=filaActual;
+        $("#seleccion_cuenta"+cadenaActual).val("");
+        $("#detalle"+cadenaActual).val("");
+        $("#anterior"+cadenaActual).val("");
+        $("#actual"+cadenaActual).val("");
+        $("#total"+cadenaActual).val("");
+
+
+    totales();
+    reordenar();
+    }
+
+    function eliminar(id_fila) {
+        //agregar();
+        var cont = 1;
+        $('#tabla tbody tr').each(function () {
+            cont++;
+        });
+
+        if ((cont-1)>1)
+        {
+        filaActual=id_fila.replace("fila","");
+        NumeroActual=parseInt(filaActual);
+
+
+        lineaSuperior=0;
+
+
+        for (var j = filaActual; j <cont-1 ; j++) {
+             cadenaActual=""+j;
+
+            lineaSuperior=parseInt(j)+1;
+            cadenaSuperior=lineaSuperior+"";
+
+             $("#seleccion_cuenta"+cadenaActual).val($("#seleccion_cuenta"+cadenaSuperior).val());
+             $("#seleccion_tercero"+cadenaActual).val($("#seleccion_tercero"+cadenaSuperior).val());
+             $("#seleccion_centro"+cadenaActual).val($("#seleccion_centro"+cadenaSuperior).val());
+             $("#concepto"+cadenaActual).val($("#concepto"+cadenaSuperior).val());
+             $("#factura"+cadenaActual).val($("#factura"+cadenaSuperior).val());
+             $("#Debito"+cadenaActual).val($("#Debito"+cadenaSuperior).val());
+             $("#Credito"+cadenaActual).val($("#Credito"+cadenaSuperior).val());
+        }
+        var fila=cont-1;
+         $('#fila' +fila ).remove();
+
+         }
+
+        totales();
+    }
+    function reordenar() {
+        var num = 1;
+        $('#tabla tbody tr').each(function () {
+            $(this).attr('id', 'fila' + num);
+            $('Fila' + num).html(num);
+//          $(this).find('td').eq(0).text(''num);
+            num++;
+        });
+    }
+
+    // cierra panel
+    window.document.addEventListener('myEvent', handleEvent, false)
+    window.document.addEventListener('myEvent1', handleEvent1, false)
+    function handleEvent1(e) {
+
+        panelNuevo.close();
+
+    }
+    function handleEvent(e) {
+
+        if (e.detail.valido == true) {
+            //alert(e.detail.codigoElemento);
+
+            if (e.detail.elementoPanel == "terceroCodigo") {
+                valor = e.detail.codigoElemento.replace('.', '');
+            } else {
+                valor = e.detail.codigoElemento;
+            }
+
+            $('#' + e.detail.elementoPanel).val(valor);
+            $('#' + e.detail.elementoPanel).focus();
+            panelNuevo.close();
+        } else {
+            panelNuevo.close();
+        }
+
+        console.log(e.detail) // outputs: {foo: 'bar'}
+    }
+
+    function panelLista(modulo, panel, parametro, elemento) {
+        numeroPanel = numeroPanel + 1;
+        cadenaPanel = "panel" + numeroPanel;
+        url = '/' + modulo + '/' + panel + '/' + parametro + '/' + elemento;
+        url = "<iframe src=\'" + url + "\' width=\'100%\' height=\'100%\' style=\'padding: 15px;\'></iframe>";
+        panelNuevo = jsPanel.create({
+            theme: {
+                bgContent: '#fff',
+                colorHeader: 'black',
+                border: '1px #A8A8A8 solid'
+            },
+            headerControls: {
+                maximize: 'remove',
+                size: 'xs'
+            },
+            id: cadenaPanel,
+            size: {width: 800, height: 2200},
+            contentSize: {width: '1400px', height: '780px'}, // must be object
+            content: url,
+            position: {
+                top: '350px',
+                left: '600px'
+            },
+            headerTitle: 'Sadconf Cloud 1.0'
+        });
+    }
+    // niombre cuenta
+    function nombreCuenta(codigo,elementoNombre)
+    {
+        accion = "/CuentaActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    // nombre tercero
+    function nombreTercero(codigo,elementoNombre)
+    {
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+    function nombreTerceroSolo(codigo)
+    {
+       // alert("codigo "+codigo);
+        var nombre=""
+        accion = "/TerceroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+               // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                   // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+    return nombre;
+    }
+
+    function conceptoSolo(codigo)
+    {
+        // alert("codigo "+codigo);
+        var nombre=""
+        accion = "/ConceptoActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                // alert('No Existe Cuenta 01');
+                //$(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    // alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        nombre=item.Nombre;
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+        return nombre;
+    }
+    // nombre centro
+    // nombre tercero
+    function nombreCentro(codigo,elementoNombre)
+    {
+        accion = "/CentroActual/"+codigo;
+        $.ajax({
+            url: accion,
+            type: "GET",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (response) {
+                alert('No Existe Cuenta 01');
+                $(obj).val('');
+            },
+            success: function (response) {
+                if (jQuery.isEmptyObject(response)) {
+                    alert("no existe cuenta 02")
+                } else {
+                    $.each(response, function (i, item) {
+                        $(elementoNombre).val(item.Nombre);
+                        // alert(item.Nombre)
+                    });
+                }
+            }
+        });
+
+    }
+</script>
+{{end}}

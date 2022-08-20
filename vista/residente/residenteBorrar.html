@@ -1,0 +1,299 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/datos.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="tp">Borrar Residente</h3>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home"
+                         role="tabpanel" aria-labelledby="home-tab">
+                        <form id="formulario" method="POST"
+                              action="/ResidenteEliminar/{{ .emp.Codigo }}">
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Codigo</label>
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Codigo"
+                                               id="Codigo"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nit. No.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Nit"
+                                               id="Nit"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+<!--                                <label class="col-sm-1 col-form-label">Dv</label>-->
+                                <div class="col-sm-1">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="Dv"
+                                               id="Dv"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Empresa</label>
+                                <div class="col-sm-4">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Juridica"
+                                               id="Juridica"
+                                               class="form-control" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">1er
+                                    Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PrimerNombre"
+                                               id="PrimerNombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">2do
+                                    Nombre</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="SegundoNombre"
+                                               id="SegundoNombre"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">1er
+                                    Apellido</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="PrimerApellido"
+                                               id="PrimerApellido"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">2do
+                                    Apellido</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text"
+                                               name="SegundoApellido"
+                                               id="SegundoApellido"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Expedicion</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fechaexpedicion"
+                                               id="Fechaexpedicion"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ciudad</label>
+                                <div class="col-sm-2">
+                                    <select name="Ciudadexpedicion"
+                                            id="Ciudadexpedicion"
+                                            class="mdb-select md-form-control"
+                                            searchable="Buscar...">
+                                        {{ range .ciudad}}
+                                        <option value="{{ .Codigo }}">{{ .Nombre }}
+                                        </option>
+                                        {{ end }}
+                                    </select>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Nacimiento</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="Date"
+                                               placeholder="DD/mm/YYYY"
+                                               name="Fechanacimiento"
+                                               id="Fechanacimiento"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ciudad</label>
+                                <div class="col-sm-2">
+                                    <select name="Ciudadnacimiento"
+                                            id="Ciudadnacimiento"
+                                            class="mdb-select md-form-control"
+                                            searchable="Buscar...">
+                                        {{ range .ciudad}}
+                                        <option value="{{ .Codigo }}">{{ .Nombre }}
+                                        </option>
+                                        {{ end }}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Telefono</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Telefono1"
+                                               id="Telefono1"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Telefono</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Telefono2"
+                                               id="Telefono2"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Ciudad</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <select name="Ciudad"
+                                                id="Ciudad"
+                                                class="mdb-select md-form-control"
+                                                searchable="Buscar...">
+                                            {{ range .ciudad}}
+                                            <option value="{{ .Codigo }}">{{ .Nombre }}
+                                            </option>
+                                            {{ end }}
+                                        </select>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Contacto</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Contacto"
+                                               id="Contacto"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Matricula</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Matricula"
+                                               id="Matricula"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Catastral</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Catastral"
+                                               id="Catastral"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Area Mts.</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Area"
+                                               id="Area"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">Coeficiente</label>
+                                <div class="col-sm-2">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Coeficiente"
+                                               id="Coeficiente"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-1 col-form-label">Direccion</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="text" name="Direccion"
+                                               id="Direccion"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">E-mail</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="email" name="Email1"
+                                               id="Email1"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                                <label class="col-sm-1 col-form-label">E-mail</label>
+                                <div class="col-sm-3">
+                                    <div class="md-form mt-0">
+                                        <input type="email" name="Email2"
+                                               id="Email2"
+                                               class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                                <div class="form-group row mb-0">
+                                    <div class="col-sm-12">
+                                        <a href="/ResidenteLista"
+                                           class="btn btn-outline-dark waves-effect btn-md float-right mdbi">Cancelar</a>
+                                        <button type="submit" id="guardar"
+                                                class="btn btn-outline-success waves-effect btn-md float-right mdbi">
+                                            Borrar
+                                        </button>
+                                    </div>
+                                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<input id="TerceroNuevo"
+       type="hidden"/>
+<script>
+    $(document).ready(function () {
+        //INICIA SELECT
+        $('.mdb-select').materialSelect({});
+
+        //INICIA DATOS INICIALES
+        $('#Codigo').val(Coma("{{ .emp.Codigo}}"));
+        $('#Contacto').val("{{ .emp.Contacto }}");
+        $('#Dv').val("{{ .emp.Dv }}");
+        $('#Nit').val("{{ .emp.Nit }}");
+        $('#Juridica').val("{{ .emp.Juridica }}");
+        $('#PrimerNombre').val("{{ .emp.PrimerNombre }}")
+        $('#SegundoNombre').val("{{ .emp.SegundoNombre }}")
+        $('#PrimerApellido').val("{{ .emp.PrimerApellido }}")
+        $('#SegundoApellido').val("{{ .emp.SegundoApellido }}")
+        $('#Telefono1').val("{{ .emp.Telefono1 }}")
+        $('#Telefono2').val("{{ .emp.Telefono2 }}")
+        $('#Direccion').val("{{ .emp.Direccion }}")
+        $('#Email1').val("{{ .emp.Email1 }}")
+        $('#Email2').val("{{ .emp.Email2 }}")
+        $('#Contacto').val("{{ .emp.Contacto }}")
+        $('#Matricula').val("{{ .emp.Matricula }}")
+        $('#Catastral').val("{{ .emp.Catastral }}")
+        $('#Area').val("{{ .emp.Area }}")
+        $('#Coeficiente').val("{{ .emp.Coeficiente }}")
+        $('#Ciudad').val("{{ .emp.Ciudad }}")
+        $('#Ciudadexpedicion').val("{{ .emp.Ciudadexpedicion }}")
+        $('#Ciudadexpedicion').val("{{ .emp.Ciudadexpedicion }}")
+        $("#Fechaexpedicion").val('{{ .emp.Fechaexpedicion.Format "2006-01-02"}}');
+        $("#Fechanacimiento").val('{{ .emp.Fechanacimiento.Format "2006-01-02"}}');
+        $('#Ciudadnacimiento').val("{{ .emp.Ciudadnacimiento }}")
+        //TERMINA DATOS INICIALES
+    });
+
+</script>
+
+{{ end }}

@@ -1,0 +1,19 @@
+.select-wrapper input.select-dropdown {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    min-height: 15px!important;
+    font-size: 13px !important;
+    font-family: Roboto !important;
+    padding: 0;
+    margin: 0 px !important;
+    font-size: 13px;
+    line-height: 2.9rem;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    outline: 0;
+}

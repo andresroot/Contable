@@ -1,0 +1,279 @@
+{{define "body" }}
+<link rel="stylesheet" href="{{ .hosting }}static/css/tesoreria.css"/>
+<script type="text/javascript" src="{{ .hosting }}static/js/jspanel.js"></script>
+<link rel="stylesheet" href="{{ .hosting }}static/css/jspanel.css"/>
+<script src="{{ .hosting }}static/js/jquery-ui.js"></script>
+<script src="{{ .hosting }}static/js/binarytransport.js"></script>
+<div class="container-fluid">
+<section>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row mb-4 mt-0 pl-3">
+                    <h3 class="tp">Saldo De Producto por Bodega</h3>
+                    <div class="col-sm-2"></div>
+                    <div id="areaBuscar"></div>
+                    <label class="col-sm-1 col-form-label labelBusqueda">Buscar</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="text"
+                                   name="Buscar"
+                                   id="Buscar"
+                                   class="form-control miBusqueda" required/>
+                        </div>
+                    </div>
+                    <button id="Pdf" class="btn btn-outline-danger waves-effect btn-md float-right mdbs">PDF</button>
+                    <button id="Excel" class="btn btn-outline-info waves-effect btn-md float-right mdbs">EXCEL</button>
+                    <button type="button" id="Actualizar" class="btn btn-outline-success mdbs">ACEPTAR</button>
+                </div>
+                <br>
+                <div class="form-group row mb-0 pl-3 ">
+                    <label class="col-sm-1 col-form-label">Producto</label>
+                    <div class="col-sm-5">
+                        <div class="md-form mt-0">
+                            <select name="Producto"
+                                    id="Producto"
+                                    class=" mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                <option value="Todos">Todos
+                                </option>
+                                {{ range.producto }}
+                                <option value="{{ .Codigo }}">{{ .Codigo }} - {{ .Nombre }}
+                                </option>
+                                {{ end }}
+                            </select>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Desde</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   placeholder="DD/mm/YYYY"
+                                   name="FechaInicial"
+                                   id="FechaInicial"
+                                   class="form-control"
+                                   required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Hasta</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <input type="Date"
+                                   placeholder="DD/mm/YYYY"
+                                   name="FechaFinal"
+                                   id="FechaFinal"
+                                   class="form-control"
+                                   required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-0 pL-3">
+                    <label class="col-sm-1 col-form-label">Bodega</label>
+                    <div class="col-sm-2">
+                            <select name="Bodega"
+                                    id="Bodega"
+                                    class=" mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                <option value="Todas">Todas
+                                </option>
+                                {{ range.bodega }}
+                                <option value="{{ .Codigo }}">{{ .Codigo }} - {{ .Nombre }}
+                                </option>
+                                {{ end }}
+                            </select>
+                    </div>
+                    <label class="col-sm-1 col-form-label">Tipo</label>
+                    <div class="col-sm-2">
+                            <select name="Tipo"
+                                    id="Tipo"
+                                    class=" mdb-select md-form-control"
+                                    searchable="Buscar...">
+                                <option value="Todos">Todos</option>
+                                <option value="1">Inventario Inicial</option>
+                                <option value="2">Compras</option>
+                                <option value="3">Documento Soporte</option>
+                                <option value="4">Devoluciones en Ventas</option>
+                                <option value="5">Traslado Entrada</option>
+                                <option value="6">Devolucion en Compras</option>
+                                <option value="7">Devolucion Soporte</option>
+                                <option value="8">Ventas</option>
+                                <option value="9">Traslado Salida</option>
+                            </select>
+                        </div>
+                    <label class="col-sm-1 col-form-label">Discrimina</label>
+                    <div class="col-sm-2">
+                        <div class="md-form mt-0">
+                            <select name="Discriminar" id="Discriminar"
+                                    class=" mdb-select md-form-control"
+                                    editable="true">
+                                <option value="NO">NO</option>
+                                <option value="SI">SI</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <table id="dt-all-checkbox"
+                       class="table table-sm" cellspacing="0" width="100%">
+                    <thead class="miCabeceraTabla">
+                    <tr>
+                        <th></th>
+                        <th>Producto</th>
+                        <th>Nombre</th>
+                        <th>Bodega</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<script>
+numeroPanel = 1;
+$(document).ready(function () {
+    // INICIA FECHA
+    var m = moment().format("YYYY-MM-DD");
+    $("#FechaInicial").val(m);
+    $("#FechaFinal").val(m);
+
+
+    // boton pdf
+    $("#Pdf").click(function() {
+        Producto = $("#Producto").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        Bodega = $("#Bodega").val();
+        Tipo = $("#Tipo").val();
+        Discriminar = $("#Discriminar").val();
+        var accion = "";
+        accion = 'SaldoBodegaDatosExcel/' + Producto + "/" + FechaInicial + "/" + FechaFinal + "/" + Bodega + "/" + Tipo + "/" + Discriminar;
+        window.open(accion, "_blank");
+    });
+
+
+    $("#Excel").click(function() {
+        Producto = $("#Producto").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        Bodega = $("#Bodega").val();
+        Tipo = $("#Tipo").val();
+        Discriminar = $("#Discriminar").val();
+        var accion = "";
+        accion = 'SaldoBodegaDatosExcel/' + Producto + "/" + FechaInicial + "/" + FechaFinal + "/" + Bodega + "/" + Tipo + "/" + Discriminar;
+        window.open(accion, "_blank");
+    });
+
+    $("#Actualizar").click(function() {
+        //alert( "actualizar" );
+        Producto = $("#Producto").val();
+        FechaInicial = $("#FechaInicial").val();
+        FechaFinal = $("#FechaFinal").val();
+        Bodega = $("#Bodega").val();
+        Tipo = $("#Tipo").val();
+        Discriminar = $("#Discriminar").val();
+        var accion = "";
+        accion = 'SaldoBodegaDatosTodos';
+
+        $.ajax({
+            url: accion,
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                console.log(JSON.stringify(response));
+                datos(response);
+            }
+        })
+    });
+
+
+    $('.mdb-select').materialSelect({});
+});
+
+function datos(datosAjax) {
+    Producto = $("#Producto").val();
+    FechaInicial = $("#FechaInicial").val();
+    FechaFinal = $("#FechaFinal").val();
+    Bodega = $("#Bodega").val();
+
+    $('#dt-all-checkbox').dataTable().fnDestroy();
+    var datatable1 = $('#dt-all-checkbox').dataTable({
+        dom: 'lrtip',
+        "bFilter": true,
+        "scrollY": "350px",
+        "scrollCollapse": true,
+        "scrollXInner": true,
+        "paging": false,
+        "aaData": datosAjax,
+        columns:
+            [{"data": "Filas"},
+                {"data": "Producto"},
+                {"data": "NombreProducto"},
+                {"data": "Bodega"},
+                {"data": "NombreBodega"},
+                {"data": "Cantidad",render: $.fn.dataTable.render.number(',', '.', 2, ''),
+                    className: "text-right"},],
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox select-checkbox-all',
+            targets: 0
+        }],
+        "ordering": false,
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        select: {
+            style: 'multi',
+            selector: 'td:first-child'
+        },
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $($.fn.dataTable.tables(true)).DataTable()
+            .columns.adjust()
+            .responsive.recalc();
+    });
+    oTable = $('#dt-all-checkbox').DataTable();
+    $('#Buscar').keyup(function () {
+        oTable.search($(this).val()).draw();
+    })
+    $('#dt-all-checkbox_wrapper').find('label').each(function () {
+        $(this).parent().append($(this).children());
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('input').each(function () {
+        const $this = $(this);
+        $this.attr("placeholder", "Buscar");
+        $this.removeClass('form-control-sm');
+    });
+    $('#dt-all-checkbox_wrapper .dataTables_length').addClass('d-flex flex-row');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').addClass('md-form');
+    $('#dt-all-checkbox_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
+    $('#dt-all-checkbox_wrapper select').addClass('mdb-select');
+    $('#dt-all-checkbox_wrapper .dataTables_filter').find('label').remove();
+}
+
+</script>
+
+{{end}}
